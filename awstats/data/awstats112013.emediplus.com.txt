@@ -1,0 +1,361 @@
+AWSTATS DATA FILE 6.8 (build 1.910)
+# If you remove this file, all statistics for date 201311 will be lost/reset.
+
+# Position (offset in bytes) in this file of beginning of each section for
+# direct I/O access. If you made changes somewhere in this file, you should
+# also remove completely the MAP section (AWStats will rewrite it at next
+# update).
+BEGIN_MAP 28
+POS_GENERAL 1915                
+POS_TIME 2581                
+POS_VISITOR 10562               
+POS_DAY 11253               
+POS_DOMAIN 3186                
+POS_LOGIN 3483                
+POS_ROBOT 3638                
+POS_WORMS 3919                
+POS_EMAILSENDER 4050                
+POS_EMAILRECEIVER 4193                
+POS_SESSION 11418               
+POS_SIDER 11586               
+POS_FILETYPES 4328                
+POS_OS 4461                
+POS_BROWSER 4556                
+POS_SCREENSIZE 4736                
+POS_UNKNOWNREFERER 4810                
+POS_UNKNOWNREFERERBROWSER 4937                
+POS_ORIGIN 5019                
+POS_SEREFERRALS 5152                
+POS_PAGEREFS 5296                
+POS_SEARCHWORDS 5491                
+POS_KEYWORDS 5643                
+POS_MISC 2245                
+POS_ERRORS 5702                
+POS_CLUSTER 3339                
+POS_SIDER_404 5812                
+POS_PLUGIN_geoip_city_maxmind 9987                
+END_MAP
+
+# LastLine    = Date of last record processed - Last record line number in last log - Last record offset in last log - Last record signature value
+# FirstTime   = Date of first visit for history file
+# LastTime    = Date of last visit for history file
+# LastUpdate  = Date of last update - Nb of parsed records - Nb of parsed old records - Nb of parsed new records - Nb of parsed corrupted - Nb of parsed dropped
+# TotalVisits = Number of visits
+# TotalUnique = Number of unique visitors
+# MonthHostsKnown   = Number of hosts known
+# MonthHostsUnKnown = Number of hosts unknown
+BEGIN_GENERAL 8
+LastLine 20131130213702 49 8989 0
+FirstTime 20131125035530
+LastTime 20131130115952
+LastUpdate 20131201114602 49 0 34 15 0
+TotalVisits 16                  
+TotalUnique 16                  
+MonthHostsKnown 0                   
+MonthHostsUnknown 16                  
+END_GENERAL
+
+# Misc ID - Pages - Hits - Bandwidth
+BEGIN_MISC 10
+QuickTimeSupport 0 0 0
+JavaEnabled 0 0 0
+JavascriptDisabled 0 0 0
+PDFSupport 0 0 0
+WindowsMediaPlayerSupport 0 0 0
+AddToFavourites 0 0 0
+RealPlayerSupport 0 0 0
+TotalMisc 0 0 0
+DirectorSupport 0 0 0
+FlashSupport 0 0 0
+END_MISC
+
+# Hour - Pages - Hits - Bandwidth - Not viewed Pages - Not viewed Hits - Not viewed Bandwidth
+BEGIN_TIME 24
+0 0 0 0 6 6 3996
+1 0 0 0 8 8 8196
+2 0 0 0 8 8 11064
+3 3 21 135366 11 11 10182
+4 3 12 72984 8 8 8148
+5 0 0 0 3 3 1998
+6 2 2 7068 3 3 1998
+7 0 0 0 5 5 3330
+8 1 10 65916 4 4 2664
+9 0 0 0 6 6 9732
+10 1 10 0 3 4 8198
+11 6 21 46085 6 6 21718
+12 0 0 0 4 4 16426
+13 5 5 17670 1 1 666
+14 0 0 0 7 7 4662
+15 0 0 0 11 11 12519
+16 3 12 72984 13 13 8658
+17 0 0 0 9 9 11730
+18 0 0 0 11 12 16394
+19 1 1 3534 5 22 23054
+20 0 0 0 6 6 3996
+21 0 0 0 9 11 21131
+22 0 0 0 7 7 10398
+23 0 0 0 9 9 8862
+END_TIME
+
+# Domain - Pages - Hits - Bandwidth
+# The 10 first Pages must be first (order not required for others)
+BEGIN_DOMAIN 6
+in 8 41 112001
+us 7 16 87120
+unknown 5 5 17670
+jp 3 30 197748
+ua 1 1 3534
+au 1 1 3534
+END_DOMAIN
+
+# Cluster ID - Pages - Hits - Bandwidth
+BEGIN_CLUSTER 0
+END_CLUSTER
+
+# Login - Pages - Hits - Bandwidth - Last visit
+# The 10 first Pages must be first (order not required for others)
+BEGIN_LOGIN 0
+END_LOGIN
+
+# Robot ID - Hits - Bandwidth - Last visit - Hits on robots.txt
+# The 10 first Hits must be first (order not required for others)
+BEGIN_ROBOT 4
+googlebot 9 39804 20131130023448 0
+bot[+:,\.\;\/\\-] 7 27404 20131130094623 0
+no_user_agent 4 14136 20131127230127 0
+yandex 1 11887 20131130125525 0
+END_ROBOT
+
+# Worm ID - Hits - Bandwidth - Last visit
+# The 5 first Hits must be first (order not required for others)
+BEGIN_WORMS 0
+END_WORMS
+
+# EMail - Hits - Bandwidth - Last visit
+# The 20 first Hits must be first (order not required for others)
+BEGIN_EMAILSENDER 0
+END_EMAILSENDER
+
+# EMail - Hits - Bandwidth - Last visit
+# The 20 first hits must be first (order not required for others)
+BEGIN_EMAILRECEIVER 0
+END_EMAILRECEIVER
+
+# Files type - Hits - Bandwidth - Bandwidth without compression - Bandwidth after compression
+BEGIN_FILETYPES 5
+css 9 46489 0 0
+png 58 281853 0 0
+html 23 89064 0 0
+Unknown 2 4000 0 0
+gif 2 201 0 0
+END_FILETYPES
+
+# OS ID - Hits
+BEGIN_OS 6
+macosx 11
+winlong 1
+winxp 34
+winnt 44
+Unknown 2
+linux 2
+END_OS
+
+# Browser ID - Hits
+BEGIN_BROWSER 10
+firefox5.0 1
+mozilla 2
+firefox4.0.1 1
+firefox17.0 31
+msie7.0 3
+firefox3.0.1 1
+firefox6.0 1
+firefox24.0 21
+safari 32
+firefox3.1 1
+END_BROWSER
+
+# Screen size - Hits
+BEGIN_SCREENSIZE 0
+END_SCREENSIZE
+
+# Unknown referer OS - Last visit date
+BEGIN_UNKNOWNREFERER 1
+Mozilla/4.0_(compatible) 20131126063442
+END_UNKNOWNREFERER
+
+# Unknown referer Browser - Last visit date
+BEGIN_UNKNOWNREFERERBROWSER 0
+END_UNKNOWNREFERERBROWSER
+
+# Origin - Pages - Hits 
+BEGIN_ORIGIN 6
+From0 17 17
+From1 1 1
+From2 0 0
+From3 2 2
+From4 5 74
+From5 0 0
+END_ORIGIN
+
+# Search engine referers ID - Pages - Hits
+BEGIN_SEREFERRALS 0
+END_SEREFERRALS
+
+# External page referers - Pages - Hits
+# The 10 first Pages must be first (order not required for others)
+BEGIN_PAGEREFS 1
+http://whois.domaintools.com/emediplus.com 2 2
+END_PAGEREFS
+
+# Search keyphrases - Number of search
+# The 10 first number of search must be first (order not required for others)
+BEGIN_SEARCHWORDS 0
+END_SEARCHWORDS
+
+# Search keywords - Number of search
+# The 10 first number of search must be first (order not required for others)
+BEGIN_KEYWORDS 0
+END_KEYWORDS
+
+# Errors - Hits - Bandwidth
+BEGIN_ERRORS 3
+302 1 5
+500 1 20343
+404 161 116141
+END_ERRORS
+
+# URL with 404 errors - Hits - Last URL referer
+BEGIN_SIDER_404 71
+/using-joomla/extensions/components/weblinks-component 1 -
+/robots.txt 27 -
+/admin.php 1 -
+/plugins/system/t3/base/js/responsive.js 1 -
+/component/mailto/ 12 -
+/templates/t3_blank/css/themes/red/template.css 1 -
+/media/system/js/core.js 1 -
+/using-joomla/extensions/components/administrator-components 4 -
+/media/system/js/mootools-core.js 1 -
+/using-joomla/extensions/modules/user-modules/login 1 -
+/using-joomla/extensions/modules/content-modules 1 -
+/images/ixcp.css 1 -
+/using-joomla/extensions/modules/display-modules/weblinks 1 -
+/using-joomla/extensions/components/content-component/article-category-blog/18-second-blog-post 1 -
+/using-joomla/extensions/templates/atomic/home-page-atomic 3 -
+/using-joomla/extensions/components/content-component/article-categories/26-park-site 1 -
+/using-joomla/extensions/templates 1 -
+/using-joomla/extensions/plugins/editors 2 -
+/using-joomla/extensions/plugins/editors-extended 2 -
+/plugins/system/t3/base/js/script.js 1 -
+/using-joomla/extensions/modules/display-modules/feed-display 1 -
+/using-joomla/parameters 2 -
+/templates/t3_blank/css/themes/red/template-responsive.css 1 -
+/using-joomla/extensions/templates/beez5 2 -
+/using-joomla/extensions/modules/content-modules/archive 1 -
+/using-joomla/extensions/components/content-component/archived-articles/9-uncategorised/67-whats-new-in-15 2 -
+/using-joomla/extensions/templates/beez-2/home-page-beez-2 2 -
+/using-joomla/extensions/components/users-component/username-reminder 7 -
+/templates/t3_blank/css/themes/red/bootstrap-responsive.css 1 -
+/using-joomla/extensions/components/content-component/article-categories 3 -
+/plugins/system/t3/base/js/menu.js 1 -
+/using-joomla/extensions/templates/beez-2/typography-beez-2 1 -
+/using-joomla/extensions 4 -
+/using-joomla/extensions/templates/atomic/typography-atomic 1 -
+/using-joomla/extensions/modules/utility-modules/statistics 1 -
+/using-joomla/extensions/components 2 -
+/plugins/system/t3/base/css/off-canvas.css 1 -
+/using-joomla/extensions/components/content-component/article-categories/73-park-site/photo-gallery/scenery/11-cradle-mountain 1 -
+/site-map 3 -
+/plugins/system/t3/base/js/jquery-1.8.3.min.js 1 -
+/wp-login.php 1 -
+/using-joomla/extensions/templates/beez5/typography-beez-5 3 -
+/using-joomla/extensions/components/content-component/article-category-blog/17-first-blog-post 1 -
+/plugins/system/t3/base/bootstrap/js/bootstrap.js 1 -
+/using-joomla/extensions/components/content-component/article-categories/71-notice 7 -
+/using-joomla/extensions/components/users-component 1 -
+/using-joomla/extensions/components/content-component/article-categories/29-fruit-shop-site 1 -
+/using-joomla/extensions/templates/beez5/home-page-beez5 2 -
+/using-joomla/extensions/modules/navigation-modules 1 -
+/templates/system/css/system.css 1 -
+/media/system/js/caption.js 1 -
+/plugins/system/t3/base/js/off-canvas.js 1 -
+/the-joomla-project 2 -
+/using-joomla/extensions/components/users-component/registration-form 7 -
+/templates/t3_blank/css/themes/red/bootstrap.css 1 -
+/using-joomla/extensions/plugins/search 2 -
+/using-joomla/extensions/components/users-component/password-reset 6 -
+/using-joomla/extensions/components/content-component/article-category-blog 3 -
+/using-joomla/extensions/components/content-component/article-categories/73-park-site/photo-gallery/scenery/64-blue-mountain-rain-forest 1 -
+/using-joomla/extensions/modules/content-modules/related-items 1 -
+/using-joomla/extensions/modules/display-modules/custom-html 1 -
+/using-joomla/extensions/components/content-component/archived-articles/9-uncategorised 2 -
+/using-joomla/extensions/plugins 1 -
+/administrator/index.php 1 -
+/using-joomla/extensions/modules/content-modules/news-flash 2 -
+/plugins/system/t3/base/js/jquery.noconflict.js 1 -
+/using-joomla/extensions/components/content-component/article-categories/73-park-site/photo-gallery/scenery 1 -
+/using-joomla/extensions/plugins/system 2 -
+/using-joomla/extensions/components/contact-component 1 -
+/using-joomla/extensions/components/content-component/article-category-list/20-extensions 1 -
+/sample-sites 2 -
+END_SIDER_404
+
+# Plugin key - Pages - Hits - Bandwidth - Last access
+BEGIN_PLUGIN_geoip_city_maxmind 10
+jp_tokyo_40 0 30 0 0
+in_vadodara_09 0 20 0 0
+in_mumbai_16 0 11 0 0
+in_thana_16 0 10 0 0
+us_los%20angeles_ca 0 10 0 0
+unknown 0 7 0 0
+us_bellevue_wa 0 2 0 0
+us_scranton_pa 0 2 0 0
+us_sunnyvale_ca 0 1 0 0
+us_mountain%20view_ca 0 1 0 0
+END_PLUGIN_geoip_city_maxmind
+
+# Host - Pages - Hits - Bandwidth - Last visit date - [Start date of last visit] - [Last page of last visit]
+# [Start date of last visit] and [Last page of last visit] are saved only if session is not finished
+# The 10 first Hits must be first (order not required for others)
+BEGIN_VISITOR 16
+122.169.28.3 5 11 46085 20131130115952
+122.248.183.24 3 30 197748 20131125044231
+192.95.22.19 2 2 7068 20131128133810
+1.22.76.63 2 20 0 20131125112521
+184.22.40.189 2 2 7068 20131126063442
+198.100.150.90 1 1 3534 20131128133514
+192.95.22.206 1 1 3534 20131128133628
+66.249.16.212 1 1 3534 20131126165824
+199.101.103.130 1 1 3534 20131129045539
+122.169.38.246 1 10 65916 20131130083541
+173.231.5.204 1 10 65916 20131126165951
+193.105.210.69 1 1 3534 20131126134644
+66.249.84.145 1 1 3534 20131126165826
+64.246.161.30 1 1 3534 20131128192548
+103.246.38.196 1 1 3534 20131125035530
+199.19.249.196 1 1 3534 20131125044230
+END_VISITOR
+
+# Date - Pages - Hits - Bandwidth - Visits
+BEGIN_DAY 5
+20131125 7 52 204816 4
+20131126 6 15 83586 5
+20131128 5 5 17670 4
+20131129 1 1 3534 1
+20131130 6 21 112001 2
+END_DAY
+
+# Session range - Number of visits
+BEGIN_SESSION 3
+5mn-15mn 2
+0s-30s 12
+30mn-1h 2
+END_SESSION
+
+# URL - Pages - Bandwidth - Entry - Exit
+# The 10 first Pages must be first (order not required for others)
+BEGIN_SIDER 4
+/ 22 87386 16 16
+/posts/ 1 1678 0 0
+/posts/add 1 1727 0 0
+/posts 1 2273 0 0
+END_SIDER

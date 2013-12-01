@@ -1,0 +1,404 @@
+# Webalizer V2.20-01 Incremental Data - 11/30/2013 21:37:02
+2013 11 30 21 37 2
+290 92 61 16 9 21 659319 159 125 0
+5 1 26 25 30
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+68 33 218280 9 13 10
+46 20 118572 25 28 27
+87 9 90458 18 59 43
+36 5 38316 9 32 25
+19 4 26792 8 14 13
+34 21 166901 5 13 7
+0 0 0 0 0 0
+6 0 3996 6
+8 1 8196 7
+8 2 11064 8
+35 22 147546 10
+23 13 83130 9
+3 0 1998 2
+5 2 9066 4
+5 0 3330 5
+16 10 69912 4
+6 2 9732 4
+15 1 8864 3
+27 8 67803 10
+4 1 16426 3
+6 5 18336 6
+7 0 4662 7
+11 0 12519 8
+28 12 83640 11
+9 2 11730 9
+12 2 16394 8
+23 3 26588 6
+6 0 3996 5
+11 3 21131 8
+7 2 10398 7
+9 1 8862 9
+0
+0
+0
+92
+0
+0
+0
+0
+0
+0
+0
+0
+1
+0
+23
+0
+0
+0
+0
+0
+0
+173
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+1
+0
+0
+0
+0
+0
+# -urls- 
+/
+0 39 0 155817 34 9
+/img/cake.icon.png
+0 2 264912048 943 0 0
+/images/ixcp.css
+0 11 0 55800 0 0
+/posts
+0 1 264937600 2273 0 0
+/images/bg_ipad.png
+0 7 0 44445 0 0
+/images/bg_header.png
+0 7 0 5280 0 0
+/images/icon_money.png
+0 7 0 71805 0 0
+/images/icon_sidemenu.png
+0 7 0 43440 0 0
+/images/img_btn_ipad.png
+0 7 0 11605 0 0
+/posts/add
+0 1 264937440 1727 0 0
+/img/cake.power.gif
+0 2 264911936 201 0 0
+/images/icon_server.png
+0 7 0 68420 0 0
+/images/hr.png
+0 7 0 1015 0 0
+/images/logo_ix.png
+0 7 0 34900 0 0
+/posts/
+0 1 0 1678 0 0
+/css/cake.generic.css
+0 2 264911824 15489 0 0
+# End Of Table - urls
+# -sites- (monthly)
+66.249.84.145
+0 2 1 4200 1 1385485106
+/
+199.19.249.196
+0 1 1 3534 1 1385354550
+/
+1.22.76.63
+0 21 0 666 2 1385378721
+/
+66.249.76.72
+0 1 0 666 1 1385519686
+-
+ofdp-3.phishmongers.com
+0 3 3 10602 3 1385593287
+/
+crawl-66-249-76-92.googlebot.com
+0 1 0 666 1 1385435075
+-
+crawl-66-249-76-37.googlebot.com
+0 1 0 666 1 1385489026
+-
+122.169.28.3
+0 13 8 66433 1 1385812792
+/
+crawl-66-249-76-59.googlebot.com
+0 1 0 666 1 1385435163
+-
+93.191.97.202
+0 3 0 704 1 1385552009
+-
+crawl-66-249-66-82.googlebot.com
+0 7 1 15258 4 1385826345
+-
+173.231.5.204
+0 12 10 67248 1 1385485191
+/
+crawl-66-249-76-96.googlebot.com
+0 1 0 666 0 0
+-
+spider-199-21-99-78.yandex.com
+0 2 1 15094 1 1385816125
+/
+crawl-66-249-76-34.googlebot.com
+0 1 0 666 0 0
+-
+192.95.22.19
+0 2 2 7068 1 1385645890
+/
+crawl-66-249-76-45.googlebot.com
+0 1 0 666 1 1385452084
+-
+msnbot-157-56-92-142.search.msn.com
+0 5 3 11934 3 1385804783
+/
+crawl-66-249-76-67.googlebot.com
+0 2 0 1332 2 1385497163
+-
+crawl-66-249-64-4.googlebot.com
+0 18 2 20390 12 1385688285
+-
+crawl-66-249-76-60.googlebot.com
+0 1 0 666 1 1385513470
+-
+88-191-188-103.poneytelecom.eu
+0 2 0 1320 1 1385351862
+-
+crawl-66-249-76-53.googlebot.com
+0 1 0 666 1 1385463982
+-
+crawl-66-249-64-1.googlebot.com
+0 19 1 18188 11 1385670355
+-
+122.169.38.246
+0 12 10 67248 1 1385800541
+/
+msnbot-157-55-35-109.search.msn.com
+0 4 2 8400 2 1385492224
+/
+crawl-66-249-76-102.googlebot.com
+0 1 0 666 0 0
+-
+msnbot-157-55-35-49.search.msn.com
+0 1 1 6200 0 0
+-
+199.101.103.130
+0 1 1 3534 1 1385700939
+/
+crawl-66-249-73-231.googlebot.com
+0 2 1 4200 1 1385524395
+/
+static.235.108.9.5.clients.your-server.de
+0 4 0 2616 1 1385352993
+-
+crawl-66-249-64-5.googlebot.com
+0 13 0 8658 9 1385665019
+-
+crawl-66-249-76-83.googlebot.com
+0 2 0 1332 1 1385403461
+-
+crawl-66-249-76-39.googlebot.com
+0 1 0 666 1 1385450726
+-
+103.246.38.196
+0 1 1 3534 1 1385351730
+/
+crawl-66-249-76-43.googlebot.com
+0 1 0 666 1 1385510380
+-
+crawl-66-249-64-2.googlebot.com
+0 19 1 15522 8 1385687427
+-
+193.105.210.69
+0 1 1 3534 1 1385473604
+/
+198.100.150.90
+0 1 1 3534 1 1385645714
+/
+crawl-66-249-76-80.googlebot.com
+0 1 0 666 1 1385510013
+-
+182.64.154.163
+0 1 1 3534 1 1385525199
+/
+66.249.16.212
+0 1 1 3534 1 1385485104
+/
+184.22.40.189
+0 2 2 7068 1 1385447682
+/
+crawl-66-249-76-103.googlebot.com
+0 1 1 3534 1 1385519686
+/
+192.95.22.206
+0 1 1 3534 1 1385645788
+/
+162.243.80.123
+0 2 1 4200 1 1385457112
+/
+crawl-66-249-76-69.googlebot.com
+0 2 0 1332 1 1385503865
+-
+crawl-66-249-73-39.googlebot.com
+0 3 0 1998 2 1385534879
+-
+93.74.35.210
+0 1 1 3534 1 1385493039
+/
+www.whois.sc
+0 1 1 3534 1 1385666748
+/
+122.248.183.24
+0 36 30 201744 2 1385354551
+/
+crawl-66-249-76-66.googlebot.com
+0 2 0 1332 2 1385479401
+-
+66.249.76.41
+0 2 0 1332 1 1385526453
+-
+66.249.76.46
+0 1 0 666 1 1385513433
+-
+66.249.76.47
+0 1 0 666 1 1385498097
+-
+66.249.76.48
+0 1 0 666 1 1385482736
+-
+crawl-66-249-64-3.googlebot.com
+0 34 1 28178 16 1385685352
+-
+crawl-66-249-66-103.googlebot.com
+0 8 0 5328 5 1385763529
+-
+crawl-66-249-76-77.googlebot.com
+0 1 0 666 1 1385524331
+-
+66.249.76.54
+0 2 0 1332 1 1385491041
+-
+66.249.76.57
+0 1 0 666 1 1385500811
+-
+# End Of Table - sites (monthly)
+# -sites- (daily)
+122.169.28.3
+0 13 8 66433 1 1385812792
+/
+crawl-66-249-66-82.googlebot.com
+0 5 1 13926 3 1385826345
+-
+spider-199-21-99-78.yandex.com
+0 2 1 15094 1 1385816125
+/
+msnbot-157-56-92-142.search.msn.com
+0 2 1 4200 1 1385804783
+/
+122.169.38.246
+0 12 10 67248 1 1385800541
+/
+# End Of Table - sites (daily)
+# -referrers- 
+- (Direct Request)
+0 209
+http://www.emediplus.com/posts/add
+1 2
+http://www.emediplus.com/posts/
+1 3
+http://whois.domaintools.com/emediplus.com
+1 2
+http://d8462840.u55.c14.ixinstant.com/
+0 1
+http://www.emediplus.com/css/cake.generic.css
+1 2
+http://emediplus.com/
+1 29
+http://www.emediplus.com/
+1 17
+http://www.emediplus.com/images/ixcp.css
+1 24
+# End Of Table - referrers
+# -agents- 
+Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36
+0 1
+Mozilla/5.0 (compatible; YandexBot/3.0; +http://yandex.com/bots)
+0 2
+Mozilla/4.0 (compatible)
+0 2
+Mozilla/5.0 (compatible; spbot/4.0.2; +http://www.seoprofiler.com/bot )
+0 2
+Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.1634 Safari/535.19 YI
+0 1
+Mozilla/5.0 (X11; Linux x86_64; rv:2.0.1) Gecko/20100101 Firefox/4.0.1
+0 1
+Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; .NET CLR 3.0.04506; .NET C
+0 1
+Mozilla/5.0 (Windows NT 5.1; rv:17.0) Gecko/20100101 Firefox/17.0
+0 37
+Mozilla/5.0 (Android; Linux armv7l; rv:5.0) Gecko/20110615 Firefox/5.0 Fennec/5.0
+0 1
+Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+0 150
+Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; InfoPath.1; .NET CLR 2.0.50727; .NET CLR 1.1.4322; MS-RTC LM 8; .NET CLR 3
+0 2
+Mozilla/5.0 (Windows NT 6.1; rv:6.0) Gecko/20110814 Firefox/6.0
+0 2
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:24.0) Gecko/20100101 Firefox/24.0
+0 13
+Mozilla/5.0 (Windows; U; Windows NT 5.1; fr; rv:1.9.0.1) Gecko/2008070208 Firefox/3.0.1
+0 1
+Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)
+0 10
+Opera/9.80 (Windows NT 6.1; U; ru) Presto/2.8.131 Version/11.10
+0 3
+Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safa
+0 5
+Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36
+0 32
+Mozilla/5.0 (Windows NT 6.1; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0
+0 13
+Mozilla/5.0 (Windows; U; Windows NT 6.1; fr; rv:1.9.1b2) Gecko/20081201 Firefox/3.1b2
+0 1
+Mozilla/5.0 (compatible; MJ12bot/v1.4.4; http://www.majestic12.co.uk/bot.php?+)
+0 6
+# End Of Table - agents
+# -search strings- 
+# End Of Table - search strings
+# -usernames- 
+# End Of Table - usernames
