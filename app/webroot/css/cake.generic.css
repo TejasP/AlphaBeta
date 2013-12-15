@@ -50,6 +50,7 @@ h1 {
 	color: #003d4c;
 	font-size: 100%;
 }
+
 h2 {
 	background:#fff;
 	color: #e32;
@@ -97,12 +98,71 @@ p {
 	background: #003d4c;
 	text-decoration: underline;
 }
+#content h1.pagehead
+{
+	font-size: 150%;	
+}
+
 #content{
 	background: #fff;
 	clear: both;
 	color: #333;
 	padding: 10px 20px 40px 20px;
 	overflow: auto;
+}
+#content .col
+{
+	display: inline-block;
+    #float: left;
+    width: 15%;
+}
+#content .col50
+{
+	display: inline-block;
+    #float: left;
+    width: 50%;
+}
+#content .last49
+{
+	display: inline-block;
+    #float: right;
+    width: 49%;
+}
+#content .last3col
+{
+	display: inline-block;
+    #float: right;
+    width: 84%;
+}
+#content .last2col
+{
+    #float: right;
+    width: 59%;
+}
+#content .lastcol
+{
+    #float: right;
+    width: 14%;
+}
+#content .row{
+    height: auto;
+    overflow: auto;
+    padding-bottom: 2px;
+}
+.myform {
+	background-color: #F5F5F5;
+    border: 1px solid #E3E3E3;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+    margin-bottom: 20px;
+    min-height: 20px;
+    padding: 19px;
+}
+.form-control{height:auto}
+.form-group{margin-bottom:15px}
+.help-block{color:#c09853}
+.form-inline .form-control {
+    display: inline-block;
 }
 #footer {
 	clear: both;
@@ -287,15 +347,15 @@ fieldset fieldset div {
 }
 form div {
 	clear: both;
-	margin-bottom: 1em;
-	padding: .5em;
+	#margin-bottom: 1em;
+	#padding: .5em;
 	vertical-align: text-top;
 }
 form .input {
 	color: #444;
 }
 form .required {
-	font-weight: bold;
+	#font-weight: bold;
 }
 form .required label:after {
 	color: #e32;
@@ -308,16 +368,18 @@ form div.submit {
 	margin-top: 10px;
 }
 label {
-	display: block;
-	font-size: 110%;
-	margin-bottom:3px;
+	#display: block;
+	#font-size: 110%;
+	margin-bottom:1px;
+	margin-top:2px;
 }
 input, textarea {
 	clear: both;
-	font-size: 140%;
+	font-weight:bold;
+	#font-size: 140%;
 	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
-	padding: 1%;
-	width:98%;
+	#padding: 1%;
+	#width:98%;
 }
 select {
 	clear: both;
@@ -364,7 +426,7 @@ form .submit input[type=submit] {
 	border-color: #2d6324;
 	color: #fff;
 	text-shadow: rgba(0, 0, 0, 0.5) 0px -1px 0px;
-	padding: 8px 10px;
+	#padding: 8px 10px;
 }
 form .submit input[type=submit]:hover {
 	background: #5BA150;
