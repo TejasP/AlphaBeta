@@ -55,12 +55,15 @@ h2 {
 	background:#fff;
 	color: #e32;
 	font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;
-	font-size: 190%;
+	#font-size: 190%;
+	font-weight: bold;
 }
 h3 {
 	color: #2c6877;
 	font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;
-	font-size: 165%;
+	#font-size: 165%;
+	font-weight: bold;
+	border-bottom: 1px solid #CCCCCC;
 }
 h4 {
 	color: #993;
@@ -110,17 +113,95 @@ p {
 	padding: 10px 20px 40px 20px;
 	overflow: auto;
 }
+#content .spaces
+{
+	display: inline-block;
+    width: 5%;
+}
+#content .spaces15
+{
+	display: inline-block;
+    width: 15%;
+}
+#content .col15
+{
+    width: 15%;
+}
+.col20
+{
+    width: 20%;
+}
+.col25
+{
+    width: 25%;
+}
+.col30
+{
+    width: 30%;
+}
+.col39
+{
+    width: 39%;
+}
+.col49
+{
+    width: 49%;
+}
+.col50
+{
+    width: 50%;
+}
+.col60
+{
+    width: 60%;
+}
+.col65
+{
+    width: 65%;
+}
+.col70
+{
+    width: 70%;
+}
+/*
+* Claim form -> Details of bills enclosed
+*/
+.allborder
+{
+	border: 1px solid #CCCCCC;
+}
+.fieldlabel {
+	font-size: 75%;
+	font-family: Arial, Tahoma;
+}
+.claim_bill_details_srno
+{
+    width: 5%;
+}
+.claim_bill_details_billno
+{
+    width: 15%;
+}
+.claim_bill_details_billdate
+{
+    width: 15%;
+}
+.claim_bill_details_issuedby
+{
+    width: 20%;
+}
+.claim_bill_details_towards
+{
+    width: 25%;
+}
+.claim_bill_details_amount
+{
+    width: 16%;
+}
 #content .col
 {
 	display: inline-block;
-    #float: left;
-    width: 15%;
-}
-#content .col50
-{
-	display: inline-block;
-    #float: left;
-    width: 50%;
+	#border: 1px solid #CCCCCC;
 }
 #content .last49
 {
@@ -141,14 +222,15 @@ p {
 }
 #content .lastcol
 {
+	display: inline-block;
     #float: right;
-    width: 14%;
 }
 #content .row{
     height: auto;
     overflow: auto;
     padding-bottom: 2px;
 }
+
 .myform {
 	background-color: #F5F5F5;
     border: 1px solid #E3E3E3;
@@ -369,7 +451,8 @@ form div.submit {
 }
 label {
 	#display: block;
-	#font-size: 110%;
+	font-size: 75%;
+	font-family: Arial, Tahoma;
 	margin-bottom:1px;
 	margin-top:2px;
 }
@@ -395,7 +478,7 @@ option {
 }
 input[type=checkbox] {
 	clear: left;
-	float: left;
+	#float: left;
 	margin: 0px 6px 7px 2px;
 	width: auto;
 }
