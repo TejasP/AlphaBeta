@@ -10,7 +10,7 @@
 	'class' => 'myform form-inline'
 )); ?>
 	<div class="row">
-		<h3 class="sectionhead">DETAILS OF PRIMARY INSURED</h3>
+		<h3 class="sectionhead">DETAILS OF PRIMARY INSURED testing</h3>
 	</div>
 	<div class="row">
 		<div class="col col15">
