@@ -1,20 +1,19 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Claim Model
+ * Provider Model
  *
- * @property Policy $Policy
- * @property Tpa $Tpa
- * @property Hospital $Hospital
+ * @property Provider $Provider
+ * @property Provider $Provider
  */
-class Claim extends AppModel {
+class Provider extends AppModel {
 
 /**
- * Primary key field
+ * Use table
  *
- * @var string
+ * @var mixed False or table name
  */
-	public $primaryKey = 'case_id';
+	public $useTable = 'provider';
 
 /**
  * Validation rules
@@ -22,17 +21,7 @@ class Claim extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'clm_intimate_datetime' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'case_type' => array(
+		'provider_type' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
 				//'message' => 'Your custom message here',
@@ -42,17 +31,7 @@ class Claim extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'status' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'policy_id' => array(
+		'provider_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -62,27 +41,7 @@ class Claim extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'tpa_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'hospital_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'diagnostic_code' => array(
+		'provider_name' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
 				//'message' => 'Your custom message here',
@@ -92,7 +51,7 @@ class Claim extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'procedure_code' => array(
+		'provider_pan' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
 				//'message' => 'Your custom message here',
@@ -102,9 +61,9 @@ class Claim extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'datetime_of_adm' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
+		'provider_addr' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -112,9 +71,9 @@ class Claim extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'datetime_of_disc' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
+		'provider_pin' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -172,26 +131,34 @@ class Claim extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Policy' => array(
-			'className' => 'Policy',
-			'foreignKey' => 'policy_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Tpa' => array(
-			'className' => 'Tpa',
-			'foreignKey' => 'tpa_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Hospital' => array(
-			'className' => 'Hospital',
-			'foreignKey' => 'hospital_id',
+		'Provider' => array(
+			'className' => 'Provider',
+			'foreignKey' => 'provider_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		)
 	);
+
+/**
+ * hasMany associations
+ *
+ * @var array
+ */
+	public $hasMany = array(
+		'Provider' => array(
+			'className' => 'Provider',
+			'foreignKey' => 'provider_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		)
+	);
+
 }

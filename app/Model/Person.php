@@ -1,20 +1,26 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Claim Model
+ * Person Model
  *
- * @property Policy $Policy
- * @property Tpa $Tpa
- * @property Hospital $Hospital
+ * @property Orig $Orig
+ * @property Role $Role
  */
-class Claim extends AppModel {
+class Person extends AppModel {
+
+/**
+ * Use table
+ *
+ * @var mixed False or table name
+ */
+	public $useTable = 'person';
 
 /**
  * Primary key field
  *
  * @var string
  */
-	public $primaryKey = 'case_id';
+	public $primaryKey = 'person_id';
 
 /**
  * Validation rules
@@ -22,37 +28,7 @@ class Claim extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'clm_intimate_datetime' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'case_type' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'status' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'policy_id' => array(
+		'orig_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -62,7 +38,7 @@ class Claim extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'tpa_id' => array(
+		'role_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -72,17 +48,7 @@ class Claim extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'hospital_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'diagnostic_code' => array(
+		'full_name' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
 				//'message' => 'Your custom message here',
@@ -92,7 +58,7 @@ class Claim extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'procedure_code' => array(
+		'first_name' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
 				//'message' => 'Your custom message here',
@@ -102,9 +68,9 @@ class Claim extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'datetime_of_adm' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
+		'last_name' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -112,9 +78,9 @@ class Claim extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'datetime_of_disc' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
+		'email' => array(
+			'email' => array(
+				'rule' => array('email'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -172,23 +138,16 @@ class Claim extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Policy' => array(
-			'className' => 'Policy',
-			'foreignKey' => 'policy_id',
+		'Orig' => array(
+			'className' => 'Orig',
+			'foreignKey' => 'orig_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'Tpa' => array(
-			'className' => 'Tpa',
-			'foreignKey' => 'tpa_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Hospital' => array(
-			'className' => 'Hospital',
-			'foreignKey' => 'hospital_id',
+		'Role' => array(
+			'className' => 'Role',
+			'foreignKey' => 'role_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
