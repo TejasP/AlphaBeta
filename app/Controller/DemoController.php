@@ -1,5 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
+App::import('Vendor','PHPExcel',array('file' => 'excel/PHPExcel.php'));
+App::import('Vendor','PHPExcelWriter',array('file' => 'excel/PHPExcel/Writer/Excel5.php'));
 
 /**
  * Static content controller
@@ -9,9 +11,13 @@ App::uses('AppController', 'Controller');
  * @package       app.Controller
  * @link http://book.cakephp.org/2.0/en/controllers/pages-controller.html
 */
+ 
+
 class DemoController extends AppController {
 	var $uses = false;
-	public $helpers = array('Html', 'Form', 'Session');
+	public $helpers = array('Html', 'Form', 'Session','Excel');
+	
+		
 	
 	public function index() {
 		$this->layout = 'Demo';
@@ -24,6 +30,5 @@ class DemoController extends AppController {
 
 	public function ClaimManager() {
 		$this->layout = 'Demo';
-	}
-	
+	}	
 }

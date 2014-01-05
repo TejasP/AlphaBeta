@@ -7,13 +7,13 @@ class Auth extends AppModel {
 	public $validate = array(
 			'username' => array(
 					'required' => array(
-							'rule' => array('notEmpty'),
+							'rule' => 'notEmpty',
 							'message' => 'A username is required'
 					)
 			),
 			'password' => array(
 					'required' => array(
-							'rule' => array('notEmpty'),
+							'rule' => 'notEmpty',
 							'message' => 'A password is required'
 					)
 			)
@@ -26,5 +26,7 @@ class Auth extends AppModel {
 		}
 		return true;
 	}
+	
+
 	
 }

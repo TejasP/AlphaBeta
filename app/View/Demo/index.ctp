@@ -289,3 +289,7 @@
 		</article><!-- end of styles article -->
 		<div class="spacer"></div>
 	</section>
+	
+<?php 
+ 	//$this->excel->loadAndReadFile('./file.xls');
+?>

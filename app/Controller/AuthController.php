@@ -1,37 +1,34 @@
 <?php
 
 App::uses('AppController', 'Controller');
+App::uses('AuthComponent', 'Controller/Component');
 
 class AuthController extends AppController {
+	
 	
 	public $helpers = array('Html', 'Form', 'Session');
 
 	public function index() {
 	}
 	
-	public $components = array(
-			'Session',
-			'Auth' => array(
-					'loginRedirect' => array('controller' => 'posts', 'action' => 'index'),
-					'logoutRedirect' => array('controller' => 'pages', 'action' => 'display', 'home')
-			)
-	);
-	
-	public function beforeFilter() {
-		$this->Auth->loginAction = array('controller' => 'auth', 'action' => 'login');
-		$this->Auth->allowedActions = array('controller' => 'auth', 'action' => 'index');
-	}
 
 	public function login() {
-		if ($this->request->is('post')) {
-			if ($this->Auth->login()) {
-				return $this->redirect($this->Auth->redirect());
+		  if ($this->request->is('post')) {
+
+		  	
+			 if ($this->Auth->login()) {
+				//$this->Session->setFlash(__('Username or password successful'));
+				$this->Session->setFlash(__('UserName Password',array($this->request->data['User']['username'])));
+				
+				//return $this->redirect($this->Auth->redirect());
+			 	return $this->redirect(array('controller' => 'demo','action' => 'index'));
 			}
-			else {
 				$this->Session->setFlash(__('Invalid username or password, try again'));
-			}
-			$this->redirect($this->Auth->redirect());
+				//return $this->redirect(array('controller' => 'dashboard','action' => 'index'));
+				return $this->redirect($this->Auth->redirect());
 		}
+		
+
 	}
 	
 	public function logout() {
