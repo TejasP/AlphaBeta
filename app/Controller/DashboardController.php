@@ -8,5 +8,6 @@ class DashboardController extends AuthController {
 	public $helpers = array('Html', 'Form', 'Session');
 	
 	public function index() {
+		$this->layout = 'foundation';
 	}
 }

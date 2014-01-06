@@ -88,6 +88,8 @@ Cache::config('default', array('engine' => 'File'));
  *
  * ));
  */
+CakePlugin::load('Authsome');
+
 Configure::write('Dispatcher.filters', array(
 	'AssetDispatcher',
 	'CacheDispatcher'
