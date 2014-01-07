@@ -84,9 +84,12 @@ class UsersController extends AppController {
     		$this->Session->setFlash(__('Unknown user or wrong password'));
     		return;
     	}
+    	else{
+    		return  $this->redirect(array('controller' => 'dashboard','action' => 'index'));
+    	}
 
     	$user = Authsome::get();
-    	debug($user); 
+    	//debug($user); 
     }
 
 

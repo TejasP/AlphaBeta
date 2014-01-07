@@ -46,20 +46,21 @@ class AppController extends Controller {
 							'home'
 					)
 			)
-	);
+	);*/
 	
 	public function beforeFilter() {
-		$this->Auth->allow('login');
-	//	$this->Auth->allow('index','view');
-		//$this->Auth->allowedActions = array('controller' => 'dashboard', 'action' => 'index');
-				$this->Auth->fields = array(
-					'username' => 'email',
-					'password' => 'password'
-			);
+		$user = Authsome::get('username');
+			if(empty($user)){
+				if($this->action!='login'){
+				//$this->redirect('/users/');
+				$this->redirect(array('controller' => 'users','action' => 'login'));
+				}
+			}
+	} 
 	
-	} */
 	
-		public $components = array(
+	
+	public $components = array(
 				'Session',
 				'Authsome.Authsome' => array(
 						'model' => 'User',
@@ -68,5 +69,15 @@ class AppController extends Controller {
 						'cookieKey'=>null
 				)
 		);
+	
+	/* function afterFilter(){
+		 if( $this->action != 'login'){
+			$user = Authsome::get('username');
+			if(empty($user)){
+				//$this->redirect('/users/');
+				$this->redirect(array('controller' => 'users','action' => 'login'));
+			}
+		}
+	}; */
 
 }

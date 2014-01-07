@@ -12,7 +12,7 @@ class AuthController extends AppController {
 	}
 	
 
-	public function login() {
+	/* public function login() {
 		  if ($this->request->is('post')) {
 
 		  	
@@ -29,6 +29,22 @@ class AuthController extends AppController {
 		}
 		
 
+	} */
+	
+	public function login() {
+		
+		if (empty($this->data)) {
+			return;
+		}
+		 
+		$user = Authsome::login($this->data['User']);
+		if (!$user) {
+			$this->Session->setFlash(__('Unknown user or wrong password'));
+			return;
+		}
+	
+		$user = Authsome::get();
+		debug($user);
 	}
 	
 	public function logout() {

@@ -6,6 +6,10 @@ class MobileController extends AppController{
 	var $components = array('Session','RequestHandler');
 	public $uses = array();
 	
+	function index(){
+		
+	}
+	
 	/* Method to get personID based on the credential supplied ,if response null then user is not authenticated*/
 	public function getAuthenticated (){
 		$this->RequestHandler->setContent('json', 'application/json' );
