@@ -1,0 +1,9 @@
+{
+    "admin": {
+        "Raise a Claim": "/alphabeta/claims/add",
+        "Add Users": "/alphabeta/users/add"
+    },
+    "Users": {
+        "Raise a Claim": "/claims/add"
+    }
+}

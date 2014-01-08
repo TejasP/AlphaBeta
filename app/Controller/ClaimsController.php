@@ -21,6 +21,10 @@ class ClaimsController extends AppController {
  * @return void
  */
 	public function index() {
+		$user = Authsome::get('username');
+		$role = Authsome::get('role');
+		parent::polulateLeftNav($user,$role);
+		$this->layout = 'foundation_with_topbar';
 		$this->Claim->recursive = 0;
 		$this->set('claims', $this->Paginator->paginate());
 	}
@@ -33,6 +37,10 @@ class ClaimsController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+		$user = Authsome::get('username');
+		$role = Authsome::get('role');
+		parent::polulateLeftNav($user,$role);
+		$this->layout = 'foundation_with_topbar';
 		if (!$this->Claim->exists($id)) {
 			throw new NotFoundException(__('Invalid claim'));
 		}
@@ -46,6 +54,10 @@ class ClaimsController extends AppController {
  * @return void
  */
 	public function add() {
+		$user = Authsome::get('username');
+		$role = Authsome::get('role');
+		parent::polulateLeftNav($user,$role);
+		$this->layout = 'foundation_with_topbar';
 		if ($this->request->is('post')) {
 			$this->Claim->create();
 			if ($this->Claim->save($this->request->data)) {
@@ -65,6 +77,10 @@ class ClaimsController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
+		$user = Authsome::get('username');
+		$role = Authsome::get('role');
+		parent::polulateLeftNav($user,$role);
+		$this->layout = 'foundation_with_topbar';
 		if (!$this->Claim->exists($id)) {
 			throw new NotFoundException(__('Invalid claim'));
 		}
@@ -89,6 +105,10 @@ class ClaimsController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
+		$user = Authsome::get('username');
+		$role = Authsome::get('role');
+		parent::polulateLeftNav($user,$role);
+		$this->layout = 'foundation_with_topbar';
 		$this->Claim->id = $id;
 		if (!$this->Claim->exists()) {
 			throw new NotFoundException(__('Invalid claim'));

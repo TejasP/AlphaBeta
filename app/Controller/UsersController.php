@@ -12,11 +12,19 @@ class UsersController extends AppController {
     } */
 
     public function index() {
+    	$user = Authsome::get('username');
+    	$role = Authsome::get('role');
+    	parent::polulateLeftNav($user,$role);
+    	$this->layout = 'foundation_with_topbar';
         $this->User->recursive = 0;
         $this->set('users', $this->paginate());
     }
 
     public function view($id = null) {
+    	$user = Authsome::get('username');
+    	$role = Authsome::get('role');
+    	parent::polulateLeftNav($user,$role);
+    	$this->layout = 'foundation_with_topbar';
         $this->User->id = $id;
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
@@ -25,6 +33,10 @@ class UsersController extends AppController {
     }
 
     public function add() {
+    	$user = Authsome::get('username');
+    	$role = Authsome::get('role');
+    	parent::polulateLeftNav($user,$role);
+    	$this->layout = 'foundation_with_topbar';
         if ($this->request->is('post')) {
             $this->User->create();
             if ($this->User->save($this->request->data)) {
@@ -38,6 +50,10 @@ class UsersController extends AppController {
     }
 
     public function edit($id = null) {
+    	$user = Authsome::get('username');
+    	$role = Authsome::get('role');
+    	parent::polulateLeftNav($user,$role);
+    	$this->layout = 'foundation_with_topbar';
         $this->User->id = $id;
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));

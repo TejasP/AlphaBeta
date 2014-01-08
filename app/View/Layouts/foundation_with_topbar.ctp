@@ -1,5 +1,5 @@
 <?php
-/** hi
+/** 
  *
  * PHP 5 testing....
  *
@@ -44,51 +44,73 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 	?>
 </head>
 <body>
+
 	<div id="container">
-		<div id="header">
-			<h1>			<?php echo $this->Html->link(
-					$this->Html->image('eMediLogo1.png', array('alt' => 'eMediplus', 'border' => '0')),
-					'http://www.eMediplus.com/',
-					array('target' => '_blank', 'escape' => false)
-				);
-			?>
-			</h1>
-		</div>
 		<div id="content">
 		<nav class="top-bar" data-topbar>
-  <ul class="title-area">
-    <li class="name">
-      <h1><a href="#">My Site</a></h1>
-    </li>
-    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-  </ul>
+ 			<ul class="title-area">
+    			<li class="name">
+      			<h1><a href="#">eMediplus</a></h1>
+    			</li>
+    			<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+  			</ul>
 
-  <section class="top-bar-section">
-    <!-- Right Nav Section -->
-    <ul class="right">
-      <li class="active"><a href="#">Right Nav Button Active</a></li>
-      <li class="has-dropdown">
-        <a href="#">Right Button with Dropdown</a>
-        <ul class="dropdown">
-          <li><a href="#">First link in dropdown</a></li>
-        </ul>
-      </li>
-    </ul>
+  		<section class="top-bar-section">
+    	<!-- Right Nav Section -->
+    		<ul class="right">
+      		<li class="active"><a href="#">Right Nav Button Active</a></li>
+      			<li class="has-dropdown">
+		        <a href="#">Right Button with Dropdown</a>
+        		<ul class="dropdown">
+          		<li><a href="#">First link in dropdown</a></li>
+        	</ul>
+      	</li>
+    	</ul>
 
     <!-- Left Nav Section -->
     <ul class="left">
       <li><a href="#">Left Nav Button</a></li>
     </ul>
   </section>
-</nav>
+ </nav>
+	</div>
+	<nav>
+	 <div class ="large-3 medium-4 columns">
+	 <div class ="hide-for-small" >
+   	 <div class ="sidebar">
+   	  <ul class="side-nav">
 
+	<h5><?php echo "hello ! ".$username?></h5>
+	    
+      <li class="heading">What do you want to do today ?</li>
+  <?php
+    foreach ($json as $key => $value) {
+		//	echo "title: $key and url: $value";
+			echo "<li><a href= \"$value\" data-search=\"Styles\">".$key."</a></li>";
+        	}
+ ?>
+
+      <li class="divider"></li>
+      <li class="heading">Need more info ?</li>
+      <li><a href="#" data-search="help">Help</a></li>
+      </ul>
+     	</div>
+      </div>
+      </div>
+	</nav>	
+	<div class ="large-9 medium-8 columns">
 			<?php echo $this->Session->flash(); ?>
 
 			<?php echo $this->fetch('content'); ?>
-		</div>
-		<div id="footer">
-
-		</div>
+	<div id="footer">
+	</div>
+	</div>
 	</div>
 </body>
 </html>
+
+
+
+
+
+  
