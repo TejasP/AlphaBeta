@@ -53,7 +53,7 @@ class AppController extends Controller {
 				$this->redirect(array('controller' => 'users','action' => 'login'));
 				}
 			}
-			
+		$this->set('dashboard','/alphabeta/dashboard');
 	}
 	
 	public function polulateLeftNav($username,$role){

@@ -31,11 +31,10 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 	<?php
 		echo $this->Html->meta('icon');
 	
+		echo $this->Html->css('emediplus');
 		echo $this->Html->css('foundation');
 		echo $this->Html->css('foundation.min');
-		echo $this->Html->css('normalize.min');
-		echo $this->Html->script('foundation.min');
-		echo $this->Html->script('jquery');
+		echo $this->Html->css('normalize');
 		echo $this->Html->script('modernizr');
 				
 		echo $this->fetch('meta');
@@ -44,13 +43,25 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 	?>
 </head>
 <body>
+	<?php
+		echo $this->Html->script('/js/vendor/jquery');
+		echo $this->Html->script('/js/vendor/fastclick.js');
+		echo $this->Html->script('/js/foundation.min.js');		
+		echo $this->Html->script('/js/foundation/foundation.js');
+		echo $this->Html->script('/js/foundation/foundation.topbar.js');
+	?>	
 
+  
+ <script>
+    $(document).foundation();
+  </script>
+  
 	<div id="container">
 		<div id="content">
-		<nav class="top-bar" data-topbar>
+		<nav class="top-bar" data-topbar data-options="is_hover: false">
  			<ul class="title-area">
     			<li class="name">
-      			<h1><a href="#">eMediplus</a></h1>
+      			<h1><a href="<?php echo $dashboard; ?>">eMediplus</a></h1>
     			</li>
     			<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
   			</ul>
@@ -82,17 +93,27 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 
 	<h5><?php echo "hello ! ".$username?></h5>
 	    
-      <li class="heading">What do you want to do today ?</li>
+    
   <?php
+  
     foreach ($json as $key => $value) {
-		//	echo "title: $key and url: $value";
-			echo "<li><a href= \"$value\" data-search=\"Styles\">".$key."</a></li>";
+    
+    		
+			if($value=="Heading")
+			{
+				echo "<li class=\"heading\">".$key."</li>";
+			}
+			elseif($value=="divider")
+			{
+				echo "<li class=\"divider\"></li>";
+			}
+			else
+			{
+				echo "<li><a href= \"$value\" data-search=\"Styles\">".$key."</a></li>";
         	}
+        }	
  ?>
 
-      <li class="divider"></li>
-      <li class="heading">Need more info ?</li>
-      <li><a href="#" data-search="help">Help</a></li>
       </ul>
      	</div>
       </div>
@@ -108,9 +129,3 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 	</div>
 </body>
 </html>
-
-
-
-
-
-  

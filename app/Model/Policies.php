@@ -1,26 +1,23 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Person Model
+ * Policy Model
  *
- * @property Orig $Orig
- * @property Role $Role
+ * @property Policy $Policy
+ * @property Person $Person
+ * @property Tpa $Tpa
+ * @property Claim $Claim
+ * @property InsuranceHistory $InsuranceHistory
+ * @property Policy $Policy
  */
-class Person extends AppModel {
+class Policies extends AppModel {
 
 /**
  * Use table
  *
  * @var mixed False or table name
  */
-	public $useTable = 'people';
-
-/**
- * Primary key field
- *
- * @var string
- */
-	public $primaryKey = 'person_id';
+	public $useTable = 'policies';
 
 /**
  * Validation rules
@@ -28,7 +25,7 @@ class Person extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'orig_id' => array(
+		'policy_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -38,7 +35,7 @@ class Person extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'role_id' => array(
+		'person_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -48,9 +45,9 @@ class Person extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'full_name' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+		'tpa_id' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -58,9 +55,9 @@ class Person extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'first_name' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+		'policy_start_datetime' => array(
+			'datetime' => array(
+				'rule' => array('datetime'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -68,19 +65,9 @@ class Person extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'last_name' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'email' => array(
-			'email' => array(
-				'rule' => array('email'),
+		'policy_end_datetime' => array(
+			'datetime' => array(
+				'rule' => array('datetime'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -138,19 +125,74 @@ class Person extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Orig' => array(
-			'className' => 'Orig',
-			'foreignKey' => 'orig_id',
+		'Policy' => array(
+			'className' => 'Policy',
+			'foreignKey' => 'policy_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'Role' => array(
-			'className' => 'Role',
-			'foreignKey' => 'role_id',
+		'Person' => array(
+			'className' => 'Person',
+			'foreignKey' => 'person_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		),
+		/* 'Tpa' => array(
+			'className' => 'Tpa',
+			'foreignKey' => 'tpa_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		) */
+	);
+
+/**
+ * hasMany associations
+ *
+ * @var array
+ */
+	public $hasMany = array(
+		'Claim' => array(
+			'className' => 'Claim',
+			'foreignKey' => 'policy_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'InsuranceHistory' => array(
+			'className' => 'InsuranceHistory',
+			'foreignKey' => 'policy_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'Policy' => array(
+			'className' => 'Policy',
+			'foreignKey' => 'policy_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
 		)
 	);
+
 }
