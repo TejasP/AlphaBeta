@@ -58,13 +58,38 @@ class ClaimsController extends AppController {
 		$role = Authsome::get('role');
 		parent::polulateLeftNav($user,$role);
 		$this->layout = 'foundation_with_topbar';
+		
+		$this->loadModel('Policy'); //if it's not already loaded
+		$options = $this->Policy->find('list', array('conditions' => array('Policy.person_id' => 2), 'fields'=>array('policy_id', 'policy_desc'))); //or whatever conditions you want
+		//debug($options);
+		$this->set('policylist',$options);
+		
 		if ($this->request->is('post')) {
 			$this->Claim->create();
-			if ($this->Claim->save($this->request->data)) {
-				$this->Session->setFlash(__('The claim has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The claim could not be saved. Please, try again.'));
+
+			// Validate if the Policy id is present in policy table
+//			$this->loadModel('Policy');
+//			debug($this->request->data('Claim.policy_id'));
+			
+//			debug($this->Policy->exists($this->request->data('Claim.policy_id')));
+			
+			if (!$this->Policy->exists($this->request->data('Claim.policy_id'))) {
+				$this->Session->setFlash(__('Policy ID entered is not valid'));
+			}
+			else
+			{
+				//if ($this->Claim->save($this->request->data)) {
+				if ($this->Claim->saveAll($this->request->data)) {
+					$this->Session->setFlash(__('The claim has been saved.'));
+					return $this->redirect(array('action' => 'index'));
+				} else {
+					//show validationErrors
+					debug($this->request->data);	
+					//show last sql query
+					//debug($this->Model->getDataSource()->getLog(false, false));
+				
+					$this->Session->setFlash(__('The claim could not be saved. Please, try again.......*****'));
+				}
 			}
 		}
 	}
