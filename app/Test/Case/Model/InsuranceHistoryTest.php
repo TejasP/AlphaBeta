@@ -13,7 +13,13 @@ class InsuranceHistoryTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'app.insurance_history'
+		'app.insurance_history',
+		'app.policy',
+		'app.person',
+		'app.orig',
+		'app.role',
+		'app.tpa',
+		'app.claim'
 	);
 
 /**

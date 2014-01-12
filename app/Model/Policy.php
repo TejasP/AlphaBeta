@@ -19,6 +19,9 @@ class Policy extends AppModel {
  */
 	public $useTable = 'policy';
 
+	public $primaryKey = 'policy_id';
+	
+	public $virtualFields = array('policy_desc' => "CONCAT(Policy.policy_id, ' - sum assured :', Policy.sum_insured)");
 /**
  * Validation rules
  *
@@ -125,23 +128,9 @@ class Policy extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Policy' => array(
-			'className' => 'Policy',
-			'foreignKey' => 'policy_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
 		'Person' => array(
 			'className' => 'Person',
 			'foreignKey' => 'person_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Tpa' => array(
-			'className' => 'Tpa',
-			'foreignKey' => 'tpa_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
@@ -179,20 +168,23 @@ class Policy extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-		),
-		'Policy' => array(
-			'className' => 'Policy',
-			'foreignKey' => 'policy_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
 		)
 	);
 
+
+	public function beforeSave($options = array()) {
+		$nowDate = date('Y-m-d H:i:s');
+		if (!$this->exists()) {
+			$this->data['Policy']['created_by'] = 'createduser';
+			$this->data['Policy']['created_when'] = $nowDate;
+		}
+		else
+		{
+			$this->data['Policy']['updated_by'] = 'updateuser';
+			$this->data['Policy']['updated_when'] = $nowDate;
+		}
+	
+		return true;
+	}
+	
 }

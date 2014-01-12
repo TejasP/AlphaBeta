@@ -9,18 +9,24 @@
 	),
 	'class' => 'myform form-inline'
 )); ?>
+
 	<div class="row">
-		<h3 class="sectionhead">DETAILS OF PRIMARY INSURED testing</h3>
+		<h3 class="sectionhead">DETAILS OF PRIMARY INSURED</h3>
 	</div>
 	<div class="row">
 		<div class="col col15">
-			<?php echo $this->Form->label('policynumber', 'Policy No.'); ?>
+			<?php echo $this->Form->label('policy_id', 'Policy No.'); ?>
 		</div>
 		<div class="last3col">
-			<?php echo $this->Form->input('policynumber', array('size' => 35)); ?>
+			<!--<?php echo $this->Form->input('options'); ?> -->
+			<?php echo $this->Form->input('Claim.policy_id',array('type'=>'select','options'=>$policylist)); ?> 
+			
 		</div>
 	</div>
-	<div class="row">	
+	<div>
+		<font color="blue">need to retrieve the policy details from policy table and display here.</font>
+	</div>
+<!--	<div class="row">	
 		<div class="col col15">
 			<?php echo $this->Form->label('tpa_id_no', 'Company / TPA ID No.'); ?>
 		</div>
@@ -75,6 +81,7 @@
 			<?php echo $this->Form->input('email', array('size' => 40)); ?>
 		</div>
 	</div>
+-->
 
 	<div class="row">&nbsp;
 	</div>
@@ -85,53 +92,53 @@
 	<div class="row">
 		<div class="col col50">
 			<?php echo $this->Form->label('checkbox1', 'Currently covered by any other Mediclaim / Health Insurance'); ?>
-			<?php echo $this->Form->input('coveredyes', array('type' => 'checkbox')); ?>
+			<?php echo $this->Form->input('InsuranceHistory.covered_by_another_mediclaim', array('type'=>'checkbox', 'value' => 'Y', 'hiddenField' => false)); ?>
 			<?php echo $this->Form->label('coveredyes', 'Yes'); ?>
-			<?php echo $this->Form->input('coveredno', array('type' => 'checkbox')); ?>
+			<?php echo $this->Form->input('InsuranceHistory.covered_by_another_mediclaim', array('type'=>'checkbox', 'value' => 'N', 'hiddenField' => false)); ?>
 			<?php echo $this->Form->label('coveredno', 'No'); ?>
 		</div>
 		<div class="col col49">
-			<?php echo $this->Form->label('date1', 'Date of commencement of first Insurance without break'); ?>
-			<?php echo $this->Form->input('commencedate', array('size' => 10)); ?>
+			<?php echo $this->Form->label('InsuranceHistory.date_of_commencement', 'Date of commencement of first Insurance without break'); ?>
+			<?php echo $this->Form->input('InsuranceHistory.date_of_commencement', array('type' => 'text'), array('size' => 10)); ?>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col col50">
-			<?php echo $this->Form->label('companyname', 'If yes, company name'); ?>
-			<?php echo $this->Form->input('companyname', array('size' => 30)); ?>
+			<?php echo $this->Form->label('InsuranceHistory.company_name', 'If yes, company name'); ?>
+			<?php echo $this->Form->input('InsuranceHistory.company_name', array('type' => 'text'), array('size' => 30)); ?>
 		</div>
 		<div class="col col49">
-			<?php echo $this->Form->label('policyno', 'Policy No.'); ?>
-			<?php echo $this->Form->input('policyno', array('size' => 30)); ?>
+			<?php echo $this->Form->label('InsuranceHistory.policy_id', 'Policy No.'); ?>
+			<?php echo $this->Form->input('InsuranceHistory.policy_id', array('type' => 'text'), array('size' => 30)); ?>
 		</div>
 	</div>
 	<div class="row">
-		<?php echo $this->Form->label('companyname', 'Sum Insured (Rs.)'); ?>
-		<?php echo $this->Form->input('companyname', array('size' => 20)); ?>
-		<?php echo $this->Form->label('policyno', 'Have you been hospitalized in the last four years since inception of the contract?'); ?>
-		<?php echo $this->Form->input('coveredyes', array('type' => 'checkbox')); ?>
-		<?php echo $this->Form->label('coveredyes', 'Yes'); ?>
-		<?php echo $this->Form->input('coveredno', array('type' => 'checkbox')); ?>
-		<?php echo $this->Form->label('coveredno', 'No'); ?>
-		<?php echo $this->Form->label('date', 'Date'); ?>
-		<?php echo $this->Form->input('date', array('size' => 12)); ?>
+		<?php echo $this->Form->label('InsuranceHistory.sum_insured', 'Sum Insured (Rs.)'); ?>
+		<?php echo $this->Form->input('InsuranceHistory.sum_insured', array('size' => 20)); ?>
+		<?php echo $this->Form->label('hosp_in_last_4yrs', 'Have you been hospitalized in the last four years since inception of the contract?'); ?>
+		<?php echo $this->Form->input('InsuranceHistory.hosp_in_last_4yrs', array('type' => 'checkbox')); ?>
+		<?php echo $this->Form->label('hosp_in_last_4yrs', 'Yes'); ?>
+		<?php echo $this->Form->input('InsuranceHistory.hosp_in_last_4yrs', array('type' => 'checkbox')); ?>
+		<?php echo $this->Form->label('hosp_in_last_4yrs', 'No'); ?>
+		<?php echo $this->Form->label('hospitalized_date', 'Date'); ?>
+		<?php echo $this->Form->input('InsuranceHistory.hospitalized_date', array('type' => 'text'), array('size' => 12)); ?>
 	</div>
 	<div class="row">
 		<div class="col col50">
-			<?php echo $this->Form->label('companyname', 'Diagnosis'); ?>
-			<?php echo $this->Form->input('companyname', array('size' => 65)); ?>
+			<?php echo $this->Form->label('diaginosis_datail', 'Diagnosis'); ?>
+			<?php echo $this->Form->input('InsuranceHistory.diaginosis_datail', array('size' => 65)); ?>
 		</div>
 		<div class="col col49">
-			<?php echo $this->Form->label('policyno', 'Previously covered by any other Mediclaim / Health insurance'); ?>
-			<?php echo $this->Form->input('coveredyes', array('type' => 'checkbox')); ?>
-			<?php echo $this->Form->label('coveredyes', 'Yes'); ?>
-			<?php echo $this->Form->input('coveredno', array('type' => 'checkbox')); ?>
-			<?php echo $this->Form->label('coveredno', 'No'); ?>
+			<?php echo $this->Form->label('prev_covered', 'Previously covered by any other Mediclaim / Health insurance'); ?>
+			<?php echo $this->Form->input('InsuranceHistory.prev_covered_mediclaim', array('type' => 'checkbox')); ?>
+			<?php echo $this->Form->label('prev_covered', 'Yes'); ?>
+			<?php echo $this->Form->input('InsuranceHistory.prev_covered_mediclaim', array('type' => 'checkbox')); ?>
+			<?php echo $this->Form->label('prev_covered', 'No'); ?>
 		</div>
 	</div>
 	<div class="row">
-		<?php echo $this->Form->label('companyname', 'If yes, company name'); ?>
-		<?php echo $this->Form->input('companyname', array('size' => 75)); ?>
+		<?php echo $this->Form->label('InsuranceHistory.prev_covered_company', 'If yes, company name'); ?>
+		<?php echo $this->Form->input('InsuranceHistory.prev_covered_company', array('size' => 75)); ?>
 	</div>
 
 	<div class="row">&nbsp;
@@ -309,8 +316,8 @@
 	
 	<div class="row">
 		<div class="col">
-			<?php echo $this->Form->label('holderfname', 'Date of Admission'); ?>
-			<?php echo $this->Form->input('companyname', array('size' => 10)); ?>
+			<?php echo $this->Form->label('datetime_of_adm', 'Date of Admission'); ?>
+			<?php echo $this->Form->input('datetime_of_adm', array('type' => 'text'), array('size' => 10)); ?>
 			
 			<?php echo $this->Form->label('holderfname', 'Time'); ?>
 			<?php echo $this->Form->input('companyname', array('size' => 2)); ?>
@@ -318,8 +325,8 @@
 		</div>
 		<div class="spaces15"></div>
 		<div class="col">	
-			<?php echo $this->Form->label('holderfname', 'Date of Discharge'); ?>
-			<?php echo $this->Form->input('companyname', array('size' => 10)); ?>
+			<?php echo $this->Form->label('datetime_of_disc', 'Date of Discharge'); ?>
+			<?php echo $this->Form->input('datetime_of_disc', array('type' => 'text'), array('size' => 10)); ?>
 			
 			<?php echo $this->Form->label('holderfname', 'Time'); ?>
 			<?php echo $this->Form->input('companyname', array('size' => 2)); ?>
@@ -776,65 +783,3 @@
 	
 	
 <?php echo $this->Form->end('Save Claim'); ?>
-
-<!--
-<div class="claims form">
-<?php echo $this->Form->create('Claim'); ?>
-	<fieldset>
-		<legend><?php echo __('Add Claim'); ?></legend>
-	<?php
-		echo $this->Form->input('clm_intimate_datetime');
-		echo $this->Form->input('case_type');
-		echo $this->Form->input('status');
-		echo $this->Form->input('policy_id');
-		echo $this->Form->input('tpa_id');
-		echo $this->Form->input('hospital_id');
-		echo $this->Form->input('diagnostic_code');
-		echo $this->Form->input('procedure_code');
-		echo $this->Form->input('datetime_of_adm');
-		echo $this->Form->input('datetime_of_disc');
-		echo $this->Form->input('tot_amt_claimed');
-		echo $this->Form->input('room_nursing_chrgs');
-		echo $this->Form->input('surgery_chrgs');
-		echo $this->Form->input('consultation_chrgs');
-		echo $this->Form->input('investigate_chrgs');
-		echo $this->Form->input('medicine_chrgs');
-		echo $this->Form->input('misc_chrgs');
-		echo $this->Form->input('pre_hosp_expenses');
-		echo $this->Form->input('post_hosp_expenses');
-		echo $this->Form->input('tot_claim_paid');
-		echo $this->Form->input('reason_for_reject');
-		echo $this->Form->input('remarks_of_tpa');
-		echo $this->Form->input('diagn_code_level2');
-		echo $this->Form->input('diagn_code_level3');
-		echo $this->Form->input('proc_code_level2');
-		echo $this->Form->input('proc_code_level3');
-		echo $this->Form->input('medi_hist_level1');
-		echo $this->Form->input('proc_desc_level1');
-		echo $this->Form->input('proc_desc_level2');
-		echo $this->Form->input('proc_desc_level3');
-		echo $this->Form->input('medi_hist_level2');
-		echo $this->Form->input('medi_hist_level3');
-		echo $this->Form->input('reason_red_claim');
-		echo $this->Form->input('type_claim_paym');
-		echo $this->Form->input('hosp_is_network');
-		echo $this->Form->input('oth_non_hosp_exp');
-		echo $this->Form->input('datetime_of_payment');
-		echo $this->Form->input('paym_reference');
-		echo $this->Form->input('type_of_payment');
-		echo $this->Form->input('created_by');
-		echo $this->Form->input('created_when');
-		echo $this->Form->input('updated_by');
-		echo $this->Form->input('updated_when');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-
-		<li><?php echo $this->Html->link(__('List Claims'), array('action' => 'index')); ?></li>
-	</ul>
-</div>
--->
