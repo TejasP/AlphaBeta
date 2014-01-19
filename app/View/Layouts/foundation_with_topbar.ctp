@@ -51,11 +51,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 		echo $this->Html->script('/js/foundation/foundation.topbar.js');
 	?>	
 
-  
- <script>
-    $(document).foundation();
-  </script>
-  
+
 	<div id="container">
 		<div id="content">
 		<nav class="top-bar" data-topbar data-options="is_hover: false">
@@ -127,5 +123,10 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 	</div>
 	</div>
 	</div>
+	  
+ <script>
+    $(document).foundation();
+  </script>
+  
 </body>
 </html>
