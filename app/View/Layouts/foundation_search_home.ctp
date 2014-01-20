@@ -78,7 +78,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
               <li class="divider"></li>
 
               <li class="gs">
-                <a href="#"class="button">Post your requirement</a>
+                <a href="<?php echo $this->Html->url(array('controller'=>'Postrequirements', 'action'=>'add'))?>"class="button">Post your requirement</a>
               </li>
 
               <li class="divider"></li>

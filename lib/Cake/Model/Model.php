@@ -1688,13 +1688,13 @@ class Model extends Object implements CakeEventListener {
 		);
 		$_whitelist = $this->whitelist;
 		$fields = array();
-
+		
 		if (!is_array($validate)) {
 			$options = array_merge($defaults, compact('validate', 'fieldList'));
 		} else {
 			$options = array_merge($defaults, $validate);
 		}
-
+		
 		if (!empty($options['fieldList'])) {
 			if (!empty($options['fieldList'][$this->alias]) && is_array($options['fieldList'][$this->alias])) {
 				$this->whitelist = $options['fieldList'][$this->alias];
@@ -1805,7 +1805,7 @@ class Model extends Object implements CakeEventListener {
 		if (!$exists && $count > 0) {
 			$this->id = false;
 		}
-
+		
 		$success = true;
 		$created = false;
 
@@ -1835,7 +1835,7 @@ class Model extends Object implements CakeEventListener {
 				$this->updateCounterCache($cache, $created);
 			}
 		}
-
+		Debugger::dump('here'+$success);
 		if (!empty($joined) && $success === true) {
 			$this->_saveMulti($joined, $this->id, $db);
 		}
@@ -1864,7 +1864,6 @@ class Model extends Object implements CakeEventListener {
 			$this->_clearCache();
 			$this->validationErrors = array();
 		}
-
 		$this->whitelist = $_whitelist;
 		return $success;
 	}
