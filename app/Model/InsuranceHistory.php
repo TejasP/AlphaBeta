@@ -27,66 +27,53 @@ class InsuranceHistory extends AppModel {
  * @var array
  */
 	public $validate = array(
-/*		'covered_by_another_mediclaim' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
+		'covered_by_another_mediclaim' => array(
+				'rule' => 'notEmpty',
+				'message' => 'please select the checkbox - covered_by_another_mediclaim'
 		),
 		'date_of_commencement' => array(
-			'date' => array(
-				'rule' => array('date'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
+				'date' => array(
+						'rule' => array('date', 'ymd'),
+						'message' => 'You must provide a date_of_commencement in YYYY-MM-DD format.',
+						'allowEmpty' => false
+				)
+		)
+/*			,
+		'date_of_commencement' => array(
+				'date' => array(
+						'rule' => array('date', 'ymd'),
+						'message' => 'You must provide a date_of_commencement in YYYY-MM-DD format.',
+						'allowEmpty' => false
+				)
 		),
-		'created_by' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
+		'company_name' => array(
+				'rule' => 'notEmpty',
+				'message' => 'please enter company_name'
 		),
-		'created_when' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
+		'policy_id' => array(
+				'rule' => 'notEmpty',
+				'message' => 'please enter policy_id'
 		),
-		'updated_by' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
+		'sum_insured' => array(
+				'rule' => 'notEmpty',
+				'message' => 'please enter sum_insured'
 		),
-		'updated_when' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
+		'hosp_in_last_4yrs' => array(
+				'rule' => 'notEmpty',
+				'message' => 'please select checkbox hosp_in_last_4yrs'
 		),
+		'diaginosis_datail' => array(
+				'rule' => 'notEmpty',
+				'message' => 'please enter diaginosis_datail'
+		),
+		'prev_covered_mediclaim' => array(
+				'rule' => 'notEmpty',
+				'message' => 'please select checkbox prev_covered_mediclaim'
+		),
+		'prev_covered_company' => array(
+				'rule' => 'notEmpty',
+				'message' => 'please enter prev_covered_company'
+		)	
 */	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed

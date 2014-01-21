@@ -45,6 +45,17 @@ class Claim extends AppModel {
 					'rule' => array('checkFutureDate'),
 					'message' => 'The datetime_of_adm must be not be in the past'
 			)
+		),
+		'datetime_of_disc' => array(
+			'date' => array(
+				'rule' => array('date', 'ymd'),
+				'message' => 'You must provide a datetime_of_disc in YYYY-MM-DD format.',
+				'allowEmpty' => false
+			),
+			'future' => array(
+				'rule' => array('checkFutureDate'),
+				'message' => 'The datetime_of_adm must be not be in the past'
+			)
 		)
 	);
 			
