@@ -83,6 +83,9 @@
 	</div>
 -->
 
-<?php echo $this->Form->image('next step', array('src' => '/alphabeta/img/next_step.png'));  ?>
+<?php echo $this->Form->submit('next_step.png');  ?>
+
+<!--	<?php echo $this->Form->image('next step', array('src' => '/alphabeta/img/next_step.png'));  ?> -->
+
 
 <?php echo $this->Form->end(); ?>

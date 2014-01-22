@@ -95,6 +95,8 @@
 	);
 ?>
 
-<?php echo $this->Form->image('Save Claim', array('src' => '/alphabeta/img/save_claim.png'));  ?>
+<?php echo $this->Form->submit('save_claim.png');  ?>
+
+<!-- <?php echo $this->Form->image('Save Claim', array('src' => '/alphabeta/img/save_claim.png'));  ?> -->
 
 <?php echo $this->Form->end(); ?>

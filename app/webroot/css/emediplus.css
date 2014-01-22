@@ -202,7 +202,7 @@ form .required label:after {
 form div.submit {
 	border: 0;
 	clear: both;
-	margin-top: 10px;
+	display:inline-block;
 }
 label {
 	#display: block;
