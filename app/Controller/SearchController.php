@@ -4,7 +4,7 @@ App::uses('AppNoAuthController', 'Controller');
 
 class SearchController extends AppNoAuthController {
 
-	public $uses = array();
+	public $uses = array('Search');
 	
 	public $helpers = array('Html');
 	
@@ -31,9 +31,16 @@ class SearchController extends AppNoAuthController {
 		if(empty($searchTerm)|| $searchTerm==null){
 			$searchTerm = 'Nothing entered...';
 		}
+		
+		
+		$options = array('conditions' => array('Search.' . $this->Search->SearchTags == 1));
+		
+		$results= $this->Search->find('first',$options);
+		
 		$this->autoRender = false; // no view to render
 		$this->response->type('json');
-		$json = json_encode(array('message'=>$searchTerm));
+
+		$json = json_encode(array('message'=>$results['Search']['SearchId']));
 		$this->response->body($json);
 	}
 	

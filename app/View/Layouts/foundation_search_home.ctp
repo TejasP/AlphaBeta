@@ -91,7 +91,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
                     <a href="<?php echo $this->Html->url(array('controller'=>'users', 'action'=>'login'))?>">Login</a>
                   </li>
                   <li>
-                    <a href="<?php echo $this->Html->url(array('controller'=>'users', 'action'=>'register'))?>">Register</a>
+                    <a href="<?php echo $this->Html->url(array('controller'=>'registration', 'action'=>'index'))?>">Register</a>
                   </li>
 
                 </ul>

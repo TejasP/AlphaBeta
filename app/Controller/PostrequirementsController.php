@@ -1,19 +1,19 @@
 <?php
-App::uses('AppController', 'Controller');
+App::uses('AppNoAuthController', 'Controller');
 /**
  * Postrequirements Controller
  *
  * @property Postrequirement $Postrequirement
  * @property PaginatorComponent $Paginator
  */
-class PostrequirementsController extends AppController {
+class PostrequirementsController extends AppNoAuthController {
 
 /**
  * Components
  *
  * @var array
  */
-	public $components = array('Paginator');
+	public $components = array('Paginator','Session');
 
 /**
  * index method
