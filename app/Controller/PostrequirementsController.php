@@ -35,7 +35,7 @@ class PostrequirementsController extends AppNoAuthController {
  * @return void
  */
 	public function view($id = null) {
-		$this->layout ="foundation_with_topbar";
+		$this->layout ="foundation_without_topbar";
 		
 		if (!$this->Postrequirement->exists($id)) {
 			throw new NotFoundException(__('Invalid postrequirement'));
@@ -50,7 +50,7 @@ class PostrequirementsController extends AppNoAuthController {
  * @return void
  */
 	public function add() {
-		$this->layout ="foundation_with_topbar";
+		$this->layout ="foundation_without_topbar";
 		if ($this->request->is('post')) {
 			$this->Postrequirement->create();
 			if ($this->Postrequirement->save($this->request->data)) {

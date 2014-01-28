@@ -1,3 +1,4 @@
+<a class="close-reveal-modal">&#215;</a>
 <div class="postrequirements form">
 <?php echo $this->Form->create('Postrequirement'); ?>
 	<fieldset>
@@ -11,7 +12,9 @@
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
+
 </div>
+
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>

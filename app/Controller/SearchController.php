@@ -11,6 +11,9 @@ class SearchController extends AppNoAuthController {
 	public $component = array('JsHelper','RequestHandler');
 	
 	public function index (){
+		Cache::write('cloud', array('testing','now','testing2','now now'));
+		$cache = Cache::read('cloud');
+
 		if(!empty($this->request->query['showResults'])){
 			$showResults= $this->request->query['showResults'];
 			if(!empty($showResults)){
@@ -23,6 +26,8 @@ class SearchController extends AppNoAuthController {
 		}
 		$this->layout = "foundation_search_home";
 		$this->set('dashboard','/alphabeta/search');
+		
+		
 		
 	}
 	
@@ -44,14 +49,21 @@ class SearchController extends AppNoAuthController {
 		$this->response->body($json);
 	}
 	
-	public function searchAutoComplete($searchTerm){
+	public function searchAutoComplete($searchTerm = null){
+		if(empty($searchTerm)){
+			{
+			if(!empty($this->request->query['term'])){
+				$searchTerm = $this->request->query['term'];
+				}
+			}
 		if(empty($searchTerm)|| $searchTerm==null){
 			$searchTerm = 'Something';
-		}
+			}
+		$results = array($searchTerm,'new','second');	
 		$this->autoRender = false; // no view to render
 		$this->response->type('json');
-		$json = json_encode(array('message'=>$searchTerm));
+		$json = json_encode(array('message'=>$results[0],'message'=>$results[1],'message'=>$results[2]));
 		$this->response->body($json);
+		}
 	}
-	
 }

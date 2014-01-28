@@ -78,8 +78,11 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
               <li class="divider"></li>
 
               <li class="gs">
-                <a href="<?php echo $this->Html->url(array('controller'=>'Postrequirements', 'action'=>'add'))?>"class="button">Post your requirement</a>
+                <a data-reveal-id="myModal" class="button" href="<?php echo $this->Html->url(array('controller'=>'Postrequirements', 'action'=>'add'))?>" data-reveal-ajax="true" onclick="javascript:callModal();">
+    			Post your requirement
+ 	 			</a>
               </li>
+
 
               <li class="divider"></li>
 
@@ -109,6 +112,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 		echo $this->Html->script('/js/foundation/foundation.js');
 		echo $this->Html->script('/js/foundation/foundation.topbar.js');
 		echo $this->Html->script('/js/vendor/jquery-ui-1.10.4.custom.js');
+		echo $this->Html->script('/js/foundation/foundation.reveal.js');
 	
 		
 	?>
@@ -226,7 +230,11 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
  
       <!-- End Footer -->
  
- 
+
+	<div id="myModal" class="reveal-modal" data-reveal></div>
+
+
+
     </div>
   </div>
     
@@ -257,20 +265,32 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 	
 	<script type="text/javascript">
     $(document).ready(function () {
+    
+    
+   
+    
+    	var $nSearch = $('#searchWord').val();
+    	
         var options, a;
-        var $url = '<?php echo $this->Html->url(array('controller'=>'search', 'action'=>'searchAutoComplete'))?>'+'/'+"term";
-        
+        var $url = '<?php echo $this->Html->url(array('controller'=>'search', 'action'=>'searchAutoComplete'))?>'+$nSearch;
         jQuery(function() {
             options = { 
                 source: $url,
+                dataType: "json",
                 minChars: 2,
             };
             
             a = $('#searchWord').autocomplete(options);
         });
     });
+    
+  
+    
+    function callModal(){
+		$('a.reveal-link').trigger('click');
+		$('a.close-reveal-modal').trigger('click');
+    }
 </script>
-
   </body>
 </html>
 
