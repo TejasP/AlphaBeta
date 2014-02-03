@@ -134,76 +134,10 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
        
        <!-- End Top Gap -->
  
- 
-      <!-- Search Bar -->
- 
-        <div class="row">
- 
-          <div class="large-12 columns">
-            <div class="radius panel">
- 
-            <form id="search">
-              <div class="row collapse">
- 
- 				<div class="large-3 small-3 columns">
-                &nbsp;
-                </div>
-                
-                <div class="large-4 small-4 columns">
-                 <input type="text" id="searchWord" />
-                </div>
- 
-                <div class="large-2 small-2 columns">
-                 <?php echo $this->Html->link('Search','/search?showResults=1',array('class' => 'postfix button expand')); ?>
-                </div>
-                
-  				<div class="large-3 small-3 columns">
-                &nbsp;
-                </div>
- 
-              </div>
-            </form>
+ 		<?php echo $this->Session->flash(); ?>
 
- 					<div class="row" id="ResultsTable"  <?php if (!empty($showTable)){ if($showTable == 'true'){ ?>  style="display:block" <?php }}?>  style="display:none" >
- 					<table>
-					  <thead>
-					    <tr>
-					      <th width="200">Table Header</th>
-					      <th>Item 	Description</th>
-					      <th width="150">Price</th>
-					      <th width="150"></th>
-					    </tr>
-					  </thead>
-					  <tbody>
-					    <tr>
-					      <td>Content Goes Here</td>
-					      <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
-					      <td>Content Goes Here</td>
-					      <td><a href="#" class="button tiny radius">Book</a></td>
-					    </tr>
-					    <tr>
-					      <td>Content Goes Here</td>
-					      <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
-					      <td>Content Goes Here</td>
-					      <td><a href="#" class="button tiny radius">Book</a></td>
-					    </tr>
-					    <tr>
-					      <td>Content Goes Here</td>
-					      <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
-					      <td>Content Goes Here</td>
-					      <td><a href="#" class="button tiny radius">Book</a></td>
-					    </tr>
-					  </tbody>
-					</table>
- 					</div>
-          </div>
-          </div>
+		<?php echo $this->fetch('content'); ?>
  
-        </div>
- 
-      <!-- End Search Bar -->
- 
-
  
       <!-- Footer -->
  
@@ -265,10 +199,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 	
 	<script type="text/javascript">
     $(document).ready(function () {
-    
-    
    
-    
     	var $nSearch = $('#searchWord').val();
     	
         var options, a;

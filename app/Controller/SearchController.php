@@ -11,8 +11,8 @@ class SearchController extends AppNoAuthController {
 	public $component = array('JsHelper','RequestHandler');
 	
 	public function index (){
-		Cache::write('cloud', array('testing','now','testing2','now now'));
-		$cache = Cache::read('cloud');
+		/* Cache::write('cloud', array('testing','now','testing2','now now'));
+		$cache = Cache::read('cloud'); */
 
 		if(!empty($this->request->query['showResults'])){
 			$showResults= $this->request->query['showResults'];
@@ -40,7 +40,7 @@ class SearchController extends AppNoAuthController {
 		
 		$options = array('conditions' => array('Search.' . $this->Search->SearchTags == 1));
 		
-		$results= $this->Search->find('first',$options);
+		$results= $this->Search->find('all',$options);
 		
 		$this->autoRender = false; // no view to render
 		$this->response->type('json');
@@ -59,10 +59,21 @@ class SearchController extends AppNoAuthController {
 		if(empty($searchTerm)|| $searchTerm==null){
 			$searchTerm = 'Something';
 			}
-		$results = array($searchTerm,'new','second');	
+			
+			
+			$options = array('conditions' => array(
+					'Search.SearchTags LIKE' => '%'.$searchTerm.'%')
+			);
+			
+			$results= $this->Search->find('all',$options);
+			
+			//var_dump($results[0]['Search']['SearchId']);
+		//	echo $results[0]['Search']['SearchId'];
+		//	echo 'Total Count :'.count($results);
+		//$results = array($searchTerm,'new','second');	
 		$this->autoRender = false; // no view to render
 		$this->response->type('json');
-		$json = json_encode(array('message'=>$results[0],'message'=>$results[1],'message'=>$results[2]));
+		$json = json_encode(array('message'=>$results[0]['Search']['SearchTags']));
 		$this->response->body($json);
 		}
 	}
