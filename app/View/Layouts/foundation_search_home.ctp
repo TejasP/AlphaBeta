@@ -184,6 +184,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
     
     $('#search').submit(function(event) {
     var $nSearch = $('#searchWord').val();
+    
     var $url = '<?php echo $this->Html->url(array('controller'=>'search', 'action'=>'search'))?>'+'/'+$nSearch;
     
     event.preventDefault(); // interrupt form submission
@@ -199,7 +200,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 	
 	<script type="text/javascript">
     $(document).ready(function () {
-   
+   		
     	var $nSearch = $('#searchWord').val();
     	
         var options, a;

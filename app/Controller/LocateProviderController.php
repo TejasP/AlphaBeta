@@ -42,6 +42,39 @@ class LocateProviderController extends AppNoAuthController {
 		}
 	}
 	
+	public function getProviderDetailsList($searchTerm){
+	
+		$this->autoRender = false; // no view to render
+	
+	
+	
+		if(!empty($searchTerm)){
+			{
+				if(!empty($this->request->query['term'])){
+					$searchTerm = $this->request->query['term'];
+				}
+			}
+			if(empty($searchTerm)|| $searchTerm==null){
+				$searchTerm = 'Something';
+			}
+	
+	
+			$options = array('conditions' => array(
+					'Providers.provider_name LIKE' => '%'.$searchTerm.'%')
+			);
+	
+			$results= $this->Providers->find('all',$options);
+				
+			if(empty($results)){
+				echo 'results emptry';
+			}
+				
+			$this->response->type('json');
+			$json = json_encode(array('message'=>$results));
+			$this->response->body($json);
+		}
+	}
+	
 	public function getProviderDetailsCount($searchTerm){
 	
 		$this->autoRender = false; // no view to render
