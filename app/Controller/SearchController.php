@@ -18,15 +18,17 @@ class SearchController extends AppNoAuthController {
 			$showResults= $this->request->query['showResults'];
 			$term= $this->request->query['term'];
 			
-			
+		
 			if(!empty($showResults)){
 				if($showResults==1){
 					$this->set('showTable','true');
 					if(!empty($term)){
 						$this->getSearchDescriptionListBasedonTerm($term);
+						$this->set('term',$term);
 					}
 				}else{
-					$this->set('showTable','false');
+						$this->set('showTable','false');
+						$this->set('term','');
 				}	
 			}
 		}
@@ -156,8 +158,7 @@ class SearchController extends AppNoAuthController {
 	public function getSearchDescriptionListBasedonTerm($searchTerm){
 		$this->layout = "foundation_search_home";
 		$this->set('dashboard','/alphabeta/search');
-		
-		$this->set('showTable','true');
+		$this->set('term',$searchTerm);
 		if(!empty($searchTerm)){
 		
 		
@@ -167,7 +168,18 @@ class SearchController extends AppNoAuthController {
 			);
 				
 			$mresults= $this->Medicine->find('all',$moptions);
-				
+			
+			if($mresults==null || count($mresults)==0 )
+			{
+				$this->set('resultsText','No Results found for '.$searchTerm);
+				$this->set('showTable','false');
+			}
+			if($mresults!=null || count($mresults)>0 )
+			{
+				$this->set('resultsText','Showing Results for '.$searchTerm);
+				$this->set('showTable','true');
+			}
+			
 		
 			//		$this->response->type('json');
 			$json = json_encode($mresults);
