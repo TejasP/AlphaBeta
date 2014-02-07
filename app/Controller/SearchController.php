@@ -8,12 +8,16 @@ class SearchController extends AppNoAuthController {
 	
 	public $helpers = array('Html');
 	
-	public $component = array('JsHelper','RequestHandler');
+	public $component= array('JsHelper','RequestHandler');
+	
+
 	
 	public function index (){
 		/* Cache::write('cloud', array('testing','now','testing2','now now'));
 		$cache = Cache::read('cloud'); */
-
+		
+	
+		
 		if(!empty($this->request->query['showResults'])){
 			$showResults= $this->request->query['showResults'];
 			$term= $this->request->query['term'];

@@ -13,7 +13,7 @@ class PostrequirementsController extends AppNoAuthController {
  *
  * @var array
  */
-	public $components = array('Paginator','Session');
+	public $components = array('Paginator','Session','Cookie');
 
 /**
  * index method

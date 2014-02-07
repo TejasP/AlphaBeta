@@ -153,7 +153,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
                   <ul class="inline-list right">
                     <li><a href="#">Terms</a></li>
                     <li><a href="#">Privacy</a></li>
-                    <li><a href="#">Link 3</a></li>
+                    <li><a href="#">How it Works</a></li>
                     <li><a href="#">Link 4</a></li>
                   </ul>
               </div>

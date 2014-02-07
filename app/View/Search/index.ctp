@@ -64,6 +64,21 @@
 					  </tbody>
 					</table>
  			</div>
+ 			<div class="row" id="ChooseButton" <?php if (!empty($showTable)){ if($showTable == 'true'){ ?>  style="display:block" <?php }}?>  style="display:none">
+ 				<div class="large-8 columns">
+            	&nbsp;
+                </div>
+ 	            
+                
+                <div class="large-1 columns">
+                &nbsp;
+ 	            </div>
+ 	            
+ 	            <div class="large-3 columns"  style="display:none" id="book">
+                <a href="#"  class="button tiny radius" onClick="javascript:callBooking();">Book</a>
+                </div>
+ 	            
+ 			</div>
           </div>
           </div>
  
@@ -77,15 +92,33 @@
     
     function getResults(){
     		var nSearch = $('#searchWord').val();
-    		document.location.href = '/alphabeta/search?showResults=1&term='+nSearch;
+    		var length = nSearch.length;
+			if(nSearch!=null){
+    			if(length>0){
+    				document.location.href = '/alphabeta/search?showResults=1&term='+nSearch;
+    			}
+    		}	
     	}
+    	
+    	
+  
     	
  	function callBook(id){
  			// Get AJAX call
- 			//alert(id);
- 			$("#quote").text('Chosen');
-    		//document.location.href = '/alphabeta/search?showResults=1&term='+nSearch;
+ 			
+ 			
+ 		var $url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'addToBucket'))?>'+'/'+id;
+		$.getJSON($url, function(data){
+      			console.log("done.");
+      			$("#quote").text('Chosen');
+      			$("#book").attr("style","display:block");
+ 			});
+    		
     	}    	
     	
+    	
+    function callBooking(){
+    	document.location.href = '/alphabeta/Booking';
+    }	
     	
     </script>
