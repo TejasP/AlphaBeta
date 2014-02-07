@@ -37,7 +37,7 @@
 					                 <input type="search" id="LocateProvider" value="Please enter area, city or pincode" />
 					                </div>
 					                <div class="large-2 columns">
-					 				 <a href="#" class="postfix button expand" onclick="javascript:getProviderResults()">find</a>
+					 				 <a href="#" class="postfix button expand" onclick="javascript:getProviderResults();">find</a>
 					                </div>
 					  				<div class="large-2 columns">
 					  				&nbsp;
@@ -52,18 +52,21 @@
  
       <script type='text/javascript'>
 
+	var input = document.getElementById('LocateProvider');
+		input.onfocus = function() {
+		input.value = '';
+	}
+
    $(document).ready(function () {
-    
-   		
     	var $nSearch = $('#LocateProvider').val();
     	
         var options, a;
-        var $url = '<?php echo $this->Html->url(array('controller'=>'LocateProvider', 'action'=>'getProviderNearArea'))?>'+"/"+$nSearch;
+        var $url = '<?php echo $this->Html->url(array('controller'=>'LocateProvider', 'action'=>'getAreaName'))?>'+"/"+$nSearch;
         jQuery(function() {
             options = { 
                 source: $url,
                 dataType: "json",
-                minChars: 2,
+                minChars: 4,
             };
             
             a = $('#LocateProvider').autocomplete(options);
@@ -84,5 +87,6 @@
     			}
     		}	
     	}
+    	
     	
     </script>

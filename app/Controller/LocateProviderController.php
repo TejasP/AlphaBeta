@@ -140,4 +140,37 @@ class LocateProviderController extends AppNoAuthController {
 			$this->response->body($json);
 		}
 	}
+	
+	public function getAreaName($AreaCode){
+	
+		$this->autoRender = false; // no view to render
+	
+	
+	
+		if(!empty($AreaCode)){
+			{
+				if(!empty($this->request->query['term'])){
+					$AreaCode = $this->request->query['term'];
+				}
+			}
+			if(empty($AreaCode)|| $AreaCode==null){
+				$AreaCode = 'Something';
+			}
+	
+	
+			$options = array('fields'=>'DISTINCT Providers.area','conditions' => array(
+					'Providers.area LIKE '=> '%'.$AreaCode.'%')
+			);
+	
+			$results= $this->Providers->find('all',$options);
+	
+			if(empty($results)){
+				echo 'results emptry';
+			}
+	
+			$this->response->type('json');
+			$json = json_encode(array('message'=>$results[0]['Providers']['area']));
+			$this->response->body($json);
+		}
+	}
 }
