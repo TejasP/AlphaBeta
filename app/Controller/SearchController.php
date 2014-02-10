@@ -4,7 +4,7 @@ App::uses('AppNoAuthController', 'Controller');
 
 class SearchController extends AppNoAuthController {
 
-	public $uses = array('Search','Medicine','Providers');
+	public $uses = array('Search','medicines_header','Providers','medicines_detail','medicines_detail_searches');
 	
 	public $helpers = array('Html');
 	
@@ -21,13 +21,14 @@ class SearchController extends AppNoAuthController {
 		if(!empty($this->request->query['showResults'])){
 			$showResults= $this->request->query['showResults'];
 			$term= $this->request->query['term'];
+			$searchID= $this->request->query['searchID'];
 			
 		
 			if(!empty($showResults)){
 				if($showResults==1){
 					$this->set('showTable','true');
 					if(!empty($term)){
-						$this->getSearchDescriptionListBasedonTerm($term);
+						$this->getSearchDescriptionListBasedonTerm($term,$searchID);
 						$this->set('term',$term);
 					}
 				}else{
@@ -74,7 +75,7 @@ class SearchController extends AppNoAuthController {
 			
 			
 			$options = array('conditions' => array(
-					'Search.SearchTags LIKE' => '%'.$searchTerm.'%')
+					'Search.search_tags LIKE' => '%'.$searchTerm.'%')
 			);
 			
 			$results= $this->Search->find('all',$options);
@@ -85,8 +86,17 @@ class SearchController extends AppNoAuthController {
 		//$results = array($searchTerm,'new','second');	
 		$this->autoRender = false; // no view to render
 		$this->response->type('json');
-		$json = json_encode(array('message'=>$results[0]['Search']['SearchTags']));
-		$this->response->body($json);
+		$data = array ();
+		$lenght = count($results);
+		if ($lenght >5) {
+			$lenght =5;
+		}
+		for($i=0 ; $i<$lenght;$i++)
+		{
+			$data [$i] = array("label"=>$results[$i]['Search']['search_tags'],"searchID"=>$results[$i]['Search']['search_id']);
+		}
+		//$json = json_encode($results);
+		$this->response->body(json_encode($data));
 		}
 	}
 	
@@ -101,7 +111,7 @@ class SearchController extends AppNoAuthController {
 		if(!empty($searchTerm)){
 				
 			$options = array('conditions' => array(
-					'Search.SearchTags LIKE' => '%'.$searchTerm.'%')
+					'Search.search_tags LIKE' => '%'.$searchTerm.'%')
 			);
 				
 			$results= $this->Search->find('all',$options);
@@ -159,7 +169,7 @@ class SearchController extends AppNoAuthController {
 	}
 	
 	
-	public function getSearchDescriptionListBasedonTerm($searchTerm){
+	public function getSearchDescriptionListBasedonTerm($searchTerm,$searchID){
 		$this->layout = "foundation_search_home";
 		$this->set('dashboard','/alphabeta/search');
 		$this->set('term',$searchTerm);
@@ -167,12 +177,29 @@ class SearchController extends AppNoAuthController {
 		
 		
 				
-			$moptions = array('conditions' => array(
-					'Medicine.generic = ' => $searchTerm)
+			$moptions = array('limit' => 10,'conditions' => array(
+					'medicines_detail_searches.search_id = ' => $searchID)
 			);
 				
-			$mresults= $this->Medicine->find('all',$moptions);
+			$medicines_detail_searches = $this->medicines_detail_searches->find('all',$moptions);
 			
+			$length = count($medicines_detail_searches);
+			
+			$mresults = array();
+			
+			for($i=0;$i<$length;$i++){
+				$medID= $medicines_detail_searches[$i]['medicines_detail_searches']['medicine_id'];
+				
+				$moptions = array('fields' => array('medicines_header.medicine_name','medicines_header.mfg_name','medicines_header.medicine_id'),'conditions' => array(
+						'medicines_header.medicine_id = ' => $medID)
+				);
+					
+				$mresults[$i]= $this->medicines_header->find('all',$moptions);
+				//echo var_dump($mresults);
+			}
+			
+			
+				
 			if($mresults==null || count($mresults)==0 )
 			{
 				$this->set('resultsText','No Results found for '.$searchTerm);
@@ -184,7 +211,7 @@ class SearchController extends AppNoAuthController {
 				$this->set('showTable','true');
 			}
 			
-		
+			
 			//		$this->response->type('json');
 			$json = json_encode($mresults);
 			//	$this->response->body($json);

@@ -15,6 +15,7 @@
                 
                 <div class="large-5 columns">
                  <input type="search" id="searchWord" />
+                 <input type="hidden" id="searchID">
                 </div>
  
                 
@@ -55,12 +56,20 @@
 					    </tr>
 					  </thead>
 					  <tbody>
-					    <tr>
-					      <td><?php echo ($results[0]['Medicine']['medicine_name']) ?></td>
-					      <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
+						  <?php $length= count($results) ;
+						  for($i=0;$i<$length;$i++)
+						  {
+						  ?>
+						  <tr>
+					      <td><?php echo ($results[$i][0]['medicines_header']['medicine_name']) ?></td>
+					      <td><?php echo ($results[$i][0]['medicines_header']['mfg_name']) ?></td>
 					      <td>Content Goes Here</td>
-					      <td><a href="#" id="quote" class="button tiny radius" onClick="javascript:callBook('<?php echo ($results[0]['Medicine']['id']) ?>');">Choose</a></td>
-					    </tr>
+					      <td><a href="#" id="quote" class="button tiny radius" onClick="javascript:callBook('<?php echo $results[$i][0]['medicines_header']['medicine_id'] ?>');">Choose</a></td>
+					   	  </tr>
+					
+					    <?php 
+					    	}
+						  ?>
 					  </tbody>
 					</table>
  			</div>
@@ -92,10 +101,11 @@
     
     function getResults(){
     		var nSearch = $('#searchWord').val();
+    		var searchID = $('#searchID').val();
     		var length = nSearch.length;
 			if(nSearch!=null){
     			if(length>0){
-    				document.location.href = '/alphabeta/search?showResults=1&term='+nSearch;
+    				document.location.href = '/alphabeta/search?showResults=1&term='+nSearch+'&searchID='+searchID;
     			}
     		}	
     	}

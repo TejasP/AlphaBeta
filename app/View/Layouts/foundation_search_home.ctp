@@ -210,7 +210,16 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
             options = { 
                 source: $url,
                 dataType: "json",
-                minChars: 2,
+                minChars: 4,
+                select: function( event, ui ) {
+						$( "#searchWord").val(ui.item.label);
+						$( "#searchID").val(ui.item.searchID);
+							return false;
+					},
+				 focus: function( event, ui ) {
+					$( "#searchWord" ).val( ui.item.label );
+						return false;
+					}
             };
             
             a = $('#searchWord').autocomplete(options);

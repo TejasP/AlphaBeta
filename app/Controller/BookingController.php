@@ -4,7 +4,7 @@ App::uses('AppNoAuthController', 'Controller');
 
 class BookingController extends AppNoAuthController {
 	
-	public $uses = array('Search','Medicine','Providers');
+	public $uses = array('Search','medicines_header','Providers');
 	
 	public function addToBucket($ItemId){
 		// first check if cookie exists
@@ -28,11 +28,11 @@ class BookingController extends AppNoAuthController {
 		
 		
 		$moptions = array('conditions' => array(
-				'Medicine.id = ' => $chosenId)
+				'medicines_header.medicine_id = ' => $chosenId)
 		);
 		
-		$mresults= $this->Medicine->find('all',$moptions);
-			
+		$mresults= $this->medicines_header->find('all',$moptions);
+		
 		if($mresults==null || count($mresults)==0 )
 		{
 			$this->set('showTable','false');

@@ -13,9 +13,9 @@
 					    </tr>
 					  </thead>
 					  <tbody>
-					    <tr>
-					      <td><?php echo ($results[0]['Medicine']['medicine_name']) ?></td>
-					      <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
+						<tr>
+					      <td><?php echo ($results[0]['medicines_header']['medicine_name']) ?></td>
+					      <td><?php echo ($results[0]['medicines_header']['mfg_name']) ?></td>
 					      <td>Content Goes Here</td>
 					      <td>
 						  <a href="#" id="Add" class="button tiny radius" onClick="javascript:callAdd('');">Add </a>
