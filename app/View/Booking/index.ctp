@@ -46,6 +46,46 @@
 					              </div>		 
 		            		</form>
  			</div>
+ 			<div class="row" id="locateResultTable"  style="display:none" >
+ 					<table>
+					  <thead>
+					    <tr>
+					      <th>Provider Name</th>
+					      <th>Provider Address</th>
+					      <th></th>
+					    </tr>
+					  </thead>
+					  <tbody>
+						<tr>
+					      <td id="ProviderName"></td>
+					      <td id="ProviderAddress"></td>
+					      <td>
+						  <a href="#" id="select" class="button tiny radius" onClick="javascript:callSelectProvider('');">Add </a>
+					      <a href="#" id="Remove" class="button tiny radius" onClick="javascript:callRemoveProvider('');">Remove</a>
+					      </td>
+					    </tr>
+					  </tbody>
+					</table>
+ 			</div>
+ 			<div class="row" id="quote"   style="display:none">
+		 		<form id="locateP">
+					              <div class="row">
+					              
+					                <div class="large-8 columns">
+					               	 &nbsp;
+					                </div>
+					                <div class="large-2 columns">
+					 		  			<a href="#" class="postfix button expand" onclick="javascript:getQuote();">Get Quote</a>
+					                </div>
+					  		<div class="large-2 columns">
+					  			&nbsp;
+					                </div>
+					 
+					              </div>		 
+		            		</form>
+ 			</div>
+ 			
+ 			
  		</div>
  	</div>
  </div>
@@ -81,12 +121,39 @@
      function getProviderResults(){
     		var nSearch = $('#LocateProvider').val();
     		var length = nSearch.length;
+			var $url = '<?php echo $this->Html->url(array('controller'=>'locateProvider', 'action'=>'getProviderNearArea'))?>'+'/'+nSearch;
+    
 			if(nSearch!=null){
     			if(length>0){
-    				document.location.href = '/alphabeta/search?showResults=1&term='+nSearch;
+    			$.getJSON($url, function(data){
+      			console.log("Starting.");
+    			$("#locateResultTable").attr("style","display:block");
+				$("#quote").attr("style","display:block");
+				
+				$.each(data, function(index, value) {
+				    $("#ProviderName").text(value.Providers.provider_name);
+				    $("#ProviderAddress").text(value.Providers.address);
+				});
+      			console.log("done.");
+				});
     			}
     		}	
     	}
     	
+    function getQuote(){
+    	var userID = 001;
+    	var providerID= 001;
+    	var cartID = 001
+    	
+        var $url = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'submitQuote'))?>'+'?userID='+userID+'&providerID='+providerID+'&cartID='+cartID;
+        $.getJSON($url, function(data){
+        	console.log(data);
+        });
+        
+    
+    
+    	$('#quote').append('<div data-alert class="alert-box success radius">Your quote requested have been submitted.</div>');
+    }	
+
     	
     </script>

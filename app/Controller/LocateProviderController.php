@@ -125,7 +125,7 @@ class LocateProviderController extends AppNoAuthController {
 			}
 	
 	
-			$options = array('conditions' => array(
+			$options = array('fields'=>'Providers.provider_name,Providers.address','conditions' => array(
 					'Providers.area LIKE' => '%'.$AreaCode.'%')
 			);
 	
@@ -136,7 +136,7 @@ class LocateProviderController extends AppNoAuthController {
 			}
 	
 			$this->response->type('json');
-			$json = json_encode(array('count'=>count($results)));
+			$json = json_encode($results);
 			$this->response->body($json);
 		}
 	}

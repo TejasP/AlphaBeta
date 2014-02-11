@@ -55,7 +55,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
             <!-- Title Area -->
 
             <li class="name">
-              <h1><a href="#">Top Bar Title</a></h1>
+              <h1><a href="<?php echo $dashboard ?>">Top Bar Title</a></h1>
             </li>
 
             <li class="toggle-topbar menu-icon">
