@@ -16,7 +16,15 @@ class SearchController extends AppNoAuthController {
 		/* Cache::write('cloud', array('testing','now','testing2','now now'));
 		$cache = Cache::read('cloud'); */
 		
-	
+		$isBucketFilled =  $this->Cookie->read('basket-data');
+		
+		$type= gettype($isBucketFilled);
+		if($type==='string')
+		{
+			$this->set('isBucketFilled',"false");;
+		}else{
+			$this->set('isBucketFilled',"true");
+		}
 		
 		if(!empty($this->request->query['showResults'])){
 			$showResults= $this->request->query['showResults'];

@@ -64,7 +64,7 @@
 					      <td><?php echo ($results[$i][0]['medicines_header']['medicine_name']) ?></td>
 					      <td><?php echo ($results[$i][0]['medicines_header']['mfg_name']) ?></td>
 					      <td>Content Goes Here</td>
-					      <td><a href="#" id="quote" class="button tiny radius" onClick="javascript:callBook('<?php echo $results[$i][0]['medicines_header']['medicine_id'] ?>');">Choose</a></td>
+					      <td><a href="#" id="quote-<?php echo ($results[$i][0]['medicines_header']['medicine_id']) ?>" class="button tiny radius" onClick="javascript:callBook('<?php echo $results[$i][0]['medicines_header']['medicine_id'] ?>');">Choose</a></td>
 					   	  </tr>
 					
 					    <?php 
@@ -120,7 +120,8 @@
  		var $url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'addToBucket'))?>'+'/'+id;
 		$.getJSON($url, function(data){
       			console.log("done.");
-      			$("#quote").text('Chosen');
+      			var quote= "#"+"quote-"+id;
+      			$(quote).text('Chosen');
       			$("#book").attr("style","display:block");
  			});
     		
