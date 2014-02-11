@@ -227,4 +227,13 @@ class SearchController extends AppNoAuthController {
 			$this->render('index');
 		}
 	}
+	
+	public function showBucket(){
+		$this->layout = "foundation_search_home";
+		$this->set('dashboard','/alphabeta/search');
+		return $this->redirect(
+				array('controller' => 'Booking', 'action' => 'index')
+		);
+	}
+	
 }

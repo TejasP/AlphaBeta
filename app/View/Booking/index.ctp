@@ -44,7 +44,7 @@
 					                 <input type="search" id="LocateProvider" value="Please enter area, city or pincode" />
 					                </div>
 					                <div class="large-2 columns">
-					 				 <a href="#" class="postfix button expand" onclick="javascript:getProviderResults();">find</a>
+					 				 <a href="#" class="postfix button radius" onclick="javascript:getProviderResults();">find</a>
 					                </div>
 					  				<div class="large-2 columns">
 					  				&nbsp;
@@ -82,7 +82,7 @@
 					               	 &nbsp;
 					                </div>
 					                <div class="large-2 columns">
-					 		  			<a href="#" class="postfix button expand" onclick="javascript:getQuote();">Get Quote</a>
+					 		  			<a href="#" class="postfix button radius" onclick="javascript:getQuote();">Get Quote</a>
 					                </div>
 					  		<div class="large-2 columns">
 					  			&nbsp;

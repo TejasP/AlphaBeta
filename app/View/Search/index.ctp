@@ -123,6 +123,7 @@
       			var quote= "#"+"quote-"+id;
       			$(quote).text('Chosen');
       			$("#book").attr("style","display:block");
+      			$("#bucketID").attr("style","display:block");
  			});
     		
     	}    	

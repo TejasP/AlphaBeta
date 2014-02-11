@@ -127,18 +127,8 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 	          <div class="panel">
               <ul class="small-block-grid-1" id="searchTerm" >
               </ul>
-              <ul class="small-block-grid-1" id="bucketID" >
-              <?php 
-				if($isBucketFilled=='true'){
-			?>
-			<a href="<?php echo $this->Html->url(array('controller'=>'search', 'action'=>'showBucket'))?>">Bucket</a>
-			<?php 
-			}else{
-			?>
-			
-			<?php 
-			}
-			?>
+              <ul class="small-block-grid-1" id="bucketID" <?php if($isBucketFilled==='true'){ ?> style="display:block" <?php }?> style="display:none">
+					<a href="<?php echo $this->Html->url(array('controller'=>'search', 'action'=>'showBucket'))?>">Bucket</a>
               </ul>
             </div>
 	        </div>

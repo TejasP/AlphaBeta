@@ -60,7 +60,7 @@ class BookingController extends AppNoAuthController {
 			$this->set('isBucketFilled',"false");
 			$this->set('showCartTable','false');
 		}else{
-			$this->set('isBucketFilled',"true");
+			$this->set('isBucketFilled',"false");
 			$this->set('showCartTable','true');
 		}
 		
