@@ -111,3 +111,5 @@ CakeLog::config('error', array(
 ));
 
 
+$init_data = parse_ini_file('../Config/init_config.ini');
+Configure::write('dashboard',$init_data['dashboard']);

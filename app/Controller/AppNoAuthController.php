@@ -16,6 +16,8 @@ class AppNoAuthController extends Controller {
 		$this->Cookie->secure = false;  // i.e. only sent if using secure HTTPS
 		$this->Cookie->key = 'qSI232qs*&!adre@34SAv!@*(XSL#$%)asGb$@11~_+!@#HKis~#^';
 		$this->Cookie->httpOnly = true;
-	
+		
 	}
+	
+
 }

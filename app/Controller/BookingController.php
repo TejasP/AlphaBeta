@@ -50,7 +50,7 @@ class BookingController extends AppNoAuthController {
 	
 	public function index(){
 		$this->layout = "foundation_search_home";
-		$this->set('dashboard','/alphabeta/search');
+		
 		
 		$isBucketFilled =  $this->Cookie->read('basket-data');
 		

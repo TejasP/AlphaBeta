@@ -19,7 +19,7 @@ class SearchController extends AppNoAuthController {
 		$isBucketFilled =  $this->Cookie->read('basket-data');
 		
 		$type= gettype($isBucketFilled);
-		if($type==='string')
+		if($type==='string'||$type==='NULL')
 		{
 			$this->set('isBucketFilled',"false");;
 		}else{
@@ -46,7 +46,6 @@ class SearchController extends AppNoAuthController {
 			}
 		}
 		$this->layout = "foundation_search_home";
-		$this->set('dashboard','/alphabeta/search');
 	}
 	
 	
@@ -137,7 +136,7 @@ class SearchController extends AppNoAuthController {
 	
 	public function getSearchDescriptionListBasedonID($searchId){
 		$this->layout = "foundation_search_home";
-		$this->set('dashboard','/alphabeta/search');
+
 		
 		
 			$this->set('showTable','true');
@@ -179,7 +178,7 @@ class SearchController extends AppNoAuthController {
 	
 	public function getSearchDescriptionListBasedonTerm($searchTerm,$searchID){
 		$this->layout = "foundation_search_home";
-		$this->set('dashboard','/alphabeta/search');
+
 		$this->set('term',$searchTerm);
 		if(!empty($searchTerm)){
 		
@@ -230,7 +229,7 @@ class SearchController extends AppNoAuthController {
 	
 	public function showBucket(){
 		$this->layout = "foundation_search_home";
-		$this->set('dashboard','/alphabeta/search');
+		
 		return $this->redirect(
 				array('controller' => 'Booking', 'action' => 'index')
 		);
