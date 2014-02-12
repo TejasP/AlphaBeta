@@ -72,6 +72,7 @@ class AppController extends Controller {
 		}
 		
 		//$this->set('json',$rolejson);
+
 		$this->set('role',$role);
 		$this->set('username',$username);
 	}

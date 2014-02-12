@@ -1,27 +1,15 @@
 {
     "admin": {
-    	"User Management":"Heading",
-        "Add Users": "/alphabeta/users/add",
-        "View Users": "/alphabeta/users/view",
-        "Maintain Relationship": "/#",     
+    	"Quote Management":"Heading",
+        "Quotes": "#",
         "Split":"divider",
-    	"Policy Administration":"Heading",
-    	"Add Policy": "/alphabeta/policies/add",
-        "View Policy": "/alphabeta/policies/view",
+    	"Preferences":"Heading",
+    	"Preferred Provider": "#",
         "Split1":"divider",
-    	"Case Management":"Heading",
-    	"List cases": "/alphabeta/case/view",
-    	"Case Assignment": "/alphabeta/case/assignment",
-    	"Split2":"divider",
-    	"Rules Management":"Heading",
-        "Split3":"divider",
-    	"Fraud Monitor":"Heading",
-    	"Split4":"divider",
-    	"Risk Management":"Heading",
-    	"Split5":"divider",      
+    	"Communication":"Heading",
+    	"Change communication mode": "#",
         "Need Some help ?":"Heading",
         "Help":"Help"
-        
     },
     "Users": {
         "Raise a Claim": "/claims/add"
