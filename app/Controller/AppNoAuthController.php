@@ -4,7 +4,12 @@ App::uses('Controller', 'Controller');
 
 class AppNoAuthController extends Controller {
 	public $components = array(
-			'Session','Cookie'
+			'Session','Cookie','Authsome.Authsome' => array(
+					'model' => 'User',
+					'configureKey'=>null,
+					'sessionKey'=>null,
+					'cookieKey'=>null
+			)
 	);
 	
 	public function beforeFilter() {

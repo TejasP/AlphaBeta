@@ -16,12 +16,24 @@ class SearchController extends AppNoAuthController {
 		/* Cache::write('cloud', array('testing','now','testing2','now now'));
 		$cache = Cache::read('cloud'); */
 		
+		
+		$user = Authsome::get('username');
+		$role = Authsome::get('role');
+		
+		if (($user=== 'NULL') || ($user== '')) {
+			$this->set('isUserLoggedIn',"false");
+		}else
+		{
+			$this->set('isUserLoggedIn',"true");
+			$user = Authsome::get('username');
+			$role = Authsome::get('role');	
+		}
 		$isBucketFilled =  $this->Cookie->read('basket-data');
 		
 		$type= gettype($isBucketFilled);
 		if($type==='string'||$type==='NULL')
 		{
-			$this->set('isBucketFilled',"false");;
+			$this->set('isBucketFilled',"false");
 		}else{
 			$this->set('isBucketFilled',"true");
 		}
@@ -202,7 +214,6 @@ class SearchController extends AppNoAuthController {
 				);
 					
 				$mresults[$i]= $this->medicines_header->find('all',$moptions);
-				//echo var_dump($mresults);
 			}
 			
 			

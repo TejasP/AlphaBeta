@@ -51,6 +51,17 @@ class BookingController extends AppNoAuthController {
 	public function index(){
 		$this->layout = "foundation_search_home";
 		
+		$user = Authsome::get('username');
+		$role = Authsome::get('role');
+		
+		if (($user=== NULL) || ($user== '')) {
+			$this->set('isUserLoggedIn',"false");
+		}else
+		{
+			$this->set('isUserLoggedIn',"true");
+			$user = Authsome::get('username');
+			$role = Authsome::get('role');
+		}
 		
 		$isBucketFilled =  $this->Cookie->read('basket-data');
 		

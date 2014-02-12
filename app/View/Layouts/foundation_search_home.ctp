@@ -88,15 +88,23 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 
               <li class="has-dropdown">
                 <a href="#">Account</a>
-
                 <ul class="dropdown">
+				<?php 
+				if($isUserLoggedIn === 'false'){ ?>
                   <li>
-                    <a href="<?php echo $this->Html->url(array('controller'=>'users', 'action'=>'login'))?>">Login</a>
+                    <a data-reveal-id="myModal" href="<?php echo $this->Html->url(array('controller'=>'users', 'action'=>'login'))?>" data-reveal-ajax="true" onclick="javascript:callLoginModal();">Login</a>
                   </li>
                   <li>
-                    <a href="<?php echo $this->Html->url(array('controller'=>'registration', 'action'=>'index'))?>">Register</a>
+                    <a data-reveal-id="myModal" href="<?php echo $this->Html->url(array('controller'=>'registration', 'action'=>'index'))?>" data-reveal-ajax="true" onclick="javascript:callRegisterModal();">Register</a>
                   </li>
-
+              	<?php }else{?>
+              	  <li>
+                    <a href="<?php echo $this->Html->url(array('controller'=>'dashboard', 'action'=>'index'))?>" >Dashboard</a>
+                  </li>
+              	  <li>
+                    <a href="<?php echo $this->Html->url(array('controller'=>'users', 'action'=>'logout'))?>" >Logout</a>
+                  </li>
+                <?php } ?>  
                 </ul>
               </li>
             </ul>
@@ -235,6 +243,17 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 		$('a.reveal-link').trigger('click');
 		$('a.close-reveal-modal').trigger('click');
     }
+    
+    function callLoginModal(){
+		$('a.reveal-link').trigger('click');
+		$('a.close-reveal-modal').trigger('click');    
+    }
+    
+    function callRegisterModal(){
+    	$('a.reveal-link').trigger('click');
+		$('a.close-reveal-modal').trigger('click');
+    }
+    
 </script>
   </body>
 </html>

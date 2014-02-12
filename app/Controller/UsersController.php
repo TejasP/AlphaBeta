@@ -101,11 +101,16 @@ class UsersController extends AppController {
     		return;
     	}
     	else{
-    		return  $this->redirect(array('controller' => 'dashboard','action' => 'index'));
+    		return  $this->redirect(array('controller' => 'search','action' => 'index'));
     	}
 
     	$user = Authsome::get();
     	//debug($user); 
+    }
+    
+    public function logout() {
+    	$user = Authsome::logout();
+    	return  $this->redirect(array('controller' => 'search','action' => 'index'));
     }
 
 
