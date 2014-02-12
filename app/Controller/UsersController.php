@@ -110,7 +110,7 @@ class UsersController extends AppController {
     
     public function logout() {
     	$user = Authsome::logout();
-    	return  $this->redirect(array('controller' => 'search','action' => 'index'));
+    	return  $this->redirect(array('controller' => 'search','action' => 'logoutUser'));
     }
 
 

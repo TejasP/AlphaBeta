@@ -158,15 +158,17 @@
     	var userID = 001;
     	var providerID= 001;
     	var cartID = 001
-    	
-        var $url = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'submitQuote'))?>'+'?userID='+userID+'&providerID='+providerID+'&cartID='+cartID;
-        $.getJSON($url, function(data){
-        	console.log(data);
-        });
-        
-    
-    
-    	$('#quote').append('<div data-alert class="alert-box success radius">Your quote requested have been submitted.</div>');
+    	<?php if($isUserLoggedIn === 'false'){ ?>
+    		var a = $("#aLoginID");
+    		a.click();
+			
+		<?php }else{?>
+	        var $url = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'submitQuote'))?>'+'?userID='+userID+'&providerID='+providerID+'&cartID='+cartID;
+	        $.getJSON($url, function(data){
+	        	console.log(data);
+	        });
+	    	$('#quote').append('<div data-alert class="alert-box success radius">Your quote requested have been submitted.</div>');
+    	<?php }?>
     }	
 
     	

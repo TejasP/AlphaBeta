@@ -78,7 +78,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
               <li class="divider"></li>
 
               <li class="gs">
-                <a data-reveal-id="myModal" class="button" href="<?php echo $this->Html->url(array('controller'=>'Postrequirements', 'action'=>'add'))?>" data-reveal-ajax="true" onclick="javascript:callModal();">
+                <a data-reveal-id="myModalPostReq" id="aPostID" class="button" href="<?php echo $this->Html->url(array('controller'=>'Postrequirements', 'action'=>'add'))?>" data-reveal-ajax="true" onclick="javascript:callModal();">
     			Post your requirement
  	 			</a>
               </li>
@@ -92,10 +92,10 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 				<?php 
 				if($isUserLoggedIn === 'false'){ ?>
                   <li>
-                    <a data-reveal-id="myModal" href="<?php echo $this->Html->url(array('controller'=>'users', 'action'=>'login'))?>" data-reveal-ajax="true" onclick="javascript:callLoginModal();">Login</a>
+                    <a data-reveal-id="myModalLogin" id="aLoginID" href="<?php echo $this->Html->url(array('controller'=>'users', 'action'=>'login'))?>" data-reveal-ajax="true" onclick="javascript:callLoginModal();">Login</a>
                   </li>
                   <li>
-                    <a data-reveal-id="myModal" href="<?php echo $this->Html->url(array('controller'=>'registration', 'action'=>'index'))?>" data-reveal-ajax="true" onclick="javascript:callRegisterModal();">Register</a>
+                    <a data-reveal-id="myModalRegister" id="aRegisterID" href="<?php echo $this->Html->url(array('controller'=>'registration', 'action'=>'index'))?>" data-reveal-ajax="true" onclick="javascript:callRegisterModal();">Register</a>
                   </li>
               	<?php }else{?>
               	  <li>
@@ -176,11 +176,15 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
       <!-- End Footer -->
  
 
-	<div id="myModal" class="reveal-modal" data-reveal></div>
-
-
-
+	<div id="myModalLogin" class="reveal-modal" data-reveal></div>
     </div>
+    
+	<div id="myModalRegister" class="reveal-modal" data-reveal></div>
+    </div>
+
+	<div id="myModalPostReq" class="reveal-modal" data-reveal></div>
+    </div>
+
   </div>
     
       
