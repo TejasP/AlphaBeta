@@ -20,7 +20,7 @@
 						<tr>
 					      <td><?php echo ($results[$i][0]['medicines_header']['medicine_name']) ?></td>
 					      <td><?php echo ($results[$i][0]['medicines_header']['mfg_name']) ?></td>
-					      <td>Content Goes Here</td>
+					      <td id="AddRemoveID">Content Goes Here</td>
 					      <td>
 						  <a href="#" id="Add" class="button tiny radius" onClick="javascript:callAdd('');">Add </a>
 					      <a href="#" id="Remove" class="button tiny radius" onClick="javascript:callRemove('<?php echo ($results[$i][0]['medicines_header']['medicine_id']) ?>');">Remove</a>
@@ -171,5 +171,11 @@
     	<?php }?>
     }	
 
+	function callAdd(medicineID){
+		var a = document.getElementById("AddQty");
+		if(a==null){
+			$("#AddRemoveID").html('<select id="qty"><option value="1">1</option></select>');
+		}
+	}
     	
     </script>
