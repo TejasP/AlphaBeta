@@ -70,7 +70,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
               <li class="divider"></li>
 
               <li class="gs">
-                <a href="#" class="button">Browse Catalog</a>
+                <a href="browsecatalog" class="button">Browse Catalog</a>
               </li>
               
        
