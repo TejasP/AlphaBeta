@@ -54,13 +54,14 @@ class BookingController extends AppNoAuthController {
 		$user = Authsome::get('username');
 		$role = Authsome::get('role');
 		
+		$this->Session->write('Redirect.Controller', 'Booking');
+		$this->Session->write('Redirect.Action', 'index');
+		
 		if (($user=== NULL) || ($user== '')) {
 			$this->set('isUserLoggedIn',"false");
 		}else
 		{
 			$this->set('isUserLoggedIn',"true");
-			$user = Authsome::get('username');
-			$role = Authsome::get('role');
 		}
 		
 		$isBucketFilled =  $this->Cookie->read('basket-data');

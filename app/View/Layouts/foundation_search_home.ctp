@@ -95,7 +95,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
                     <a data-reveal-id="myModalLogin" id="aLoginID" href="<?php echo $this->Html->url(array('controller'=>'users', 'action'=>'login'))?>" data-reveal-ajax="true" onclick="javascript:callLoginModal();">Login</a>
                   </li>
                   <li>
-                    <a data-reveal-id="myModalRegister" id="aRegisterID" href="<?php echo $this->Html->url(array('controller'=>'registration', 'action'=>'index'))?>" data-reveal-ajax="true" onclick="javascript:callRegisterModal();">Register</a>
+                    <a data-reveal-id="myModalRegister" id="aRegisterID" href="<?php echo $this->Html->url(array('controller'=>'registration', 'action'=>'register'))?>" data-reveal-ajax="true" onclick="javascript:callRegisterModal();">Register</a>
                   </li>
               	<?php }else{?>
               	  <li>

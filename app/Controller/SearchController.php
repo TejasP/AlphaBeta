@@ -20,6 +20,9 @@ class SearchController extends AppNoAuthController {
 		$user = Authsome::get('username');
 		$role = Authsome::get('role');
 		
+		$this->Session->write('Redirect.Controller', 'Search');
+		$this->Session->write('Redirect.Action', 'index');
+		
 		if (($user=== 'NULL') || ($user== '')) {
 			$this->set('isUserLoggedIn',"false");
 		}else

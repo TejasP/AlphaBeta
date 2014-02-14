@@ -91,6 +91,7 @@ class UsersController extends AppController {
     }
     
     public function login() {
+    	$this->layout = "foundation_without_topbar";
     	if (empty($this->data)) {
     		return;
     	}
@@ -100,12 +101,17 @@ class UsersController extends AppController {
     		$this->Session->setFlash(__('Unknown user or wrong password'));
     		return;
     	}
+    	$controller = $this->Session->read('Redirect.Controller');
+    	$action= $this->Session->read('Redirect.Action');
+    	echo $controller;
+    	
+    	if($controller!=null || $controller != ''){
+    		return  $this->redirect(array('controller' => $controller,'action' => $action));
+    	}
     	else{
     		return  $this->redirect(array('controller' => 'search','action' => 'index'));
-    	}
-
-    	$user = Authsome::get();
-    	//debug($user); 
+    	} 
+    	
     }
     
     public function logout() {

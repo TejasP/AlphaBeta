@@ -63,23 +63,18 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 	 <div class="row">
      <div class="large-12 columns">
  
-       <!-- Top Gap -->
          <div class="row" >
 	        <div class="large-12 columns">
-	          <div class="panel">
-              <ul class="small-block-grid-1" id="searchTerm" >
-              
-              </ul>
-            </div>
+	          <div class="panel radius">
+ 		
+		 		<?php echo $this->Session->flash(); ?>
+		
+				<?php echo $this->fetch('content'); ?>
+ 
+           		</div>
 	        </div>
          </div>
-       
-       <!-- End Top Gap -->
- 
- 		<?php echo $this->Session->flash(); ?>
-
-		<?php echo $this->fetch('content'); ?>
- 
+              
     </div>
   </div>
     

@@ -1,24 +1,23 @@
 <?php
 
-App::uses('AppController', 'Controller');
+App::uses('AppNoAuthController', 'Controller');
 
-class RegistrationController extends AppController {
+class RegistrationController extends AppNoAuthController {
 	
 	public $helpers = array('Html', 'Form', 'Session');
 
 	public function index() {
-		$this->layout = "foundation_with_topbar";
-		$this->set('dashboard','/alphabeta/search');
+		$this->layout = "foundation_without_topbar";
 	}
 	
-	public function addPerson() {
-		$this->layout = "foundation_with_topbar";
-		$this->set('dashboard','/alphabeta/search');
+	public function register() {
+		$this->layout = "foundation_without_topbar";
+		$this->set('isUserLoggedIn','false');
 	}
 	
 	public function addOrganization() {
-		$this->layout = "foundation_with_topbar";
-		$this->set('dashboard','/alphabeta/search');
+		$this->layout = "foundation_without_topbar";
+		$this->set('isUserLoggedIn','false');
 	}
 	
 }

@@ -158,7 +158,9 @@
     	var userID = 001;
     	var providerID= 001;
     	var cartID = 001
-    	<?php if($isUserLoggedIn === 'false'){ ?>
+    	<?php if($isUserLoggedIn === 'false'){ 
+
+    	?>
     		var a = $("#aLoginID");
     		a.click();
 			

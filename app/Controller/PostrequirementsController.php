@@ -1,5 +1,6 @@
 <?php
 App::uses('AppNoAuthController', 'Controller');
+
 /**
  * Postrequirements Controller
  *
@@ -13,7 +14,12 @@ class PostrequirementsController extends AppNoAuthController {
  *
  * @var array
  */
-	public $components = array('Paginator','Session','Cookie');
+	public $components = array('Paginator','Session','Cookie','Authsome.Authsome' => array(
+					'model' => 'User',
+					'configureKey'=>null,
+					'sessionKey'=>null,
+					'cookieKey'=>null
+			));
 
 /**
  * index method
@@ -51,6 +57,17 @@ class PostrequirementsController extends AppNoAuthController {
  */
 	public function add() {
 		$this->layout ="foundation_without_topbar";
+		
+		$user = Authsome::get('username');
+		$role = Authsome::get('role');
+		
+		if (($user=== NULL) || ($user== '')) {
+			$this->Session->setFlash(__("Please Login to Post requirement"));
+			$this->Session->write('Redirect.Controller', 'PostRequirements');
+			$this->Session->write('Redirect.Action', 'add');
+			return $this->redirect(array('controller'=>'users','action' => 'login'));
+		}
+		
 		if ($this->request->is('post')) {
 			$this->Postrequirement->create();
 			if ($this->Postrequirement->save($this->request->data)) {
