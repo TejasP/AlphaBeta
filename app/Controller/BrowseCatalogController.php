@@ -75,6 +75,7 @@ class BrowseCatalogController extends AppNoAuthController {
 				{
 					$level2catid = $level2_categories[$k]['product_categories']['cat_id'];
 					$level2catdesc = $level2_categories[$k]['product_categories']['cat_desc'];
+					$level2catimgfolder = $level2_categories[$k]['product_categories']['cat_image_folder'];
 
 					$poptions = array('conditions' => array(
 							'product_headers.prod_cat_id = ' => $level2catid)
@@ -84,7 +85,7 @@ class BrowseCatalogController extends AppNoAuthController {
 						
 					//if(count($presults) > 0)
 				//	{
-						$categories[$cat_ctr] = array("cat_id"=>$level2catid, "cat_desc"=>$level2catdesc, "product_count"=>count($presults));
+						$categories[$cat_ctr] = array("cat_id"=>$level2catid, "cat_desc"=>$level2catdesc, "cat_image_folder"=>$level2catimgfolder, "product_count"=>count($presults));
 						$cat_ctr++;
 				//	}
 				}

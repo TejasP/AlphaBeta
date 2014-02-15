@@ -1,61 +1,58 @@
 
-      <!-- Search Bar -->
+      <!-- Browse Catalog -->
  
-        <div class="row">
+        <div id="content" class="row">
  
           <div class="large-12 columns">
             <div class="radius panel">
+            
+            <?php $length= count($categorydata) ;
+			for($i=0;$i<$length;$i++)
+			{
+			?>
+				<div class="maincategories">
+           			<?php 
+					$sublength = count($categorydata[$i]['subcategories']);
+					?>
+					<h2 class="maincategory"><?php echo ($categorydata[$i]['maindesc']) ?> ( <?php echo $sublength ?> )</h2>
+					<?php
+					for($j=0;$j<$sublength;$j++)
+					{
+					?>
+	          			<div class="subcategories">
+    	    				<?php 
+							$catlength = count($categorydata[$i]['subcategories'][$j]['categories']);
+							?>
+							<h2 class="subcategory"><?php echo ($categorydata[$i]['subcategories'][$j]['subcatdesc']) ?> (  <?php echo $catlength ?> )</h2>
 
- 			<div class="row" id="ResultsTable">
- 					<table>
-					  <thead>
-					    <tr>
-					      <th>Category ID</th>
-					      <th>Category Desc</th>
-					      <th>Product Count</th>
-					    </tr>
-					  </thead>
-					  <tbody>
-						  <?php $length= count($categorydata) ;
-						  for($i=0;$i<$length;$i++)
-						  {
-						  ?>
-							  <tr>
-						      <td><?php echo ($categorydata[$i]['mainid']) ?></td>
-						      <td><?php echo ($categorydata[$i]['maindesc']) ?></td>
-						      <td></td>
-						   	  </tr>
-			  		      <?php 
-								$sublength = count($categorydata[$i]['subcategories']);
-								for($j=0;$j<$sublength;$j++)
+							<ul class="categories">	
+								<?php
+								for($k=0;$k<$catlength;$k++)
 								{
+								
+									// echo '/img/products/' . ($categorydata[$i]['subcategories'][$j]['categories'][$k]['cat_image_folder']) . '.jpg';
 								?>
-								  <tr>
-							      <td><?php echo ($categorydata[$i]['subcategories'][$j]['subcatid']) ?></td>
-							      <td><?php echo ($categorydata[$i]['subcategories'][$j]['subcatdesc']) ?></td>
-							      <td></td>
-							   	  </tr>
-					  		      <?php 
-									$catlength = count($categorydata[$i]['subcategories'][$j]['categories']);
-									for($k=0;$k<$catlength;$k++)
-									{
-									?>
-									  <tr>
-								      <td><?php echo ($categorydata[$i]['subcategories'][$j]['categories'][$k]['cat_id']) ?></td>
-								      <td><?php echo ($categorydata[$i]['subcategories'][$j]['categories'][$k]['cat_desc']) ?></td>
-								      <td><?php echo ($categorydata[$i]['subcategories'][$j]['categories'][$k]['product_count']) ?></td>
-								   	  </tr>
-									<?php
-									}						
+									<li class="categories-item" style="width: 146px;">
+					                	<a href="#" class="fllt">
+					               <!-- 	    <div class="fllt imageBox"><img width="60" height="80" src="/alphabeta/img/products/<?php echo ($categorydata[$i]['subcategories'][$j]['categories'][$k]['cat_image_folder']) ?>.jpg"></div>
+					               			<div class="fllt imageBox"><img width="60" height="80" src="<?php echo '/img/products/' . ($categorydata[$i]['subcategories'][$j]['categories'][$k]['cat_image_folder']) . '.jpg' ?>"></div> -->
+					               			<div class="fllt imageBox"><?php echo $this->Html->image('/img/products/' . ($categorydata[$i]['subcategories'][$j]['categories'][$k]['cat_image_folder']) . '.jpg',  array('width'=>'60px', 'height'=>'80px')) ?></div>
+					                	    <div class="fllt labelBox"><span class="arrow-right"><?php echo ($categorydata[$i]['subcategories'][$j]['categories'][$k]['cat_desc']) ?></span><span class="arrow-right">(<?php echo ($categorydata[$i]['subcategories'][$j]['categories'][$k]['product_count']) ?>)</span></div>
+					                	</a>
+					            	</li>
+								<?php
 								}						
-	  				      }
-						  ?>
-					  </tbody>
-					</table>
- 			</div>
-
+							    ?>
+							</ul>
+						</div>
+					<?php
+					}
+					?>
+        		</div>
+            <?php
+            }
+            ?>
 <!--
- 
  			<div class="row" id="ResultsTable">
  					<table>
 					  <thead>

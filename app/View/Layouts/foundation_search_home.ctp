@@ -31,7 +31,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 	<?php
 		echo $this->Html->meta('icon');
 	
-	//	echo $this->Html->css('emediplus');
+		echo $this->Html->css('emediplus');
 		echo $this->Html->css('foundation');
 		echo $this->Html->css('jquery-ui-1.10.4.custom');
 
