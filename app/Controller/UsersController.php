@@ -3,6 +3,8 @@
 App::uses('AuthComponent', 'Controller/Component');
 
 class UsersController extends AppController {
+	
+	public $uses = array('user','login_token');
 
 	var $components = array('Session','RequestHandler');
 	
@@ -118,6 +120,38 @@ class UsersController extends AppController {
     	$user = Authsome::logout();
     	return  $this->redirect(array('controller' => 'search','action' => 'logoutUser'));
     }
+    
+    public function  resetPassword($userID){
+    	$this->autoRender = false; // no view to render
 
+    	//First generate token add to DB and send link
+    	$date = date('Y-m-d H:i:s', strtotime('+1 hours'));
+    	$duration = '+1 hours';
+    	$token = md5(uniqid(mt_rand(), true));
+    	
+    	$token_data = array(
+    			'login_token' => array(
+    					'user_id' => $userID,
+    					'token' => $token,
+    					'duration' => $duration,
+    					'expires' => $date
+    			)
+    	);
+    		
+    	
+		$return = $this->login_token->save($token_data);
+	
+    /* 	$log = $this->login_token->getDataSource()->getLog(false, false);
+    	echo $log; */
+    	
+    	$this->response->type('json');
+    	$json = json_encode($return);
+    	$this->response->body($json);
+    	
+    }
 
+	public function validatePassword($tokenID){
+    	// get Token and check against the DB and ask user to update password.
+    	
+	}
 }

@@ -50,6 +50,36 @@ class QuoteManagementAPIController extends AppNoAuthController {
 	    $this->response->body($json);
 		
 	}
+	
+	
+	public function sendQuoteRequestEmail($sendTo){
+		$this->autoRender = false; // no view to render
+		$this->Email->smtpOptions = array(
+				'port'=>'587',
+				'timeout'=>'30',
+				'host' => 'mail.emediplus.com',
+				'username'=>'support@emediplus.com',
+				'password'=>'eMedi123',
+		);
+		$this->Email->delivery = 'smtp';
+		
+		$this->Email->from    = 'eMediplus Support<support@emediplus.com>';
+		$this->Email->to      = $sendTo;
+		$this->Email->subject = 'Request for Quote';
+		;
+		
+		if ($this->Email->send('Request for quote is submitted, we will get back to you shortly.')) {
+			echo "done";
+		} else {
+			echo $this->Email->smtpError;
+		}
+
+		$error =  $this->Email->smtpError;
+		$this->response->type('json');
+		$json = json_encode($error);
+		$this->response->body($json);
+		
+	}
 
 	
 }

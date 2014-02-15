@@ -9,7 +9,7 @@ class AppNoAuthController extends Controller {
 					'configureKey'=>null,
 					'sessionKey'=>null,
 					'cookieKey'=>null
-			)
+			),'Email'
 	);
 	
 	public function beforeFilter() {

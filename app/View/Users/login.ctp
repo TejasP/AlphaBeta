@@ -11,5 +11,5 @@
     ?>
     </fieldset>
 <?php echo $this->Form->end(__('Login')); ?>
-<?php echo $this->Html->link(__('Forgot Password ?'), array('controller'=>'users','action' => 'forgot')); ?>
+<?php echo $this->Html->link(__('Forgot Password ?'), array('controller'=>'users','action' => 'resetPassword')); ?>
 </div>

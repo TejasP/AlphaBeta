@@ -39,7 +39,7 @@ class AppController extends Controller {
 					'configureKey'=>null,
 					'sessionKey'=>null,
 					'cookieKey'=>null
-			)
+			),'Email'
 	);
 	
 
