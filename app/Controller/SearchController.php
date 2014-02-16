@@ -16,7 +16,7 @@ class SearchController extends AppNoAuthController {
 		/* Cache::write('cloud', array('testing','now','testing2','now now'));
 		$cache = Cache::read('cloud'); */
 		
-		
+
 		$user = Authsome::get('username');
 		$role = Authsome::get('role');
 		
