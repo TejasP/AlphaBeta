@@ -1,10 +1,40 @@
 
+<script language="javascript">
+
+    $(document).ready(function () {
+	    // add loading image to div
+	    //$('#loading').html("<img src=\'<?php echo $this->Html->image('/img/ajaxloader.gif') ?>\'>loading...");
+ 		$('#loading').html('<?php echo $this->Html->image("/img/ajaxloader.gif") ?> Loading...');
+ 		
+		$.ajax({
+		    type: "post",       // Request method: post, get
+		    url: "http://localhost/alphabeta/browsecatalog/fetchProducts",
+		    data: {username: "wiiNinja", password: "isAnub"}, 
+		    dataType: "json",   // Expected response type
+		    contentType: "application/json",
+		    cache: false,
+		    success: function(response, status) {
+		        $('#productData').attr("style","display:block");
+		        $('#productData').text(response);
+		        $('#loading').html("");
+    	    },
+		    error: function(response, status) {
+		        alert('Error! response=' + response + " status=" + status + " response=" + response);
+		    }
+		});
+    });
+</script>
+
       <!-- Browse Catalog -->
- 
-        <div id="content" class="row">
+ 		<div id="content" class="row">
  
           <div class="large-12 columns">
             <div class="radius panel">
+
+			<div id="loading"></div>
+			<div id="productData" style="display:none"></div>
+
+			<br>
             
             <?php $length= count($categorydata) ;
 			for($i=0;$i<$length;$i++)
@@ -36,7 +66,7 @@
 					                	<a href="#" class="fllt">
 					               <!-- 	    <div class="fllt imageBox"><img width="60" height="80" src="/alphabeta/img/products/<?php echo ($categorydata[$i]['subcategories'][$j]['categories'][$k]['cat_image_folder']) ?>.jpg"></div>
 					               			<div class="fllt imageBox"><img width="60" height="80" src="<?php echo '/img/products/' . ($categorydata[$i]['subcategories'][$j]['categories'][$k]['cat_image_folder']) . '.jpg' ?>"></div> -->
-					               			<div class="fllt imageBox"><?php echo $this->Html->image('/img/products/' . ($categorydata[$i]['subcategories'][$j]['categories'][$k]['cat_image_folder']) . '.jpg',  array('width'=>'60px', 'height'=>'80px')) ?></div>
+					               			<div class="fllt imageBox"><!--<?php echo $this->Html->image('/img/products/' . ($categorydata[$i]['subcategories'][$j]['categories'][$k]['cat_image_folder']) . '.jpg',  array('width'=>'60px', 'height'=>'80px')) ?> --></div>
 					                	    <div class="fllt labelBox"><span class="arrow-right"><?php echo ($categorydata[$i]['subcategories'][$j]['categories'][$k]['cat_desc']) ?></span><span class="arrow-right">(<?php echo ($categorydata[$i]['subcategories'][$j]['categories'][$k]['product_count']) ?>)</span></div>
 					                	</a>
 					            	</li>
