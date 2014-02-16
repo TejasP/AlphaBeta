@@ -130,7 +130,7 @@
     	
     	
     function callBooking(){
-    	document.location.href = '/alphabeta/Booking';
+    	document.location.href = '<?php echo Configure::read('bookingURL'); ?>';
     }	
     	
     </script>
