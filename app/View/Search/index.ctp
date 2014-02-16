@@ -105,7 +105,7 @@
     		var length = nSearch.length;
 			if(nSearch!=null){
     			if(length>0){
-    				document.location.href = '/alphabeta/search?showResults=1&term='+nSearch+'&searchID='+searchID;
+    				document.location.href = '<?php echo Configure::read('searchURL'); ?>'+'?showResults=1&term='+nSearch+'&searchID='+searchID;
     			}
     		}	
     	}
