@@ -139,7 +139,8 @@ class UsersController extends AppController {
     	);
     		
     	
-		$return = $this->login_token->save($token_data);
+	//	$return = $this->login_token->save($token_data);
+		echo 'hi'.$return;
 	
     /* 	$log = $this->login_token->getDataSource()->getLog(false, false);
     	echo $log; */

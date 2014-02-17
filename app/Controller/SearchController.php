@@ -4,7 +4,7 @@ App::uses('AppNoAuthController', 'Controller');
 
 class SearchController extends AppNoAuthController {
 
-	public $uses = array('Search','medicines_header','Providers','medicines_detail','medicines_detail_searches');
+	public $uses = array('Search','medicines_header','Providers','medicines_detail','medicines_detail_searches','search_audit');
 	
 	public $helpers = array('Html');
 	
@@ -255,5 +255,31 @@ class SearchController extends AppNoAuthController {
 		return $this->redirect(
 				array('controller' => 'Search', 'action' => 'index')
 		);
+	}
+	
+	public function auditSearch($tag){
+	
+		$this->autoRender = false;
+				
+		$date = date('Y-m-d H:i:s', strtotime('now'));
+		
+		$audit_data = array(
+				'search_audit' => array(
+						'search_tags' => $tag,
+						'search_date' => $date
+				)
+		);
+		
+		
+		$return = 'false';
+		$var = $this->search_audit->save($audit_data);
+		if($var){
+			$return = 'true';
+		}
+	
+		$this->response->type('json');
+		$json = json_encode($return);
+		$this->response->body($json); 
+		
 	}
 }

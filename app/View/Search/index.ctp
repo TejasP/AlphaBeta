@@ -105,7 +105,11 @@
     		var length = nSearch.length;
 			if(nSearch!=null){
     			if(length>0){
-    				document.location.href = '<?php echo Configure::read('searchURL'); ?>'+'?showResults=1&term='+nSearch+'&searchID='+searchID;
+    					document.location.href = '<?php echo Configure::read('searchURL'); ?>'+'?showResults=1&term='+nSearch+'&searchID='+searchID;
+    					var $url = '<?php echo $this->Html->url(array('controller'=>'Search', 'action'=>'auditSearch'))?>'+'/'+nSearch;
+						$.getJSON($url, function(data){
+    					console.log("done.");
+    					});
     			}
     		}	
     	}
