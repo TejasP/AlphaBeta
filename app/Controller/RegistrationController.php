@@ -11,7 +11,21 @@ class RegistrationController extends AppNoAuthController {
 	}
 	
 	public function register() {
-		$this->layout = "foundation_without_topbar";
+		$this->layout = "foundation_search_home";
+		
+
+		 
+		$isBucketFilled =  $this->Cookie->read('basket-data');
+		 
+		$type= gettype($isBucketFilled);
+		 
+		if($type==='string'||$type==='NULL')
+		{
+			$this->set('isBucketFilled',"false");
+		}else{
+			$this->set('isBucketFilled',"true");
+		}
+		
 		$this->set('isUserLoggedIn','false');
 	}
 	

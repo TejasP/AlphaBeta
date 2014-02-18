@@ -56,10 +56,26 @@ class PostrequirementsController extends AppNoAuthController {
  * @return void
  */
 	public function add() {
-		$this->layout ="foundation_without_topbar";
-		
+		$this->layout ="foundation_search_home";
 		$user = Authsome::get('username');
 		$role = Authsome::get('role');
+		
+		if (($user=== 'NULL') || ($user== '')) {
+			$this->set('isUserLoggedIn',"false");
+		}else
+		{
+			$this->set('isUserLoggedIn',"true");
+		}
+		
+		$isBucketFilled =  $this->Cookie->read('basket-data');
+		
+		$type= gettype($isBucketFilled);
+		if($type==='string'||$type==='NULL')
+		{
+			$this->set('isBucketFilled',"false");
+		}else{
+			$this->set('isBucketFilled',"true");
+		}
 		
 		if (($user=== NULL) || ($user== '')) {
 			$this->Session->setFlash(__("Please Login to Post requirement"));

@@ -71,7 +71,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
               <li class="divider"></li>
 
               <li class="gs">
-                <a href="browsecatalog" class="button">Browse Catalog</a>
+                <a href="<?php echo $this->Html->url(array('controller'=>'browsecatalog', 'action'=>'index'))?>" class="button">Browse Catalog</a>
               </li>
               
        
@@ -79,7 +79,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
               <li class="divider"></li>
 
               <li class="gs">
-                <a data-reveal-id="myModalPostReq" id="aPostID" class="button" href="<?php echo $this->Html->url(array('controller'=>'Postrequirements', 'action'=>'add'))?>" data-reveal-ajax="true" onclick="javascript:callModal();">
+                <a  id="aPostID" class="button" href="<?php echo $this->Html->url(array('controller'=>'Postrequirements', 'action'=>'add'))?>">
     			Post your requirement
  	 			</a>
               </li>
@@ -93,10 +93,10 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 				<?php 
 				if($isUserLoggedIn === 'false'){ ?>
                   <li>
-                    <a data-reveal-id="myModalLogin" id="aLoginID" href="<?php echo $this->Html->url(array('controller'=>'users', 'action'=>'login'))?>" data-reveal-ajax="true" onclick="javascript:callLoginModal();">Login</a>
+                    <a id="aLoginID" href="<?php echo $this->Html->url(array('controller'=>'users', 'action'=>'login'))?>" >Login</a>
                   </li>
                   <li>
-                    <a data-reveal-id="myModalRegister" id="aRegisterID" href="<?php echo $this->Html->url(array('controller'=>'registration', 'action'=>'register'))?>" data-reveal-ajax="true" onclick="javascript:callRegisterModal();">Register</a>
+                    <a id="aRegisterID" href="<?php echo $this->Html->url(array('controller'=>'registration', 'action'=>'register'))?>">Register</a>
                   </li>
               	<?php }else{?>
               	  <li>

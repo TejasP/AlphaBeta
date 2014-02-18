@@ -1,5 +1,4 @@
 <div class="users form">
-<a class="close-reveal-modal">&#215;</a>
 <?php echo $this->Session->flash('auth'); ?>
 <?php echo $this->Form->create('User'); ?>
     <fieldset>

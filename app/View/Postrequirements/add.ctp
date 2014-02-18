@@ -1,4 +1,3 @@
-<a class="close-reveal-modal">&#215;</a>
 <div class="postrequirements form">
 <?php echo $this->Form->create('Postrequirement'); ?>
 	<fieldset>

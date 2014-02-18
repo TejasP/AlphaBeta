@@ -17,8 +17,6 @@ class DashboardController extends AppController {
 		}else
 		{
 			$this->set('isUserLoggedIn',"true");
-			$user = Authsome::get('username');
-			$role = Authsome::get('role');
 		}
 		
 		parent::polulateLeftNav($user,$role);

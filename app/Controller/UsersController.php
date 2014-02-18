@@ -6,7 +6,7 @@ class UsersController extends AppController {
 	
 	public $uses = array('user','login_token');
 
-	var $components = array('Session','RequestHandler');
+	var $components = array('Session','RequestHandler','Cookie');
 	
    /*  public function beforeFilter() {
         parent::beforeFilter();
@@ -15,7 +15,25 @@ class UsersController extends AppController {
 
     public function index() {
     	$user = Authsome::get('username');
-    	$role = Authsome::get('role');
+		$role = Authsome::get('role');
+		
+		if (($user=== 'NULL') || ($user== '')) {
+			$this->set('isUserLoggedIn',"false");
+		}else
+		{
+			$this->set('isUserLoggedIn',"true");
+		}
+		
+		$isBucketFilled =  $this->Cookie->read('basket-data');
+		
+		$type= gettype($isBucketFilled);
+		if($type==='string'||$type==='NULL')
+		{
+			$this->set('isBucketFilled',"false");
+		}else{
+			$this->set('isBucketFilled',"true");
+		}
+		
     	parent::polulateLeftNav($user,$role);
     	$this->layout = 'foundation_with_topbar';
         $this->User->recursive = 0;
@@ -93,7 +111,30 @@ class UsersController extends AppController {
     }
     
     public function login() {
-    	$this->layout = "foundation_without_topbar";
+    	$this->layout = "foundation_search_home";
+   	
+    	$user = Authsome::get('username');
+    	$role = Authsome::get('role');
+    	
+    	if (($user=== 'NULL') || ($user== '')) {
+    		$this->set('isUserLoggedIn',"false");
+    	}else
+    	{
+    		$this->set('isUserLoggedIn',"true");
+    	}
+    	
+    	
+    	$isBucketFilled =  $this->Cookie->read('basket-data');
+    	
+    	$type= gettype($isBucketFilled);
+    	
+    	if($type==='string'||$type==='NULL')
+    	{
+    		$this->set('isBucketFilled',"false");
+    	}else{
+    		$this->set('isBucketFilled',"true");
+    	}
+    	
     	if (empty($this->data)) {
     		return;
     	}
