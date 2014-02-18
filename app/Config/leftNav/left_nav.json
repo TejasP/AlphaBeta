@@ -1,5 +1,7 @@
 {
     "admin": {
+    	"Reivew":"Heading",
+        "Review Bookings": "/alphabeta/review/index",
     	"Quote Management":"Heading",
         "Quotes": "#",
         "Split":"divider",

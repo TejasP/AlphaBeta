@@ -3,7 +3,7 @@
           <div class="large-12 columns">
             <div class="radius panel">
 				<div class="row" id="CartTable"  <?php if (!empty($showCartTable)){ if($showCartTable == 'true'){ ?>  style="display:block" <?php }}?>  style="display:none" >
- 					<table>
+ 					<table class="responsive">
 					  <thead>
 					    <tr>
 					      <th><?php echo 'Medicine' ?></th>
@@ -54,7 +54,7 @@
 		            		</form>
  			</div>
  			<div class="row" id="locateResultTable"  style="display:none" >
- 					<table>
+ 					<table class="responsive">
 					  <thead>
 					    <tr>
 					      <th>Provider Name</th>

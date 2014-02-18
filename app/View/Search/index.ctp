@@ -46,7 +46,7 @@
             </form>
 
  			<div class="row" id="ResultsTable"  <?php if (!empty($showTable)){ if($showTable == 'true'){ ?>  style="display:block" <?php }}?>  style="display:none" >
- 					<table>
+ 					<table class="responsive">
 					  <thead>
 					    <tr>
 					      <th width="200"><?php echo 'Medicine' ?></th>

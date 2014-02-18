@@ -34,8 +34,10 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 	//	echo $this->Html->css('emediplus');
 		echo $this->Html->css('foundation');
 		echo $this->Html->css('jquery-ui-1.10.4.custom');
+		echo $this->Html->css('responsive-tables');
 
 		echo $this->Html->script('modernizr');
+
 				
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -118,7 +120,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 		echo $this->Html->script('/js/foundation/foundation.js');
 		echo $this->Html->script('/js/foundation/foundation.topbar.js');
 		echo $this->Html->script('/js/vendor/jquery-ui-1.10.4.custom.js');
-	
+		echo $this->Html->script('responsive-tables');
 		
 	?>
 	
