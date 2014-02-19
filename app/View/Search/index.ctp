@@ -44,8 +44,18 @@
               </div>
  
             </form>
+            
+            
 
  			<div class="row" id="ResultsTable"  <?php if (!empty($showTable)){ if($showTable == 'true'){ ?>  style="display:block" <?php }}?>  style="display:none" >
+		 			<dl class="tabs" data-tab>
+		  			<dd class="active"><a href="#MedicineTable">Medicine</a></dd>
+		  			<dd><a href="#PharmaTable">Pharmacy</a></dd>
+		  			<dd><a href="#HospitalTable">Hospitals</a></dd>
+		  			<dd><a href="#WebTable">Web Search</a></dd>
+					</dl>
+				<div class="tabs-content">
+ 					<div class="content active" id="MedicineTable">
  					<table class="responsive">
 					  <thead>
 					    <tr>
@@ -66,12 +76,20 @@
 					      <td>Content Goes Here</td>
 					      <td><a href="#" id="quote-<?php echo ($results[$i][0]['medicines_header']['medicine_id']) ?>" class="button tiny radius" onClick="javascript:callBook('<?php echo $results[$i][0]['medicines_header']['medicine_id'] ?>');">Choose</a></td>
 					   	  </tr>
-					
 					    <?php 
 					    	}
 						  ?>
 					  </tbody>
 					</table>
+					</div>
+					<div class="content" id="PharmaTable">
+
+					</div>
+					<div class="content"  id="HospitalTable">
+					</div>
+					<div class="content"  id="WebTable">
+					</div>
+				</div>
  			</div>
  			<div class="row" id="ChooseButton" <?php if (!empty($showTable)){ if($showTable == 'true'){ ?>  style="display:block" <?php }}?>  style="display:none">
  				<div class="large-8 columns">

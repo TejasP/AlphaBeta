@@ -84,8 +84,8 @@
 					                <div class="large-2 columns">
 					 		  			<a href="#" class="postfix button radius" onclick="javascript:getQuote();">Get Quote</a>
 					                </div>
-					  		<div class="large-2 columns">
-					  			&nbsp;
+					  				<div class="large-2 columns">
+					  				&nbsp;
 					                </div>
 					 
 					              </div>		 

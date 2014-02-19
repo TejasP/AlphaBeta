@@ -123,7 +123,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 		echo $this->Html->script('/js/vendor/jquery-ui-1.10.4.custom.js');
 		echo $this->Html->script('/js/foundation/foundation.reveal.js');
 		echo $this->Html->script('responsive-tables');
-		
+		echo $this->Html->script('/js/foundation/foundation.tab.js');
 	?>
 	
 	

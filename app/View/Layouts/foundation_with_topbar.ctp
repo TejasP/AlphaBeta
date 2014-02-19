@@ -72,7 +72,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
               <li class="divider"></li>
 
               <li class="gs">
-                <a href="#" class="button">Browse Catalog</a>
+                <a href="<?php echo $this->Html->url(array('controller'=>'browsecatalog', 'action'=>'index'))?>" class="button">Browse Catalog</a>
               </li>
               
        
@@ -121,7 +121,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 		echo $this->Html->script('/js/foundation/foundation.topbar.js');
 		echo $this->Html->script('/js/vendor/jquery-ui-1.10.4.custom.js');
 		echo $this->Html->script('responsive-tables');
-		
+		echo $this->Html->script('/js/foundation/foundation.tab.js');
 	?>
 	
 	

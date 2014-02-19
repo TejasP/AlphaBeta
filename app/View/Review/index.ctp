@@ -51,7 +51,7 @@
 					      <th></th>
 					    </tr>
 					    <tr>
-					      <td>Some COntent </td>
+					      <td>Some Content </td>
 					      <td>Some COntent 1 </td>
 					      <td>Some COntent 2</td>
 					      <td>Some COntent 3</td>
