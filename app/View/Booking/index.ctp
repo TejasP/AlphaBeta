@@ -1,4 +1,4 @@
-        <div class="row">
+       <div class="row" >
  
           <div class="large-12 columns">
             <div class="radius panel">
@@ -45,6 +45,26 @@
 					                </div>
 					                <div class="large-2 columns">
 					 				 <a href="#" class="postfix button radius" onclick="javascript:getProviderResults();">find</a>
+					                </div>
+					  				<div class="large-2 columns">
+					  				&nbsp;
+					                </div>
+					 
+					              </div>		 
+		            		</form>
+ 			</div>
+ 			<div class="row" id="quote"   style="display:none">
+		 		<form id="MyLocation">
+					              <div class="row">
+					              
+					                <div class="large-1 columns">
+					               	 &nbsp;
+					                </div>
+					                <div class="large-4 columns">
+					               	 <a href="#"  class="button radius" onClick="javascript:showlocation();">Filter based on My Location</a>
+					                </div>
+					                <div class="large-5 columns">
+					 		  		&nbsp;
 					                </div>
 					  				<div class="large-2 columns">
 					  				&nbsp;
@@ -179,5 +199,19 @@
 			$("#AddRemoveID").html('<select id="qty"><option value="1">1</option></select>');
 		}
 	}
+	
+	function showlocation() {
+   // One-shot position request.
+   	navigator.geolocation.getCurrentPosition(callback);
+	}
+ 
+	function callback(position) {
+   		console.log(position.coords.latitude);
+   		console.log(position.coords.longitude);
+	}
+	
+	window.onload=function(){
+		showlocation();
+	};
     	
     </script>

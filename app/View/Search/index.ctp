@@ -144,6 +144,7 @@
       			console.log("done.");
       			var quote= "#"+"quote-"+id;
       			$(quote).text('Chosen');
+      			$(quote).attr("class","button tiny radius disabled");
       			$("#book").attr("style","display:block");
       			$("#bucketID").attr("style","display:block");
  			});
