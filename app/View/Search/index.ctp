@@ -113,7 +113,188 @@
  
       <!-- End Search Bar -->
       
-        <script type='text/javascript'>
+      
+      
+      <div class="row" id="locateTable"  <?php if (!empty($showLocateTable)){ if($showLocateTable == 'true'){ ?>  style="display:block" <?php }}?>  style="display:none" >
+		 					<form id="locateP">
+					              <div class="row">
+					              
+					                <div class="large-3 columns">
+					                &nbsp;
+					                </div>
+					                <div class="large-5 columns">
+					                 <input type="search" id="LocateProvider" value="Please enter area, city or pincode" />
+					                </div>
+					                <div class="large-2 columns">
+					 				 <a href="#" class="postfix button radius" onclick="javascript:getProviderResults();">find</a>
+					                </div>
+					  				<div class="large-2 columns">
+					  				&nbsp;
+					                </div>
+					 
+					              </div>		 
+		            		</form>
+ 			</div>
+ 			<div class="row" id="Filter"   style="display:none">
+		 		<form id="MyLocation">
+					              <div class="row">
+					              
+					                <div class="large-1 columns">
+					               	 &nbsp;
+					                </div>
+					                <div class="large-4 columns">
+					               	 <a href="#"  class="button radius" onClick="javascript:showlocation();">Filter based on My Location</a>
+					                </div>
+					                <div class="large-5 columns">
+					 		  		&nbsp;
+					                </div>
+					  				<div class="large-2 columns">
+					  				&nbsp;
+					                </div>
+					 
+					              </div>		 
+		            		</form>
+ 			</div>
+ 			<div class="row" id="locateResultTable"  style="display:none" >
+ 					<table class="responsive">
+					  <thead>
+					    <tr>
+					      <th>Provider Name</th>
+					      <th>Provider Address</th>
+					      <th></th>
+					    </tr>
+					  </thead>
+					  <tbody>
+						<tr>
+					      <td id="ProviderName"></td>
+					      <td id="ProviderAddress"></td>
+					      <td>
+						  <a href="#" id="select" class="button tiny radius" onClick="javascript:callSelectProvider('');">Add </a>
+					      <a href="#" id="Remove" class="button tiny radius" onClick="javascript:callRemoveProvider('');">Remove</a>
+					      </td>
+					    </tr>
+					  </tbody>
+					</table>
+ 			</div>
+ 			<div class="row" id="quote"   style="display:none">
+		 		<form id="locateP">
+					              <div class="row">
+					              
+					                <div class="large-8 columns">
+					               	 &nbsp;
+					                </div>
+					                <div class="large-2 columns">
+					 		  			<a href="#" class="postfix button radius" onclick="javascript:getQuote();">Get Quote</a>
+					                </div>
+					  				<div class="large-2 columns">
+					  				&nbsp;
+					                </div>
+					 
+					              </div>		 
+		            		</form>
+ 			</div>
+ 			
+ 			
+ 		</div>
+ 	</div>
+ </div>
+ 
+      <script type='text/javascript'>
+
+	var input = document.getElementById('LocateProvider');
+		input.onfocus = function() {
+		input.value = '';
+	}
+
+   $(document).ready(function () {
+    	var $nSearch = $('#LocateProvider').val();
+    	
+        var options, a;
+        var $url = '<?php echo $this->Html->url(array('controller'=>'LocateProvider', 'action'=>'getAreaName'))?>'+"/"+$nSearch;
+        jQuery(function() {
+            options = { 
+                source: $url,
+                dataType: "json",
+                minChars: 4,
+            };
+            
+            a = $('#LocateProvider').autocomplete(options);
+        });
+    });
+    	
+   	function Locate(){
+      			$("#locateTable").attr("style","display:block");
+    	}
+    
+    
+     function getProviderResults(){
+    		var nSearch = $('#LocateProvider').val();
+    		var length = nSearch.length;
+			var $url = '<?php echo $this->Html->url(array('controller'=>'locateProvider', 'action'=>'getProviderNearArea'))?>'+'/'+nSearch;
+    
+			if(nSearch!=null){
+    			if(length>0){
+    			$.getJSON($url, function(data){
+      			console.log("Starting.");
+    			$("#locateResultTable").attr("style","display:block");
+    			$("#Filter").attr("style","display:block");
+				$("#quote").attr("style","display:block");
+				
+				$.each(data, function(index, value) {
+				    $("#ProviderName").text(value.Providers.provider_name);
+				    $("#ProviderAddress").text(value.Providers.address);
+				});
+      			console.log("done.");
+				});
+    			}
+    		}	
+    	}
+    	
+    function callRemove(medicineID){
+   		 var $url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'removeFromBucket'))?>'+'/'+medicineID;
+		 $.getJSON($url, function(data){
+		 		document.location.href = "<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'index'))?>";
+
+ 			});
+    }
+    function getQuote(){
+    	var userID = 001;
+    	var providerID= 001;
+    	var cartID = 001
+    	<?php if($isUserLoggedIn === 'false'){ 
+
+    	?>
+    		document.location.href = '<?php echo $this->Html->url(array('controller'=>'users', 'action'=>'login'))?>';
+		<?php }else{?>
+	        var $url = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'submitQuote'))?>'+'?userID='+userID+'&providerID='+providerID+'&cartID='+cartID;
+	        $.getJSON($url, function(data){
+	        	console.log(data);
+	        });
+	    	$('#quote').append('<div data-alert class="alert-box success radius">Your quote requested have been submitted.</div>');
+    	<?php }?>
+    }	
+
+	function callAdd(medicineID){
+		var a = document.getElementById("AddQty");
+		if(a==null){
+			$("#AddRemoveID").html('<select id="qty"><option value="1">1</option></select>');
+		}
+	}
+	
+	function showlocation() {
+   // One-shot position request.
+   	navigator.geolocation.getCurrentPosition(callback);
+	}
+ 
+	function callback(position) {
+   		console.log(position.coords.latitude);
+   		console.log(position.coords.longitude);
+	}
+	
+	window.onload=function(){
+		showlocation();
+	};
+      
     
   
     
@@ -153,7 +334,7 @@
     	
     	
     function callBooking(){
-    	document.location.href = '<?php echo Configure::read('bookingURL'); ?>';
+    	$("#locateTable").attr("style","display:block");
     }	
     	
     </script>

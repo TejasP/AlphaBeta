@@ -53,7 +53,7 @@
 					              </div>		 
 		            		</form>
  			</div>
- 			<div class="row" id="quote"   style="display:none">
+ 			<div class="row" id="Filter"   style="display:none">
 		 		<form id="MyLocation">
 					              <div class="row">
 					              
@@ -155,6 +155,7 @@
     			$.getJSON($url, function(data){
       			console.log("Starting.");
     			$("#locateResultTable").attr("style","display:block");
+    			$("#Filter").attr("style","display:block");
 				$("#quote").attr("style","display:block");
 				
 				$.each(data, function(index, value) {
@@ -181,9 +182,7 @@
     	<?php if($isUserLoggedIn === 'false'){ 
 
     	?>
-    		var a = $("#aLoginID");
-    		a.click();
-			
+    		document.location.href = '<?php echo $this->Html->url(array('controller'=>'users', 'action'=>'login'))?>';
 		<?php }else{?>
 	        var $url = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'submitQuote'))?>'+'?userID='+userID+'&providerID='+providerID+'&cartID='+cartID;
 	        $.getJSON($url, function(data){
