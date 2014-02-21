@@ -101,6 +101,45 @@ class BrowseCatalogController extends AppNoAuthController {
 		$this->render('index');
 	}
 
+	public function all (){
+		$this->layout = "foundation_search_home";
+		$isBucketFilled =  $this->Cookie->read('basket-data');
+		
+		$type= gettype($isBucketFilled);
+		if($type==='string'||$type==='NULL')
+		{
+			$this->set('isBucketFilled',"false");
+		}else{
+			$this->set('isBucketFilled',"true");
+		}
+		
+		$this->render('all');
+	}
+	
+	public function fetchCateogries (){
+		$this->layout = "foundation_search_home";
+
+		$query_catid = $this->request->query['catid'];
+	
+		$cat_options = array('conditions' => array(
+			'product_categories.cat_parent' => $query_catid)
+			);
+					
+		$categories= $this->product_categories->find('all',$cat_options);
+		$cat_length = count($categories);
+		for($j=0; $j<$cat_length; $j++)
+		{
+			$cat_id = $categories[$j]['product_categories']['cat_id'];
+			$cat_desc = $categories[$j]['product_categories']['cat_desc'];
+
+			$data[$j] = array("cat_id"=>$cat_id, "cat_desc"=>$cat_desc);
+		}
+		
+		$this->autoRender = false;
+		return json_encode($data);
+	}
+	
+	
 	public function fetchProducts (){
 		$this->layout = "foundation_search_home";
 		

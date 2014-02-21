@@ -45,7 +45,45 @@
 		        alert('Error! response=' + response + " status=" + status + " response=" + response);
 		    }
 		});
-*/    });
+*/   
+	 });
+	 
+	 $(function() {
+		$("#myaccordion").accordion({          
+			header: "h2",
+			active: false,
+			collapsible: true
+		});
+
+		$("h2", "#myaccordion").click(function(e) {
+			var $contentDiv = $("#myaccordion div").find("#" + $(this).next("div").attr("id") + "-1");
+			$contentDiv.html("need to fetch categories using ajax #" + $(this).next("div").attr("id"));
+			$.fetchCategories($contentDiv, "/alphabeta/browsecatalog/fetchCateogries?catid=" + $(this).find("a").attr("id"));
+		});
+
+		$("dd", "dl #mytab").click(function(e) {
+			var $panelId = $(this).find("a").attr("href");
+			var $contentDiv = $("div").find($panelId);
+			$contentDiv.html("need to fetch categories using ajax #" + $panelId);
+			$.fetchCategories($contentDiv, "/alphabeta/browsecatalog/fetchCateogries?catid=" + $(this).find("a").attr("id"));
+		});
+
+		$.fetchCategories = function($contentDiv, postUrl)
+		{
+			$.getJSON(postUrl, function(data){
+				var $catlinks = $("<div class='links'></div>");
+				for (var i=0, len=data.length; i < len; i++) {
+		        	var $cat = data[i];
+				  
+					$catlinks.append("<li><a href='#'\>" + $cat.cat_desc + "</a></li>");
+				}
+				$contentDiv.html($catlinks);
+				console.log(data);
+				console.log($contentDiv);
+      			console.log("done.");
+ 			});
+		}
+	});
 </script>
 
       <!-- Browse Catalog -->
@@ -60,23 +98,23 @@
 
 			<br>
 
-			<dl class="accordion" data-accordion=""> 
+			<dl id="myaccordion" class="accordion" data-accordion=""> 
             <?php $length= count($categorydata) ;
 			for($i=0;$i<$length;$i++)
 			{
 				$sublength = count($categorydata[$i]['subcategories']);
 			?>
 				<dd>
-					<a href="#panel<?php echo ($i+1) ?>" class="<?php echo (($i==0)?'active':'')?>"><?php echo ($categorydata[$i]['maindesc']) ?> ( <?php echo $sublength ?> )</a> 
+					<h2><a id="<?php echo ($categorydata[$i]['mainid']) ?>" href="#panel<?php echo ($i+1) ?>" class="<?php echo (($i==0)?'active':'')?>"><?php echo ($categorydata[$i]['maindesc']) ?> ( <?php echo $sublength ?> )</a></h2> 
 					<div id="panel<?php echo ($i+1) ?>" class="content"> 
-						<dl class="tabs" data-tab> 
+						<dl id="mytab" class="tabs" data-tab> 
 						<?php
 						for($j=0;$j<$sublength;$j++)
 						{
 							$catlength = count($categorydata[$i]['subcategories'][$j]['categories']);
 						?>
 							<dd class="<?php echo (($j==0)?'active':'')?>">
-								<a href="#panel<?php echo ($i+1) ?>-<?php echo ($j+1) ?>"><?php echo ($categorydata[$i]['subcategories'][$j]['subcatdesc']) ?> (  <?php echo $catlength ?> )</a>
+								<a id="<?php echo ($categorydata[$i]['subcategories'][$j]['subcatid'])?>" href="#panel<?php echo ($i+1) ?>-<?php echo ($j+1) ?>"><?php echo ($categorydata[$i]['subcategories'][$j]['subcatdesc']) ?> (  <?php echo $catlength ?> )</a>
 							</dd> 
 						<?php
 						}
@@ -94,9 +132,9 @@
 						<?php
 						}
 						?>
-						</div>
 					</div> 
 				</dd> 
+
 			<?php 
 			}
 			?>
