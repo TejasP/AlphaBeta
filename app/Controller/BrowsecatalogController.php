@@ -131,15 +131,26 @@ class BrowseCatalogController extends AppNoAuthController {
 		{
 			$cat_id = $categories[$j]['product_categories']['cat_id'];
 			$cat_desc = $categories[$j]['product_categories']['cat_desc'];
+			$cat_imagefolder = $categories[$j]['product_categories']['cat_image_folder'];
 
 			$poptions = array('conditions' => array(
 					'product_headers.prod_cat_id = ' => $cat_id)
 			);
 			
+			$products = null;
 			$presults = $this->product_headers->find('all',$poptions);
+			$pcounts  = count($presults);
+			for($k=0; $k<$pcounts; $k++)
+			{
+				$prod_id = $presults[$k]['product_headers']['prod_id'];
+				$prod_desc = $presults[$k]['product_headers']['prod_desc'];
+				$prod_company = $presults[$k]['product_headers']['prod_company'];
+				$prod_price = $presults[$k]['product_headers']['prod_price'];
 				
+				$products[$k] = array("prod_id"=>$prod_id, "prod_desc"=>$prod_desc, "prod_company"=>$prod_company, "prod_price"=>$prod_price); 
+			}
 			
-			$data[$j] = array("cat_id"=>$cat_id, "cat_desc"=>$cat_desc, "product_count"=>count($presults));
+			$data[$j] = array("cat_id"=>$cat_id, "cat_desc"=>$cat_desc, "cat_image_folder"=>$cat_imagefolder, "product_count"=> $pcounts, "products"=> $products);
 		}
 		
 		$this->autoRender = false;

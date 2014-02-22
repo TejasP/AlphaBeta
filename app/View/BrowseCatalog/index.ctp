@@ -47,7 +47,7 @@
 		});
 */   
 	 });
-	 
+
 	 $(function() {
 		$("#myaccordion").accordion({          
 			header: "h2",
@@ -65,21 +65,49 @@
 		$("dd", "dl #mytab").click(function(e) {
 			var $panelId = $(this).find("a").attr("href");
 			var $contentDiv = $("div").find($panelId);
-			$contentDiv.html("need to fetch categories using ajax #" + $panelId);
 			$.fetchCategories($contentDiv, "/alphabeta/browsecatalog/fetchCateogries?catid=" + $(this).find("a").attr("id"));
+		});
+
+		$(document).on('click', '.link' , function() {
+    	 	alert('click....' + $(this).html());
 		});
 
 		$.fetchCategories = function($contentDiv, postUrl)
 		{
 			$.getJSON(postUrl, function(data){
-				var $catlinks = $("<div class='links'></div>");
+/*				var $catlinks = $("<ul id='links'></ul>");
 				for (var i=0, len=data.length; i < len; i++) {
 		        	var $cat = data[i];
 				  
-					$catlinks.append("<li><a href='#'\>" + $cat.cat_desc + "(" + $cat.product_count + ")</a></li>");
+					$catlinks.append("<li><div class='link'><a href='#'\>" + $cat.cat_desc + "(" + $cat.product_count + ")</a></div></li>");
 				}
 				$contentDiv.html($catlinks);
- 			});
+*/	
+				var $prodlinks = $("<div id='prodlinks'></div>");
+				var $prodcat = $("<ul class='products'></ul>");
+				for (var i=0, len=data.length; i < len; i++) {
+		        	var $cat = data[i];
+				  	
+				  	var $products = data[i].products;
+					for(var j=0, len2=$products.length; j < len2; j++) {
+						var $product = $products[j];
+
+					  	var $prodcatli = $("<li class='products-item' style='width: 165px;'></li>");						
+						$prodlink  = $("<a href='#' class='fllt'></a>");
+						$prodlink.append("<div class='fllt imageBox'><img width='60px' height='80px' src='/alphabeta/img/products/" + $cat.cat_image_folder + "/" + $product.prod_id + "_small.jpg'></div>");
+						$prodlink.append("<div class='fllt labelBox'><span class='arrow-right'>" + $product.prod_desc + "</span><span class='arrow-right'>(Rs." + $product.prod_price + ")</span></div>");
+						
+						$prodcatli.append($prodlink);
+						
+						$prodcat.append($prodcatli);
+						
+					}
+				}
+				
+				$prodlinks.append($prodcat);
+				
+				$contentDiv.append($prodlinks);
+			});
 		}
 	});
 </script>
@@ -124,8 +152,8 @@
 						{
 							$catlength = count($categorydata[$i]['subcategories'][$j]['categories']);
 						?>
-							 <div class="content<?php echo (($j==0)?' active':'')?>" id="panel<?php echo ($i+1) ?>-<?php echo ($j+1) ?>"> 
-							 	<p><?php echo ($categorydata[$i]['subcategories'][$j]['subcatdesc']) ?> (<?php echo $catlength ?>)</p> 
+							 <div class="content<?php echo (($j==0)?' active':'')?>" id="panel<?php echo ($i+1) ?>-<?php echo ($j+1) ?>" style="width:100%"> 
+							 	<p></p> 
 							 </div>
 						<?php
 						}
@@ -138,49 +166,7 @@
 			?>
 			</dl>
 
-			
-<!--			<div style="display:block" id="productData"><dl data-accordion="" class="accordion"><dd><a href="#panel1">diabetes</a><div class="content active" id="panel1">testing....</div></dd><dd><a href="#panel2">beauty</a><div class="content" id="panel2">testing....</div></dd><dd><a href="#panel3">women-care</a><div class="content" id="panel3">testing....</div></dd><dd><a href="#panel4">personal-n-baby-care</a><div class="content" id="panel4">testing....</div></dd><dd><a href="#panel5">elderly-n-patient-care</a><div class="content" id="panel5">testing....</div></dd><dd><a href="#panel6">vitamins-n-supplements</a><div class="content" id="panel6">testing....</div></dd><dd><a href="#panel7">sports-nutrition</a><div class="content" id="panel7">testing....</div></dd><dd><a href="#panel8">health-food-n-drinks</a><div class="content" id="panel8">testing....</div></dd></dl></div>
-		<dl class="accordion" data-accordion=""> 
-			<dd>
-				<a href="#panel1">Accordion 1</a> 
-				<div id="panel1" class="content active"> 
-					<dl class="tabs" data-tab> 
-						<dd class="active">
-							<a href="#panel2-1">Tab 1</a>
-						</dd> 
-						<dd>
-							<a href="#panel2-2">Tab 2</a>
-						</dd> 
-						<dd>
-							<a href="#panel2-3">Tab 3</a>
-						</dd> 
-						<dd>
-							<a href="#panel2-4">Tab 4</a>
-						</dd> 
-					</dl> 
-					<div class="tabs-content">
-						 <div class="content active" id="panel2-1"> 
-						 	<p>First panel content goes here...</p> 
-						 </div>
-						 <div class="content" id="panel2-2">
-						 	<p>Second panel content goes here...</p> 
-						 </div> 
-						 <div class="content" id="panel2-3">
-						   <p>Third panel content goes here...</p> 
-						 </div>
-						 <div class="content" id="panel2-4"> <p>Fourth panel content goes here...</p> 
-						 </div> 
-					</div> 
-				</div> 
-			</dd> 
-			<dd> <a href="#panel2">Accordion 2</a> <div id="panel2" class="content"> Panel 2. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </div> 
-			</dd>
-			<dd> <a href="#panel3">Accordion 3</a> <div id="panel3" class="content"> Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </div>
-			</dd> 
-		</dl>
-			<br>
--->
-            
+<!--
             <?php $length= count($categorydata) ;
 			for($i=0;$i<$length;$i++)
 			{
@@ -209,9 +195,7 @@
 								?>
 									<li class="categories-item" style="width: 146px;">
 					                	<a href="#" class="fllt">
-					               <!-- 	    <div class="fllt imageBox"><img width="60" height="80" src="/alphabeta/img/products/<?php echo ($categorydata[$i]['subcategories'][$j]['categories'][$k]['cat_image_folder']) ?>.jpg"></div>
-					               			<div class="fllt imageBox"><img width="60" height="80" src="<?php echo '/img/products/' . ($categorydata[$i]['subcategories'][$j]['categories'][$k]['cat_image_folder']) . '.jpg' ?>"></div> -->
-					               			<div class="fllt imageBox"><!--<?php echo $this->Html->image('/img/products/' . ($categorydata[$i]['subcategories'][$j]['categories'][$k]['cat_image_folder']) . '.jpg',  array('width'=>'60px', 'height'=>'80px')) ?> --></div>
+					               			<div class="fllt imageBox"><?php echo $this->Html->image('/img/products/' . ($categorydata[$i]['subcategories'][$j]['categories'][$k]['cat_image_folder']) . '.jpg',  array('width'=>'60px', 'height'=>'80px')) ?></div>
 					                	    <div class="fllt labelBox"><span class="arrow-right"><?php echo ($categorydata[$i]['subcategories'][$j]['categories'][$k]['cat_desc']) ?></span><span class="arrow-right">(<?php echo ($categorydata[$i]['subcategories'][$j]['categories'][$k]['product_count']) ?>)</span></div>
 					                	</a>
 					            	</li>
@@ -227,49 +211,6 @@
             <?php
             }
             ?>
-<!--
- 			<div class="row" id="ResultsTable">
- 					<table>
-					  <thead>
-					    <tr>
-					      <th>Product ID</th>
-					      <th>Product Description</th>
-					      <th>Company</th>
-					      <th>Price</th>
-					    </tr>
-					  </thead>
-					  <tbody>
-						  <?php $length= count($results) ;
-						  for($i=0;$i<$length;$i++)
-						  {
-						  ?>
-						  <tr>
-					      <td><?php echo ($results[$i]['product_headers']['prod_id']) ?></td>
-					      <td><?php echo ($results[$i]['product_headers']['prod_desc']) ?></td>
-					      <td><?php echo ($results[$i]['product_headers']['prod_company']) ?></td>
-					      <td><?php echo ($results[$i]['product_headers']['prod_price']) ?></td>
-					   	  </tr>
-					
-					    <?php 
-					    	}
-						  ?>
-					  </tbody>
-					</table>
- 			</div>
    -->
     	  </div>
 	    </div>
- 
-        <script type='text/javascript'>
-      	function getResults(){
-    		var nSearch = $('#searchWord').val();
-    		var searchID = $('#searchID').val();
-    		var length = nSearch.length;
-			if(nSearch!=null){
-    			if(length>0){
-    				document.location.href = '/alphabeta/search?showResults=1&term='+nSearch+'&searchID='+searchID;
-    			}
-    		}	
-    	}
-    	
-    	</script>
