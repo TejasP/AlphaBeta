@@ -56,9 +56,10 @@
 		});
 
 		$("h2", "#myaccordion").click(function(e) {
-			var $contentDiv = $("#myaccordion div").find("#" + $(this).next("div").attr("id") + "-1");
-			$contentDiv.html("need to fetch categories using ajax #" + $(this).next("div").attr("id"));
-			$.fetchCategories($contentDiv, "/alphabeta/browsecatalog/fetchCateogries?catid=" + $(this).find("a").attr("id"));
+			// dynamically refresh the first tab inside this accordion
+			var $catId = $("div").find("#"+ $(this).next("div").attr("id")).find("a").attr("id");
+			var $tabcontentDiv = $("div #" + $(this).next("div").attr("id") + "-1");
+			$.fetchCategories($tabcontentDiv, "/alphabeta/browsecatalog/fetchCateogries?catid=" + $catId);
 		});
 
 		$("dd", "dl #mytab").click(function(e) {
@@ -75,12 +76,9 @@
 				for (var i=0, len=data.length; i < len; i++) {
 		        	var $cat = data[i];
 				  
-					$catlinks.append("<li><a href='#'\>" + $cat.cat_desc + "</a></li>");
+					$catlinks.append("<li><a href='#'\>" + $cat.cat_desc + "(" + $cat.product_count + ")</a></li>");
 				}
 				$contentDiv.html($catlinks);
-				console.log(data);
-				console.log($contentDiv);
-      			console.log("done.");
  			});
 		}
 	});

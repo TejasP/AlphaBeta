@@ -132,7 +132,14 @@ class BrowseCatalogController extends AppNoAuthController {
 			$cat_id = $categories[$j]['product_categories']['cat_id'];
 			$cat_desc = $categories[$j]['product_categories']['cat_desc'];
 
-			$data[$j] = array("cat_id"=>$cat_id, "cat_desc"=>$cat_desc);
+			$poptions = array('conditions' => array(
+					'product_headers.prod_cat_id = ' => $cat_id)
+			);
+			
+			$presults = $this->product_headers->find('all',$poptions);
+				
+			
+			$data[$j] = array("cat_id"=>$cat_id, "cat_desc"=>$cat_desc, "product_count"=>count($presults));
 		}
 		
 		$this->autoRender = false;
