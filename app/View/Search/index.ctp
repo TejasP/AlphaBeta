@@ -2,11 +2,9 @@
       <!-- Search Bar -->
  
         <div class="row">
- 
           <div class="large-12 columns">
             <div class="radius panel">
- 
-            <form id="search">
+	            <form id="search">
               <div class="row">
               
                 <div class="large-3 columns">
@@ -115,87 +113,12 @@
       
       
       
-      <div class="row" id="locateTable"  <?php if (!empty($showLocateTable)){ if($showLocateTable == 'true'){ ?>  style="display:block" <?php }}?>  style="display:none" >
-		 					<form id="locateP">
-					              <div class="row">
-					              
-					                <div class="large-3 columns">
-					                &nbsp;
-					                </div>
-					                <div class="large-5 columns">
-					                 <input type="search" id="LocateProvider" value="Please enter area, city or pincode" />
-					                </div>
-					                <div class="large-2 columns">
-					 				 <a href="#" class="postfix button radius" onclick="javascript:getProviderResults();">find</a>
-					                </div>
-					  				<div class="large-2 columns">
-					  				&nbsp;
-					                </div>
-					 
-					              </div>		 
-		            		</form>
- 			</div>
- 			<div class="row" id="Filter"   style="display:none">
-		 		<form id="MyLocation">
-					              <div class="row">
-					              
-					                <div class="large-1 columns">
-					               	 &nbsp;
-					                </div>
-					                <div class="large-4 columns">
-					               	 <a href="#"  class="button radius" onClick="javascript:showlocation();">Filter based on My Location</a>
-					                </div>
-					                <div class="large-5 columns">
-					 		  		&nbsp;
-					                </div>
-					  				<div class="large-2 columns">
-					  				&nbsp;
-					                </div>
-					 
-					              </div>		 
-		            		</form>
- 			</div>
- 			<div class="row" id="locateResultTable"  style="display:none" >
- 					<table class="responsive">
-					  <thead>
-					    <tr>
-					      <th>Provider Name</th>
-					      <th>Provider Address</th>
-					      <th></th>
-					    </tr>
-					  </thead>
-					  <tbody>
-						<tr>
-					      <td id="ProviderName"></td>
-					      <td id="ProviderAddress"></td>
-					      <td>
-						  <a href="#" id="select" class="button tiny radius" onClick="javascript:callSelectProvider('');">Add </a>
-					      <a href="#" id="Remove" class="button tiny radius" onClick="javascript:callRemoveProvider('');">Remove</a>
-					      </td>
-					    </tr>
-					  </tbody>
-					</table>
- 			</div>
- 			<div class="row" id="quote"   style="display:none">
-		 		<form id="locateP">
-					              <div class="row">
-					              
-					                <div class="large-8 columns">
-					               	 &nbsp;
-					                </div>
-					                <div class="large-2 columns">
-					 		  			<a href="#" class="postfix button radius" onclick="javascript:getQuote();">Get Quote</a>
-					                </div>
-					  				<div class="large-2 columns">
-					  				&nbsp;
-					                </div>
-					 
-					              </div>		 
-		            		</form>
- 			</div>
+      		
  			
  			
  		</div>
+ 		
+ 		
  	</div>
  </div>
  

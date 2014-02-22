@@ -35,7 +35,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 		echo $this->Html->css('foundation');
 		echo $this->Html->css('jquery-ui-1.10.4.custom');
 		echo $this->Html->css('responsive-tables');
-		
+		echo $this->Html->css('amazon_scroller.css');
 		echo $this->Html->script('modernizr');
 				
 		echo $this->fetch('meta');
@@ -125,6 +125,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 		echo $this->Html->script('responsive-tables');
 		echo $this->Html->script('/js/foundation/foundation.tab.js');
 		echo $this->Html->script('/js/foundation/foundation.accordion.js');
+		echo $this->Html->script('/js/amazon_scroller.js');
 	?>
 	
 	
@@ -135,15 +136,104 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
          <div class="row" >
 	        <div class="large-12 columns">
 	          <div class="panel">
-              <ul class="small-block-grid-1" id="searchTerm" >
-              </ul>
-              <ul class="small-block-grid-1" id="bucketID" <?php if($isBucketFilled==='true'){ ?> style="display:block" <?php }?> style="display:none">
-					<a href="<?php echo $this->Html->url(array('controller'=>'search', 'action'=>'showBucket'))?>">Bucket</a>
-              </ul>
-            </div>
+              	<ul class="small-block-grid-1" id="searchTerm" >
+              	</ul>
+              <!-- Kart -->
+              	<ul class="small-block-grid-1" id="bucketID">
+						<a href="javascript:openCart();" >My Selection</a>
+              	</ul>
+	          <div class="large-6 columns" style="display:none" id="karttwistie_container">              
+              	<div class="amazon_scroller" id="karttwistie">
+					<div class="amazon_scroller_mask">
+						<ul>
+						<li><a href="link1" title="title1"><img src="images/scroller_large_1.jpg" width="60" height="60" alt="title"/></a></li>
+						<li><a href="link2" title="title2"><img src="images/scroller_large_2.jpg" width="60" height="60" alt="title"/></a></li>
+						<li><a href="link3" title="title3"><img src="images/scroller_large_3.jpg" width="60" height="60" alt="title"/></a></li>
+						</ul>
+					</div>
+						<ul class="amazon_scroller_nav">
+								<li></li>
+								<li></li>
+						</ul>
+					<div style="clear: both"></div>
+				</div>
+			</div>
+			<div class="large-6 columns" id="locateTable" style="display:none">
+		 					<form id="locateP">
+					                <div class="large-4 columns">
+					                 <input type="search" id="LocateProvider" value="Please enter area, city or pincode" />
+					                </div>
+					                <div class="large-2 columns">
+					 				 <a href="#" class="postfix button radius" onclick="javascript:getProviderResults();">find</a>
+					                </div>
+		            		</form>
+ 			</div>
+          </div>
+            
+            <!-- Locate Bar-->
+            
+ 			<div class="row" id="Filter"   style="display:none">
+		 		<form id="MyLocation">
+					              <div class="row">
+					              
+					                <div class="large-1 columns">
+					               	 &nbsp;
+					                </div>
+					                <div class="large-4 columns">
+					               	 <a href="#"  class="button radius" onClick="javascript:showlocation();">Filter based on My Location</a>
+					                </div>
+					                <div class="large-5 columns">
+					 		  		&nbsp;
+					                </div>
+					  				<div class="large-2 columns">
+					  				&nbsp;
+					                </div>
+					 
+					              </div>		 
+		            		</form>
+ 			</div>
+ 			<div class="row" id="locateResultTable"  style="display:none" >
+ 					<table class="responsive">
+					  <thead>
+					    <tr>
+					      <th>Provider Name</th>
+					      <th>Provider Address</th>
+					      <th></th>
+					    </tr>
+					  </thead>
+					  <tbody>
+						<tr>
+					      <td id="ProviderName"></td>
+					      <td id="ProviderAddress"></td>
+					      <td>
+						  <a href="#" id="select" class="button tiny radius" onClick="javascript:callSelectProvider('');">Add </a>
+					      <a href="#" id="Remove" class="button tiny radius" onClick="javascript:callRemoveProvider('');">Remove</a>
+					      </td>
+					    </tr>
+					  </tbody>
+					</table>
+ 			</div>
+ 			<div class="row" id="quote"   style="display:none">
+		 		<form id="locateP">
+					              <div class="row">
+					              
+					                <div class="large-8 columns">
+					               	 &nbsp;
+					                </div>
+					                <div class="large-2 columns">
+					 		  			<a href="#" class="postfix button radius" onclick="javascript:getQuote();">Get Quote</a>
+					                </div>
+					  				<div class="large-2 columns">
+					  				&nbsp;
+					                </div>
+					 
+					              </div>		 
+		            		</form>
+ 			</div>
+
 	        </div>
          </div>
-         
+        <!-- Top Gap End -->         
        
        <!-- End Top Gap -->
  
@@ -217,8 +307,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 	
 	<script type="text/javascript">
     $(document).ready(function () {
-    
-   		
+
     	var $nSearch = $('#searchWord').val();
     	
         var options, a;
@@ -243,6 +332,23 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
         });
     });
     
+    
+      $(function() {
+				$("#karttwistie").amazon_scroller({
+                    scroller_title_show: 'disable',
+                    scroller_time_interval: '3000',
+                    scroller_window_background_color: "none",
+                    scroller_window_padding: '10',
+                    scroller_border_size: '0',
+                    scroller_border_color: '#CCC',
+                    scroller_images_width: '100',
+                    scroller_images_height: '80',
+                    scroller_title_size: '12',
+                    scroller_title_color: 'black',
+                    scroller_show_count: '2',
+                    directory: 'img'
+                });
+            });
   
     
     function callModal(){
@@ -258,6 +364,26 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
     function callRegisterModal(){
     	$('a.reveal-link').trigger('click');
 		$('a.close-reveal-modal').trigger('click');
+    }
+    
+    function openCart(){
+    	$("#karttwistie_container").toggle();
+    	$("#locateTable").toggle();
+    	$("#karttwistie").amazon_scroller({
+                    scroller_title_show: 'disable',
+                    scroller_time_interval: '3000',
+                    scroller_window_background_color: "none",
+                    scroller_window_padding: '10',
+                    scroller_border_size: '0',
+                    scroller_border_color: '#CCC',
+                    scroller_images_width: '100',
+                    scroller_images_height: '80',
+                    scroller_title_size: '12',
+                    scroller_title_color: 'black',
+                    scroller_show_count: '2',
+                    directory: 'img'
+                });
+    	
     }
     
 </script>
