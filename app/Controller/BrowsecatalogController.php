@@ -120,7 +120,70 @@ class BrowseCatalogController extends AppNoAuthController {
 		$this->layout = "foundation_search_home";
 
 		$query_catid = $this->request->query['catid'];
+
+		$cat_options = array('conditions' => array(
+				'product_categories.cat_parent' => $query_catid)
+		);
+			
+		
+		/*
+		 SELECT *
+		FROM  `product_headers`
+		WHERE prod_cat_id
+		IN (
+				SELECT cat_id
+				FROM  `product_categories`
+				WHERE cat_parent =2
+		)
+		LIMIT 0 , 30
+		*/
+		$options['joins'] = array(
+				array('table' => 'product_categories',
+						'alias' => 'product_categories',
+						'type' => 'inner',
+						'conditions' => array(
+								'product_headers.prod_cat_id = product_categories.cat_id'
+						)
+				)
+		);
+		
+		$options['conditions'] = array(
+			'product_categories.cat_parent' => $query_catid
+		);
+		
+		$options['limit'] = 10;
+		$options['fields'] = array('product_categories.cat_id', 'product_categories.cat_desc', 'product_categories.cat_image_folder','product_headers.prod_id','product_headers.prod_desc','product_headers.prod_company','product_headers.prod_price');
+		
+		$products = null;
+		$presults = $this->product_headers->find('all',$options);
+		$pcounts  = count($presults);
+		for($k=0; $k<$pcounts; $k++)
+		{
+			$cat_id = $presults[$k]['product_categories']['cat_id'];
+			$cat_desc = $presults[$k]['product_categories']['cat_desc'];
+			$cat_imagefolder = $presults[$k]['product_categories']['cat_image_folder'];
+			$prod_id = $presults[$k]['product_headers']['prod_id'];
+			$prod_desc = $presults[$k]['product_headers']['prod_desc'];
+			$prod_company = $presults[$k]['product_headers']['prod_company'];
+			$prod_price = $presults[$k]['product_headers']['prod_price'];
 	
+			$products[$k] = array("cat_id"=>$cat_id, "cat_desc"=>$cat_desc, "cat_imagefolder"=>$cat_imagefolder, "prod_id"=>$prod_id, "prod_desc"=>$prod_desc, "prod_company"=>$prod_company, "prod_price"=>$prod_price);
+		}
+		
+		$this->autoRender = false;
+		return json_encode($products);
+	/*	
+		$presults = $this->product_headers->find('all', array('limit' => 10,
+				'prod_cat_id' => array(
+						'product_categories.cat-id' => array(
+								'product_categories.cat_parent' => $query_catid))
+		)
+		);
+			
+		echo $presults;
+	*/	
+		
+		/*
 		$cat_options = array('conditions' => array(
 			'product_categories.cat_parent' => $query_catid)
 			);
@@ -133,7 +196,7 @@ class BrowseCatalogController extends AppNoAuthController {
 			$cat_desc = $categories[$j]['product_categories']['cat_desc'];
 			$cat_imagefolder = $categories[$j]['product_categories']['cat_image_folder'];
 
-			$poptions = array('conditions' => array(
+			$poptions = array('limit' => 2, 'conditions' => array(
 					'product_headers.prod_cat_id = ' => $cat_id)
 			);
 			
@@ -155,7 +218,7 @@ class BrowseCatalogController extends AppNoAuthController {
 		
 		$this->autoRender = false;
 		return json_encode($data);
-	}
+*/	}
 	
 	
 	public function fetchProducts (){

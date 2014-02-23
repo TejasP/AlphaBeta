@@ -1,4 +1,3 @@
-
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery.ui.widget.js"></script>
  
@@ -86,27 +85,21 @@
 				var $prodlinks = $("<div id='prodlinks'></div>");
 				var $prodcat = $("<ul class='products'></ul>");
 				for (var i=0, len=data.length; i < len; i++) {
-		        	var $cat = data[i];
-				  	
-				  	var $products = data[i].products;
-					for(var j=0, len2=$products.length; j < len2; j++) {
-						var $product = $products[j];
+					var $product = data[i];
 
-					  	var $prodcatli = $("<li class='products-item' style='width: 165px;'></li>");						
-						$prodlink  = $("<a href='#' class='fllt'></a>");
-						$prodlink.append("<div class='fllt imageBox'><img width='60px' height='80px' src='/alphabeta/img/products/" + $cat.cat_image_folder + "/" + $product.prod_id + "_small.jpg'></div>");
-						$prodlink.append("<div class='fllt labelBox'><span class='arrow-right'>" + $product.prod_desc + "</span><span class='arrow-right'>(Rs." + $product.prod_price + ")</span></div>");
-						
-						$prodcatli.append($prodlink);
-						
-						$prodcat.append($prodcatli);
-						
-					}
+				  	var $prodcatli = $("<li class='products-item' style='width: 165px;'></li>");						
+					$prodlink  = $("<a href='#' class='fllt'></a>");
+					$prodlink.append("<div class='fllt imageBox'><img width='60px' height='80px' src='/alphabeta/img/products/" + $product.cat_imagefolder + "/" + $product.prod_id + "_small.jpg'></div>");
+					$prodlink.append("<div class='fllt labelBox'><span class='arrow-right'>" + $product.prod_desc + "</span><span class='arrow-right'>(Rs." + $product.prod_price + ")<br></span><span class='arrow-right'>" + $product.cat_desc + "</span></div>");
+					
+					$prodcatli.append($prodlink);
+					
+					$prodcat.append($prodcatli);
 				}
 				
 				$prodlinks.append($prodcat);
 				
-				$contentDiv.append($prodlinks);
+				$contentDiv.html($prodlinks);
 			});
 		}
 	});
@@ -114,8 +107,36 @@
 
       <!-- Browse Catalog -->
  		<div id="content" class="row">
+
+        	<div class="large-2 columns">
+        		<div class="radius panel">
+					<div data-ved="0CCMQsis" class="sr__restricts" style="width:150px;">
+						<div class="sr__group">
+							<div class="sr__text">
+	<!--						<a	href="/search?tbs=vw:g&amp;tbm=shop&amp;q=chambray+shirt&amp;tbas=0&amp;sa=X&amp;ei=fC0KU4WsAqG5iQeNxIDoCQ&amp;ved=0CCQQvSs" class="sr__link"> --><a href="#"><span title="Clear all filters" class="sr__link-text"><span class="kcb"><input type="checkbox" value="clearall"></span>Clear all filters</span></a>
+							</div>
+						</div>
+						<div class="sr__group">
+							<div class="sr__title"><b>Price</b></div>
+							<div class="sr__text">
+	<!--							<a	href="/search?tbs=vw:g,cat:212,gender:v--2female,price:1,ppr_max:25&amp;tbm=shop&amp;q=chambray+shirt&amp;sa=X&amp;ei=fC0KU4WsAqG5iQeNxIDoCQ&amp;ved=0CCgQvSs" class="sr__link"> --><a href="#">
+									<span class="kcb"><input type="checkbox" value="xxx-200"></span><span title="Up to $25" class="sr__link-text">Up to Rs. 200</span></a>
+							</div>
+							<div class="sr__text">
+	<!--						<a href="/search?tbs=vw:g,cat:212,gender:v--2female,price:1,ppr_min:25,ppr_max:40&amp;tbm=shop&amp;q=chambray+shirt&amp;sa=X&amp;ei=fC0KU4WsAqG5iQeNxIDoCQ&amp;ved=0CCkQvSs" class="sr__link"> --><a href="#"><span class="kcb"><input type="checkbox" value="201-600"></span><span title="$25 &amp;#8211; $40" class="sr__link-text">Rs. 201 &ndash; Rs. 600</span></a>
+							</div>
+							<div class="sr__text">
+	<!--						<a href="/search?tbs=vw:g,cat:212,gender:v--2female,price:1,ppr_min:40,ppr_max:60&amp;tbm=shop&amp;q=chambray+shirt&amp;sa=X&amp;ei=fC0KU4WsAqG5iQeNxIDoCQ&amp;ved=0CCoQvSs" class="sr__link"> --><a href="#"><span class="kcb"><input type="checkbox" value="610-800"></span><span title="$40 &amp;#8211; $60" class="sr__link-text">Rs. 601 &ndash; Rs. 800</span></a>
+							</div>
+							<div class="sr__text">
+	<!--						<a href="/search?tbs=vw:g,cat:212,gender:v--2female,price:1,ppr_min:60&amp;tbm=shop&amp;q=chambray+shirt&amp;sa=X&amp;ei=fC0KU4WsAqG5iQeNxIDoCQ&amp;ved=0CCsQvSs" class="sr__link"> --><a href="#"><span class="kcb"><input type="checkbox" value="801-xxx"></span><span title="Over $60" class="sr__link-text">Over Rs. 801</span></a>
+							</div>    
+						</div>
+					</div>
+				</div>
+			</div>
  
-          <div class="large-12 columns">
+          <div class="large-10 columns">
             <div class="radius panel">
 
 			<div id="loading"></div>
