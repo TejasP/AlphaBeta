@@ -172,3 +172,10 @@
 .products-item a .imageBox img {
     vertical-align: bottom;
 }
+
+.productdetail {
+	display: inline-block;
+	width: 600px;
+	height: 200px;
+	border: 1px solid #F4F0E4; 
+}

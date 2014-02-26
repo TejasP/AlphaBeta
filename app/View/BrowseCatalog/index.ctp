@@ -67,10 +67,39 @@
 			$.fetchCategories($contentDiv, "/alphabeta/browsecatalog/fetchCateogries?catid=" + $(this).find("a").attr("id"));
 		});
 
-		$(document).on('click', '.link' , function() {
-    	 	alert('click....' + $(this).html());
-		});
+		$(document).on('click', 'ul.products li.products-item' , function() {
+			
+			// get the id
+			var $prodid = $(this).attr("id");
+			
+			// find total li items in ul
+			//alert("total:" + $("ul.products li.products-item").length);
+			
+			// hide already created li product details
+			$('li.productdetail').css('display','none');
+			
+			// find the current index
+			alert("current index:" + ($(this).index()) + " index%4:" + ($(this).index()%4));
+			
+			// find the index where the new li need to be added.
+			var $prodIndex = $(this).index() + (4 - ($(this).index()%4));
 
+			alert("will be added at :" + $prodIndex);
+			
+			// Verify if this id is already existing.. if no.. then add.. otherwise mark as visible
+    	 	if (!$('#D' + $prodid).length) {
+			    // ok to add stuff
+				$("ul.products li:nth-child(" + $prodIndex + ")").after("<li id='D" + $prodid + "' class='productdetail'>Need to fetch product detail using ajax for product ID-" + $prodid + "</li>");
+			}
+			else
+			{
+				//	alert("already exist");
+				$('#D' + $prodid).css('display','inline-block');
+			}
+			    	 	    	 	
+    	 	
+   		});
+		
 		$.fetchCategories = function($contentDiv, postUrl)
 		{
 			$.getJSON(postUrl, function(data){
@@ -87,10 +116,10 @@
 				for (var i=0, len=data.length; i < len; i++) {
 					var $product = data[i];
 
-				  	var $prodcatli = $("<li class='products-item' style='width: 165px;'></li>");						
+				  	var $prodcatli = $("<li class='products-item' id='" + $product.prod_id + "' style='width: 165px;'></li>");						
 					$prodlink  = $("<a href='#' class='fllt'></a>");
 					$prodlink.append("<div class='fllt imageBox'><img width='60px' height='80px' src='/alphabeta/img/products/" + $product.cat_imagefolder + "/" + $product.prod_id + "_small.jpg'></div>");
-					$prodlink.append("<div class='fllt labelBox'><span class='arrow-right'>" + $product.prod_desc + "</span><span class='arrow-right'>(Rs." + $product.prod_price + ")<br></span><span class='arrow-right'>" + $product.cat_desc + "</span></div>");
+					$prodlink.append("<div class='fllt labelBox' style='height:85px;'><span class='arrow-right'>" + $product.prod_desc + "</span><span class='arrow-right'>(Rs." + $product.prod_price + ")<br></span><span class='arrow-right'>" + $product.cat_desc + "</span></div>");
 					
 					$prodcatli.append($prodlink);
 					

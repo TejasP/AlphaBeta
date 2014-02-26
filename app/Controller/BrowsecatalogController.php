@@ -151,7 +151,7 @@ class BrowseCatalogController extends AppNoAuthController {
 			'product_categories.cat_parent' => $query_catid
 		);
 		
-		$options['limit'] = 10;
+		$options['limit'] = 8;
 		$options['fields'] = array('product_categories.cat_id', 'product_categories.cat_desc', 'product_categories.cat_image_folder','product_headers.prod_id','product_headers.prod_desc','product_headers.prod_company','product_headers.prod_price');
 		
 		$products = null;
