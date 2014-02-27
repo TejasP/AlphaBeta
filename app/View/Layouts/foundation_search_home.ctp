@@ -126,6 +126,11 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 		echo $this->Html->script('/js/foundation/foundation.tab.js');
 		echo $this->Html->script('/js/foundation/foundation.accordion.js');
 		echo $this->Html->script('/js/amazon_scroller.js');
+
+
+		echo $this->Html->script('/js/vendor/jquery-ui.js');
+		echo $this->Html->script('/js/vendor/jquery.ui.widget.js');
+
 	?>
 	
 	
