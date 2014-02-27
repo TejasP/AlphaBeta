@@ -1,6 +1,3 @@
-<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-<script src="//code.jquery.com/ui/1.10.4/jquery.ui.widget.js"></script>
- 
 <script language="javascript">
 
     $(document).ready(function () {
@@ -69,54 +66,61 @@
 
 		$(document).on('click', 'ul.products li.products-item' , function() {
 			
+			var $catid = $(this).parent().attr("id");
+			var $prodsection = $(this).attr("class");
+			
+			//alert("$prodsection:" + $prodsection);
+			
+			//alert($(this).parent().attr("id"));
+			
 			// get the id
-			var $prodid = $(this).attr("id");
-			
-			// find total li items in ul
-			//alert("total:" + $("ul.products li.products-item").length);
-			
-			// hide already created li product details
-			$('li.productdetail').css('display','none');
-			
-			// find the current index
-			alert("current index:" + ($(this).index()) + " index%4:" + ($(this).index()%4));
-			
-			// find the index where the new li need to be added.
-			var $prodIndex = $(this).index() + (4 - ($(this).index()%4));
+			var $currprodid = $(this).attr("id");
 
-			alert("will be added at :" + $prodIndex);
+			// find the current index
+			var $found  = false;			
+			var $prodno = 1;
+			$("ul#" + $catid + " li.products-item" ).each(function( index ) {
+				var $prodid = $(this).attr('id');
+
+				if($prodid == $currprodid) {
+					$found  = true;
+				}
+				if(!($found))
+					$prodno++;
+			});
+			
+//			alert("index......." + $prodno);
+			
+			if(($prodno%4) > 0) {
+				$prodno = $prodno + (4 - ($prodno%4));
+			}
+			
+//			alert("to be added at......." + $prodno + " " + $("ul#" + $catid + " li.products-item:eq(" + ($prodno-1) + ")").html());
+
+			// hide already created li product details
+			$('ul#' + $catid + ' li.productdetail').css('display','none');
 			
 			// Verify if this id is already existing.. if no.. then add.. otherwise mark as visible
-    	 	if (!$('#D' + $prodid).length) {
+    	 	if (!$('#D' + $currprodid).length) {
 			    // ok to add stuff
-				$("ul.products li:nth-child(" + $prodIndex + ")").after("<li id='D" + $prodid + "' class='productdetail'>Need to fetch product detail using ajax for product ID-" + $prodid + "</li>");
+				$("ul#" + $catid + " li.products-item:eq(" + ($prodno-1) + ")").after("<li id='D" + $currprodid + "' class='productdetail'>Need to fetch product detail using ajax for product ID-" + $currprodid + "</li>");
 			}
 			else
 			{
 				//	alert("already exist");
-				$('#D' + $prodid).css('display','inline-block');
+				$('#D' + $currprodid).css('display','inline-block');
 			}
-			    	 	    	 	
-    	 	
    		});
 		
 		$.fetchCategories = function($contentDiv, postUrl)
 		{
 			$.getJSON(postUrl, function(data){
-/*				var $catlinks = $("<ul id='links'></ul>");
-				for (var i=0, len=data.length; i < len; i++) {
-		        	var $cat = data[i];
-				  
-					$catlinks.append("<li><div class='link'><a href='#'\>" + $cat.cat_desc + "(" + $cat.product_count + ")</a></div></li>");
-				}
-				$contentDiv.html($catlinks);
-*/	
 				var $prodlinks = $("<div id='prodlinks'></div>");
-				var $prodcat = $("<ul class='products'></ul>");
+				var $prodcat = $("<ul id='" + data[0].cat_id + "' class='products'></ul>");
 				for (var i=0, len=data.length; i < len; i++) {
 					var $product = data[i];
 
-				  	var $prodcatli = $("<li class='products-item' id='" + $product.prod_id + "' style='width: 165px;'></li>");						
+				  	var $prodcatli = $("<li class='products-item' id='" + $product.cat_id + "-" + $product.prod_id + "' style='width: 165px;'></li>");						
 					$prodlink  = $("<a href='#' class='fllt'></a>");
 					$prodlink.append("<div class='fllt imageBox'><img width='60px' height='80px' src='/alphabeta/img/products/" + $product.cat_imagefolder + "/" + $product.prod_id + "_small.jpg'></div>");
 					$prodlink.append("<div class='fllt labelBox' style='height:85px;'><span class='arrow-right'>" + $product.prod_desc + "</span><span class='arrow-right'>(Rs." + $product.prod_price + ")<br></span><span class='arrow-right'>" + $product.cat_desc + "</span></div>");
