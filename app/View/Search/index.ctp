@@ -1,6 +1,7 @@
 
+
       <!-- Search Bar -->
- 
+<section> 
         <div class="row">
           <div class="large-12 columns">
             <div class="radius panel">
@@ -46,9 +47,9 @@
             
 
  			<div class="row" id="ResultsTable"  <?php if (!empty($showTable)){ if($showTable == 'true'){ ?>  style="display:block" <?php }}?>  style="display:none" >
-		 			<dl class="tabs" data-tab>
+		 			<dl class="tabs" data-tab id="dTab">
 		  			<dd class="active"><a href="#MedicineTable">Medicine</a></dd>
-		  			<dd><a href="#PharmaTable">Pharmacy</a></dd>
+		  			<dd><a href="#PharmaTableContainer">Pharmacy</a></dd>
 		  			<dd><a href="#HospitalTable">Hospitals</a></dd>
 		  			<dd><a href="#WebTable">Web Search</a></dd>
 					</dl>
@@ -80,8 +81,26 @@
 					  </tbody>
 					</table>
 					</div>
-					<div class="content" id="PharmaTable">
-
+					<div class="content" id="PharmaTableContainer">
+						<table class="responsive" id="PharmaTable">
+						  <thead>
+						    <tr>
+						      <th>Provider Name</th>
+						      <th>Provider Address</th>
+						      <th></th>
+						    </tr>
+						  </thead>
+						  <tbody>
+							<tr>
+						      <td id="ProviderName"></td>
+						      <td id="ProviderAddress"></td>
+						      <td>
+							  <a href="#" id="select" class="button tiny radius" onClick="javascript:callSelectProvider('');">Add </a>
+						      <a href="#" id="Remove" class="button tiny radius" onClick="javascript:callRemoveProvider('');">Remove</a>
+						      </td>
+						    </tr>
+						  </tbody>
+					</table>
 					</div>
 					<div class="content"  id="HospitalTable">
 					</div>
@@ -121,7 +140,7 @@
  		
  	</div>
  </div>
- 
+</section> 
       <script type='text/javascript'>
 
 	var input = document.getElementById('LocateProvider');
@@ -150,28 +169,7 @@
     	}
     
     
-     function getProviderResults(){
-    		var nSearch = $('#LocateProvider').val();
-    		var length = nSearch.length;
-			var $url = '<?php echo $this->Html->url(array('controller'=>'locateProvider', 'action'=>'getProviderNearArea'))?>'+'/'+nSearch;
-    
-			if(nSearch!=null){
-    			if(length>0){
-    			$.getJSON($url, function(data){
-      			console.log("Starting.");
-    			$("#locateResultTable").attr("style","display:block");
-    			$("#Filter").attr("style","display:block");
-				$("#quote").attr("style","display:block");
-				
-				$.each(data, function(index, value) {
-				    $("#ProviderName").text(value.Providers.provider_name);
-				    $("#ProviderAddress").text(value.Providers.address);
-				});
-      			console.log("done.");
-				});
-    			}
-    		}	
-    	}
+     
     	
     function callRemove(medicineID){
    		 var $url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'removeFromBucket'))?>'+'/'+medicineID;

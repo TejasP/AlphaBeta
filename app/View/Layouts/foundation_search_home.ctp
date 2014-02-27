@@ -44,14 +44,8 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 	?>
 </head>
 <body>
-
-<div class="row">
-  <div class="large-12 columns">
-    <!-- Navigation -->
-
-    <div class="row">
-      <div class="large-12 columns">
-        <nav class="top-bar" data-topbar>
+<header>
+<nav class="top-bar" data-topbar>
           <ul class="title-area">
             <!-- Title Area -->
 
@@ -110,9 +104,10 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
               </li>
             </ul>
           </section>
-        </nav><!-- End Top Bar -->
-      </div>
-    </div><!-- End Navigation -->
+        </nav>
+</header>
+<!-- End Top Bar -->
+
     
 	<?php
 		echo $this->Html->script('/js/vendor/jquery');
@@ -127,127 +122,68 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 		echo $this->Html->script('/js/foundation/foundation.accordion.js');
 		echo $this->Html->script('/js/amazon_scroller.js');
 	?>
-	
-	
-	 <div class="row">
-     <div class="large-12 columns">
- 
-       <!-- Top Gap -->
-         <div class="row" >
-	        <div class="large-12 columns">
-	          <div class="panel">
-              	<ul class="small-block-grid-1" id="searchTerm" >
-              	</ul>
-              <!-- Kart -->
-              	<ul class="small-block-grid-1" id="bucketID">
-						<a href="javascript:openCart();" >My Selection</a>
-              	</ul>
-	          <div class="large-6 columns" style="display:none" id="karttwistie_container">              
-              	<div class="amazon_scroller" id="karttwistie">
-					<div class="amazon_scroller_mask">
-						<ul>
-						<li><a href="link1" title="title1"><img src="images/scroller_large_1.jpg" width="60" height="60" alt="title"/></a></li>
-						<li><a href="link2" title="title2"><img src="images/scroller_large_2.jpg" width="60" height="60" alt="title"/></a></li>
-						<li><a href="link3" title="title3"><img src="images/scroller_large_3.jpg" width="60" height="60" alt="title"/></a></li>
-						</ul>
+       <!-- Top sections -->
+       				<!-- Selection Bar End-->
+			<section>
+					<hr/>
+		            <div class="large-4 medium-2 columns">
+							<a href="javascript:openCart();" >My Selection</a>
 					</div>
-						<ul class="amazon_scroller_nav">
-								<li></li>
-								<li></li>
-						</ul>
-					<div style="clear: both"></div>
-				</div>
-			</div>
-			<div class="large-6 columns" id="locateTable" style="display:none">
-		 					<form id="locateP">
-					                <div class="large-4 columns">
+					<div class="large-8 medium-10 columns" >
+			          		<div style="display:none" id="karttwistie_container">              
+		    	          		<div class="amazon_scroller" id="karttwistie">
+									<div class="amazon_scroller_mask">
+									<ul>
+									<li><a href="link1" title="title1"><img src="images/scroller_large_1.jpg" width="60" height="60" alt="title"/></a></li>
+									<li><a href="link2" title="title2"><img src="images/scroller_large_2.jpg" width="60" height="60" alt="title"/></a></li>
+									<li><a href="link3" title="title3"><img src="images/scroller_large_3.jpg" width="60" height="60" alt="title"/></a></li>
+									</ul>
+									</div>
+									<ul class="amazon_scroller_nav">
+										<li></li>
+										<li></li>
+									</ul>
+								<div style="clear: both"></div>
+								</div>
+							</div>
+				    </div>
+				<hr/>
+	    </section>
+	    			<!-- Selection Bar End-->
+	                <!-- Locate Bar-->
+	    <section>
+	    			<div class="large-4 medium-2 columns">
+							<a href="javascript:openLocation();" >My Location</a>
+					</div>
+					<div class="large-8 medium-10 columns">
+						<div id="locateTable" style="display:none">
+									<div class="large-4 medium-5 columns">				
 					                 <input type="search" id="LocateProvider" value="Please enter area, city or pincode" />
-					                </div>
-					                <div class="large-2 columns">
-					 				 <a href="#" class="postfix button radius" onclick="javascript:getProviderResults();">find</a>
-					                </div>
-		            		</form>
- 			</div>
-          </div>
-            
-            <!-- Locate Bar-->
-            
- 			<div class="row" id="Filter"   style="display:none">
-		 		<form id="MyLocation">
-					              <div class="row">
-					              
-					                <div class="large-1 columns">
-					               	 &nbsp;
-					                </div>
-					                <div class="large-4 columns">
-					               	 <a href="#"  class="button radius" onClick="javascript:showlocation();">Filter based on My Location</a>
-					                </div>
-					                <div class="large-5 columns">
-					 		  		&nbsp;
-					                </div>
-					  				<div class="large-2 columns">
-					  				&nbsp;
-					                </div>
-					 
-					              </div>		 
-		            		</form>
- 			</div>
- 			<div class="row" id="locateResultTable"  style="display:none" >
- 					<table class="responsive">
-					  <thead>
-					    <tr>
-					      <th>Provider Name</th>
-					      <th>Provider Address</th>
-					      <th></th>
-					    </tr>
-					  </thead>
-					  <tbody>
-						<tr>
-					      <td id="ProviderName"></td>
-					      <td id="ProviderAddress"></td>
-					      <td>
-						  <a href="#" id="select" class="button tiny radius" onClick="javascript:callSelectProvider('');">Add </a>
-					      <a href="#" id="Remove" class="button tiny radius" onClick="javascript:callRemoveProvider('');">Remove</a>
-					      </td>
-					    </tr>
-					  </tbody>
-					</table>
- 			</div>
- 			<div class="row" id="quote"   style="display:none">
-		 		<form id="locateP">
-					              <div class="row">
-					              
-					                <div class="large-8 columns">
-					               	 &nbsp;
-					                </div>
-					                <div class="large-2 columns">
-					 		  			<a href="#" class="postfix button radius" onclick="javascript:getQuote();">Get Quote</a>
-					                </div>
-					  				<div class="large-2 columns">
-					  				&nbsp;
-					                </div>
-					 
-					              </div>		 
-		            		</form>
- 			</div>
-
-	        </div>
-         </div>
-        <!-- Top Gap End -->         
+					                 </div>
+					                 <div class="large-4 medium-5 columns">
+					 				 <a href="#" class="button radius" onclick="javascript:getProviderResults();">find</a>
+					 				 </div>
+ 					  	</div>
+					</div><hr/>
+	    </section>
+	    			<!-- Locate Bar End-->
+	    
+        <!-- Top Sections End -->         
        
-       <!-- End Top Gap -->
+       <!-- Mid Section -->
  
  		<?php echo $this->Session->flash(); ?>
 
 		<?php echo $this->fetch('content'); ?>
  
+        <!-- Mid Section End-->
  
       <!-- Footer -->
  
-        <footer class="row">
-        <div class="large-12 columns"><hr />
-            <div class="row">
  
+ 	<footer>
+        <div class="xxlarge-12 columns"><hr/>
+            <div class="row">
               <div class="large-6 columns">
                   <p>&copy; 2014 eMediplus</p>
               </div>
@@ -266,18 +202,8 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
       </footer>
  
       <!-- End Footer -->
- 
 
-	<div id="myModalLogin" class="reveal-modal" data-reveal></div>
-    </div>
-    
-	<div id="myModalRegister" class="reveal-modal" data-reveal></div>
-    </div>
-
-	<div id="myModalPostReq" class="reveal-modal" data-reveal></div>
-    </div>
-
-  </div>
+  
     
       
 	<script>
@@ -368,12 +294,12 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
     
     function openCart(){
     	$("#karttwistie_container").toggle();
-    	$("#locateTable").toggle();
+
     	$("#karttwistie").amazon_scroller({
                     scroller_title_show: 'disable',
                     scroller_time_interval: '3000',
                     scroller_window_background_color: "none",
-                    scroller_window_padding: '10',
+                    scroller_window_padding: '0',
                     scroller_border_size: '0',
                     scroller_border_color: '#CCC',
                     scroller_images_width: '100',
@@ -386,6 +312,41 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
     	
     }
     
+    function openLocation(){
+        	$("#locateTable").toggle();
+    }
+    
+    function getProviderResults(){
+    		var nSearch = $('#LocateProvider').val();
+    		var length = nSearch.length;
+			var $url = '<?php echo $this->Html->url(array('controller'=>'locateProvider', 'action'=>'getProviderNearArea'))?>'+'/'+nSearch;
+    
+    	
+				
+				
+				
+			if(nSearch!=null){
+    			if(length>0){
+    			$.getJSON($url, function(data){
+      			console.log("Starting.");
+      			$("#PharmaTable").attr("style","display:block");
+    			$("#locateResultTable").attr("style","display:none");
+    			$("#Filter").attr("style","display:none");
+				$("#quote").attr("style","display:none");
+				$("#ResultsTable").attr("style","display:block");
+				
+				$("a[href='#PharmaTableContainer']").click();
+				
+				
+				$.each(data, function(index, value) {
+				    $("#ProviderName").text(value.Providers.provider_name);
+				    $("#ProviderAddress").text(value.Providers.address);
+				});
+      			console.log("done.");
+				});
+    			}
+    		}	
+    	}
 </script>
   </body>
 </html>
