@@ -212,7 +212,7 @@ class SearchController extends AppNoAuthController {
 			for($i=0;$i<$length;$i++){
 				$medID= $medicines_detail_searches[$i]['medicines_detail_searches']['medicine_id'];
 				
-				$moptions = array('fields' => array('medicines_header.medicine_name','medicines_header.mfg_name','medicines_header.medicine_id'),'conditions' => array(
+				$moptions = array('fields' => array('medicines_header.medicine_name','medicines_header.mfg_name','medicines_header.medicine_id','medicines_header.price',),'conditions' => array(
 						'medicines_header.medicine_id = ' => $medID)
 				);
 					

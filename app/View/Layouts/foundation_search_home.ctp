@@ -128,11 +128,28 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 
 	?>
        <!-- Top sections -->
-       				<!-- Selection Bar End-->
+       		<section>
+       				<div class="row">
+	       		 		<div class="large-3 columns">
+								<div class="step"><a href="#">Search</a></div>
+						</div>
+						<div class="large-3 columns">
+								<div class="step"><a href="#">Select</a></div>
+						</div>
+						 <div class="large-3 columns">
+								<div class="step"><a href="#">Locate</a></div>
+						</div>
+						 <div class="large-3 columns">
+								<div class="step"><a href="#">Get Quote</a></div>
+						</div>
+					</div>
+       		</section>
+       	
 			<section>
-					<hr/>
+					</br>
+					</br>
 		            <div class="large-4 medium-2 columns">
-							<a href="javascript:openCart();" >My Selection</a>
+							<a href="javascript:openCart();" id="bucketID">My Selection(0)</a>
 					</div>
 					<div class="large-8 medium-10 columns" >
 			          		<div style="display:none" id="karttwistie_container">              
@@ -152,11 +169,11 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 								</div>
 							</div>
 				    </div>
-				<hr/>
+				<hr/></br>
 	    </section>
 	    			<!-- Selection Bar End-->
 	                <!-- Locate Bar-->
-	    <section>
+	    <section>	
 	    			<div class="large-4 medium-2 columns">
 							<a href="javascript:openLocation();" >My Location</a>
 					</div>
@@ -169,9 +186,11 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 					 				 <a href="#" class="button radius" onclick="javascript:getProviderResults();">find</a>
 					 				 </div>
  					  	</div>
-					</div><hr/>
+					</div>
+					<hr/>
 	    </section>
 	    			<!-- Locate Bar End-->
+	
 	    
         <!-- Top Sections End -->         
        
@@ -187,7 +206,9 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
  
  
  	<footer>
-        <div class="xxlarge-12 columns"><hr/>
+ 	<hr/>
+        <div class="xxlarge-12 columns">
+        	<div class="medifooter">
             <div class="row">
               <div class="large-6 columns">
                   <p>&copy; 2014 eMediplus</p>
@@ -201,11 +222,11 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
                     <li><a href="#">Link 4</a></li>
                   </ul>
               </div>
- 
+ 			</div>
             </div>
         </div>
       </footer>
- 
+​​​​​​​​​​​​​​​​​​​​​​​​
       <!-- End Footer -->
 
   

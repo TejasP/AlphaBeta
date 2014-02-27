@@ -55,12 +55,13 @@
 					</dl>
 				<div class="tabs-content">
  					<div class="content active" id="MedicineTable">
+ 					<?php if (!empty($results)){ ?>
  					<table class="responsive">
 					  <thead>
 					    <tr>
 					      <th width="200"><?php echo 'Medicine' ?></th>
 					      <th>Item 	Description</th>
-					      <th width="150">Price</th>
+					      <th width="150">Indicative Price(&#8377;)</th>
 					      <th width="150"></th>
 					    </tr>
 					  </thead>
@@ -70,9 +71,9 @@
 						  {
 						  ?>
 						  <tr>
-					      <td><?php echo ($results[$i][0]['medicines_header']['medicine_name']) ?></td>
+					      <td id="details-<?php echo ($results[$i][0]['medicines_header']['medicine_id']) ?>"><a href="#" onClick="javascript:openDetail('<?php echo $results[$i][0]['medicines_header']['medicine_id'] ?>');"><?php echo ($results[$i][0]['medicines_header']['medicine_name']) ?></a></td>
 					      <td><?php echo ($results[$i][0]['medicines_header']['mfg_name']) ?></td>
-					      <td>Content Goes Here</td>
+					      <td><?php echo ($results[$i][0]['medicines_header']['price']) ?> &#8377; </td>
 					      <td><a href="#" id="quote-<?php echo ($results[$i][0]['medicines_header']['medicine_id']) ?>" class="button tiny radius" onClick="javascript:callBook('<?php echo $results[$i][0]['medicines_header']['medicine_id'] ?>');">Choose</a></td>
 					   	  </tr>
 					    <?php 
@@ -80,9 +81,10 @@
 						  ?>
 					  </tbody>
 					</table>
+					<?php } ?>
 					</div>
 					<div class="content" id="PharmaTableContainer">
-						<table class="responsive" id="PharmaTable">
+						<table class="responsive" id="PharmaTable" style="display:none" >
 						  <thead>
 						    <tr>
 						      <th>Provider Name</th>
@@ -95,12 +97,11 @@
 						      <td id="ProviderName"></td>
 						      <td id="ProviderAddress"></td>
 						      <td>
-							  <a href="#" id="select" class="button tiny radius" onClick="javascript:callSelectProvider('');">Add </a>
-						      <a href="#" id="Remove" class="button tiny radius" onClick="javascript:callRemoveProvider('');">Remove</a>
+							  <a href="#" id="select" class="button tiny radius" onClick="javascript:callSelectProvider('');">Set Preferred</a>
 						      </td>
 						    </tr>
 						  </tbody>
-					</table>
+						</table>
 					</div>
 					<div class="content"  id="HospitalTable">
 					</div>
@@ -248,14 +249,19 @@
       			$(quote).text('Chosen');
       			$(quote).attr("class","button tiny radius disabled");
       			$("#book").attr("style","display:block");
-      			$("#bucketID").attr("style","display:block");
+      			$("#karttwistie_container").show();
+      			$("#bucketID").text("My Selection");
  			});
     		
     	}    	
     	
     	
     function callBooking(){
-    	$("#locateTable").attr("style","display:block");
+    	openLocation();
     }	
-    	
+    
+    function openDetail(id){
+    	var detailsID= "#"+"details-"+id;
+    	$(detailsID).append("<td> Description </td>");
+    }
     </script>
