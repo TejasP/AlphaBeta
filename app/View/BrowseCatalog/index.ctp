@@ -91,8 +91,8 @@
 			
 //			alert("index......." + $prodno);
 			
-			if(($prodno%4) > 0) {
-				$prodno = $prodno + (4 - ($prodno%4));
+			if(($prodno%5) > 0) {
+				$prodno = $prodno + (5 - ($prodno%5));
 			}
 			
 //			alert("to be added at......." + $prodno + " " + $("ul#" + $catid + " li.products-item:eq(" + ($prodno-1) + ")").html());
@@ -139,7 +139,7 @@
 </script>
 
       <!-- Browse Catalog -->
- 		<div id="content" class="row">
+ 		<section>
 
         	<div class="large-2 columns">
         		<div class="radius panel">
@@ -267,4 +267,4 @@
             ?>
    -->
     	  </div>
-	    </div>
+	    </section>
