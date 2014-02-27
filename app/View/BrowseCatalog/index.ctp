@@ -103,7 +103,10 @@
 			// Verify if this id is already existing.. if no.. then add.. otherwise mark as visible
     	 	if (!$('#D' + $currprodid).length) {
 			    // ok to add stuff
-				$("ul#" + $catid + " li.products-item:eq(" + ($prodno-1) + ")").after("<li id='D" + $currprodid + "' class='productdetail'>Need to fetch product detail using ajax for product ID-" + $currprodid + "</li>");
+				$("ul#" + $catid + " li.products-item:eq(" + ($prodno-1) + ")").after("<li id='D" + $currprodid + "' class='productdetail'></li>");
+				
+				var $contentDiv = $("ul#" + $catid + " li#D" + $currprodid);
+				$.fetchProductDetail($contentDiv, "/alphabeta/browsecatalog/fetchProductDetail?prodid=" + $currprodid.split("-")[1]);
 			}
 			else
 			{
@@ -115,13 +118,14 @@
 		$.fetchCategories = function($contentDiv, postUrl)
 		{
 			$.getJSON(postUrl, function(data){
+				var $contents  = $("<div class='nav left'><a href='#'><b>&lt;</b></a></div><div class='nav right'><a href='#'><b>&gt;</b></a></div>");
 				var $prodlinks = $("<div id='prodlinks'></div>");
 				var $prodcat = $("<ul id='" + data[0].cat_id + "' class='products'></ul>");
 				for (var i=0, len=data.length; i < len; i++) {
 					var $product = data[i];
 
 				  	var $prodcatli = $("<li class='products-item' id='" + $product.cat_id + "-" + $product.prod_id + "' style='width: 165px;'></li>");						
-					$prodlink  = $("<a href='#' class='fllt'></a>");
+					$prodlink  = $("<a class='fllt'></a>");
 					$prodlink.append("<div class='fllt imageBox'><img width='60px' height='80px' src='/alphabeta/img/products/" + $product.cat_imagefolder + "/" + $product.prod_id + "_small.jpg'></div>");
 					$prodlink.append("<div class='fllt labelBox' style='height:85px;'><span class='arrow-right'>" + $product.prod_desc + "</span><span class='arrow-right'>(Rs." + $product.prod_price + ")<br></span><span class='arrow-right'>" + $product.cat_desc + "</span></div>");
 					
@@ -132,10 +136,30 @@
 				
 				$prodlinks.append($prodcat);
 				
-				$contentDiv.html($prodlinks);
+				$contentDiv.html("");
+				$contentDiv.append($contents);
+				$contentDiv.append($prodlinks);
 			});
 		}
+
+		$.fetchProductDetail = function($contentDiv, postUrl)
+		{
+				$.getJSON(postUrl, function(data){
+					var $contents = $("<div id='pdetail-section'></div>");
+					$contents.append("<div class='pdetail-close'><a class='action'>[X]</a></div>");
+					for (var i=0, len=data.length; i < len; i++) {
+						var $product = data[i];
+	
+						$contents.append("<div class='pdetail-thumbimg'><img width='300px' height='300px' src='/alphabeta/img/products/" + $product.cat_imagefolder + "/" + $product.prod_id + "_large.jpg'></div>");
+						$contents.append("<div class='pdetail-content'><div class='pdetail-prodname'>" + $product.prod_desc + "</div><div class='pdetail-company'>" + $product.prod_company + "</div><div class='pdetail-price'>Rs." + $product.prod_price + "</div></div>");
+					}
+					
+					$contentDiv.html($contents);
+			});
+		}
+
 	});
+	
 </script>
 
       <!-- Browse Catalog -->

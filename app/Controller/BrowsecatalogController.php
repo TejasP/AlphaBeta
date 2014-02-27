@@ -220,6 +220,50 @@ class BrowseCatalogController extends AppNoAuthController {
 		return json_encode($data);
 */	}
 	
+		
+	public function fetchProductDetail (){
+		$this->layout = "foundation_search_home";
+	
+		$query_prodid = $this->request->query['prodid'];
+	
+		$options = array('conditions' => array(
+				'product_headers.prod_id' => $query_prodid)
+		);
+	
+		$products = $this->product_headers->find('all',$options);
+	
+		$pcounts  = count($products);
+		for($k=0; $k<$pcounts; $k++)
+		{
+			$prod_id = $products[$k]['product_headers']['prod_id'];
+			$prod_desc = $products[$k]['product_headers']['prod_desc'];
+			$prod_company = $products[$k]['product_headers']['prod_company'];
+			$prod_price = $products[$k]['product_headers']['prod_price'];
+			$prod_cat_id = $products[$k]['product_headers']['prod_cat_id'];
+
+			// get image details.
+			$cat_options = array('conditions' => array(
+					'product_categories.cat_id' => $prod_cat_id)
+			);
+
+			$cat_id = "";
+			$cat_desc = "";
+			$cat_imagefolder = "";
+			$cat_details = $this->product_categories->find('all',$cat_options);
+			$cat_length = count($cat_details);
+			for($j=0; $j<$cat_length; $j++)
+			{
+				$cat_id = $cat_details[$j]['product_categories']['cat_id'];
+				$cat_desc = $cat_details[$j]['product_categories']['cat_desc'];
+				$cat_imagefolder = $cat_details[$j]['product_categories']['cat_image_folder'];
+			}
+			
+			$data[$k] = array("cat_id"=>$cat_id, "cat_desc"=>$cat_desc, "cat_imagefolder"=>$cat_imagefolder, "prod_id"=>$prod_id, "prod_desc"=>$prod_desc, "prod_company"=>$prod_company, "prod_price"=>$prod_price);
+		}
+		
+		$this->autoRender = false;
+		return json_encode($data);
+	}	
 	
 	public function fetchProducts (){
 		$this->layout = "foundation_search_home";
