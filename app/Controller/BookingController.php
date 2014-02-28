@@ -104,4 +104,6 @@ class BookingController extends AppNoAuthController {
 	
 		$this->set('results',$mresults);
 	}
+	
+	
 }

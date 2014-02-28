@@ -131,13 +131,13 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
        		<section>
        				<div class="row">
 	       		 		<div class="large-3 columns">
-								<div class="step"><a href="#">Search</a></div>
+								<div class="step"><a href="<?php echo Configure::read('searchURL'); ?>">Search</a></div>
 						</div>
 						<div class="large-3 columns">
-								<div class="step"><a href="#">Select</a></div>
+								<div class="step"><a href="javascript:openCart();">Select</a></div>
 						</div>
 						 <div class="large-3 columns">
-								<div class="step"><a href="#">Locate</a></div>
+								<div class="step"><a href="javascript:openLocation();">Locate</a></div>
 						</div>
 						 <div class="large-3 columns">
 								<div class="step"><a href="#">Get Quote</a></div>
@@ -149,16 +149,16 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 					</br>
 					</br>
 		            <div class="large-4 medium-2 columns">
-							<a href="javascript:openCart();" id="bucketID">My Selection(0)</a>
+							<a href="javascript:openCart();" id="bucketID">My Selection (<?php echo $selectedCount ?>)</a>
 					</div>
 					<div class="large-8 medium-10 columns" >
 			          		<div style="display:none" id="karttwistie_container">              
 		    	          		<div class="amazon_scroller" id="karttwistie">
 									<div class="amazon_scroller_mask">
 									<ul>
-									<li><a href="link1" title="title1"><img src="images/scroller_large_1.jpg" width="60" height="60" alt="title"/></a></li>
-									<li><a href="link2" title="title2"><img src="images/scroller_large_2.jpg" width="60" height="60" alt="title"/></a></li>
-									<li><a href="link3" title="title3"><img src="images/scroller_large_3.jpg" width="60" height="60" alt="title"/></a></li>
+									<li><div class="blankSelection"></div></li>
+									<li><div class="blankSelection"></div></li>
+									<li><div class="blankSelection"></div></li>
 									</ul>
 									</div>
 									<ul class="amazon_scroller_nav">
@@ -170,7 +170,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 							</div>
 				    </div>
 				<hr/></br>
-	    </section>
+	    	</section>
 	    			<!-- Selection Bar End-->
 	                <!-- Locate Bar-->
 	    <section>	
@@ -190,7 +190,20 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 					<hr/>
 	    </section>
 	    			<!-- Locate Bar End-->
-	
+					<!-- Quote Bar -->
+			<section>
+					</br>
+		            <div class="large-4 medium-2 columns">
+							<a href="javascript:openQuotes();" id="bucketID">My Quotes</a>
+					</div>
+					<div class="large-8 medium-10 columns" >
+						<div id="quoteTable" style="display:none">
+								
+						</div>
+				    </div>
+				<hr/></br>
+	    	</section>
+					<!-- Quote Bar End -->
 	    
         <!-- Top Sections End -->         
        
@@ -323,7 +336,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 
     	$("#karttwistie").amazon_scroller({
                     scroller_title_show: 'disable',
-                    scroller_time_interval: '3000',
+                    scroller_time_interval: '300000',
                     scroller_window_background_color: "none",
                     scroller_window_padding: '0',
                     scroller_border_size: '0',
@@ -342,6 +355,9 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
         	$("#locateTable").toggle();
     }
     
+    function openQuotes(){
+    	$("#quoteTable").toggle();
+    }	
     function getProviderResults(){
     		var nSearch = $('#LocateProvider').val();
     		var length = nSearch.length;

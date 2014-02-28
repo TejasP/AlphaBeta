@@ -47,3 +47,11 @@ text-decoration: underline;
 .amazon_scroller ul li a img {
 border: none;
 }
+
+.blankSelection{
+border: thin dashed #e4e4e4;
+display: inline-block;
+height: 55px;
+width: 55px;
+vertical-align: middle;
+}

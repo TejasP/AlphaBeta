@@ -11,7 +11,7 @@
     a.fn.amazon_scroller=function(p){
         var p=p||{};
 
-        var g=p&&p.scroller_time_interval?p.scroller_time_interval:"3000";
+        var g=p&&p.scroller_time_interval?p.scroller_time_interval:"30000";
         var h=p&&p.scroller_title_show?p.scroller_title_show:"enable";
         var i=p&&p.scroller_window_background_color?p.scroller_window_background_color:"white";
         var j=p&&p.scroller_window_padding?p.scroller_window_padding:"5";
@@ -58,7 +58,7 @@
         dom.find("ul:first").children("li").children("a").css("color",q);
         dom.find("ul:first").children("li").children("a").css("font-size",o);
         begin();
-        s=setTimeout(play,g);
+        //s=setTimeout(play,g);
         dom.find(".amazon_scroller_nav").children("li").hover(
             function(){
                 if($(this).parent().children().index($(this))==0){
@@ -87,7 +87,7 @@
                 clearTimeout(s);
             },
             function(){
-                s=setTimeout(play,g);
+              //  s=setTimeout(play,g);
             }
         );
         function begin(){
@@ -136,7 +136,7 @@
 				dom.children(".amazon_scroller_mask").find("ul").animate({
 	                left: '-='+(m+10)
 	            },500);
-				s=setTimeout(play,g);
+				//s=setTimeout(play,g);
 			}
         }
         function s_s_ul(a,b,c,d,e){

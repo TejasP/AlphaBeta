@@ -33,6 +33,7 @@ class SearchController extends AppNoAuthController {
 		}
 		$isBucketFilled =  $this->Cookie->read('basket-data');
 		
+		
 		$type= gettype($isBucketFilled);
 		if($type==='string'||$type==='NULL')
 		{
@@ -40,6 +41,11 @@ class SearchController extends AppNoAuthController {
 		}else{
 			$this->set('isBucketFilled',"true");
 		}
+		
+			$selectedCount =0;
+			$selectedCount= $this->getItemsCount();
+			
+			$this->set('selectedCount',$selectedCount);
 		
 		if(!empty($this->request->query['showResults'])){
 			$showResults= $this->request->query['showResults'];
@@ -281,5 +287,21 @@ class SearchController extends AppNoAuthController {
 		$json = json_encode($return);
 		$this->response->body($json); 
 		
+	}
+	
+	
+	public function getItemsCount(){
+		$chosenId =$this->Cookie->read('basket-data');
+		$length =  count($chosenId);
+		return $length;
+	}
+	
+	public function getSelectedItemsCount(){
+		$chosenId =$this->Cookie->read('basket-data');
+		$length =  count($chosenId);
+		$this->autoRender=false;
+		$this->response->type('json');
+		$json = json_encode(array('count'=>json_encode($length)));
+		$this->response->body($json);
 	}
 }
