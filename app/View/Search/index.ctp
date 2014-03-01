@@ -92,14 +92,8 @@
 						      <th></th>
 						    </tr>
 						  </thead>
-						  <tbody>
-							<tr>
-						      <td id="ProviderName"></td>
-						      <td id="ProviderAddress"></td>
-						      <td>
-							  <a href="#" id="select" class="button tiny radius" onClick="javascript:callSelectProvider('');">Set Preferred</a>
-						      </td>
-						    </tr>
+						  <tbody id="ProviderContainer">
+							
 						  </tbody>
 						</table>
 					</div>

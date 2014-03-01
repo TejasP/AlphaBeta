@@ -179,11 +179,14 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 					</div>
 					<div class="large-8 medium-10 columns">
 						<div id="locateTable" style="display:none">
-									<div class="large-4 medium-5 columns">				
+									<div class="medium-4 small-5 columns">				
 					                 <input type="search" id="LocateProvider" value="Please enter area, city or pincode" />
 					                 </div>
-					                 <div class="large-4 medium-5 columns">
-					 				 <a href="#" class="button radius" onclick="javascript:getProviderResults();">find</a>
+					                 <div class="medium-2 small-3 columns">
+					 				 <a href="#" class="button tiny radius" onclick="javascript:getProviderResults();">find</a>
+					 				 </div>
+					 				  <div class="medium-4 small-2 columns">
+					 					&nbsp;
 					 				 </div>
  					  	</div>
 					</div>
@@ -295,8 +298,22 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
             
             a = $('#searchWord').autocomplete(options);
         });
+        
+        
+        
+		
     });
     
+    var curr = 6;
+    $(document).on('click', "#loadMore", function (event) {
+    		event.preventDefault();
+		 $('#ProviderContainer tr').eq(++curr).show();
+    });
+   
+    $(document).on('click', "#showLess", function (event) {
+    		event.preventDefault();
+		  $('#ProviderContainer tr').eq(++curr).hide();
+    }); 
     
       $(function() {
 				$("#karttwistie").amazon_scroller({
@@ -363,8 +380,6 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
     		var length = nSearch.length;
 			var $url = '<?php echo $this->Html->url(array('controller'=>'locateProvider', 'action'=>'getProviderNearArea'))?>'+'/'+nSearch;
     
-    	
-				
 				
 				
 			if(nSearch!=null){
@@ -372,18 +387,21 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
     			$.getJSON($url, function(data){
       			console.log("Starting.");
       			$("#PharmaTable").attr("style","display:block");
-    			$("#locateResultTable").attr("style","display:none");
-    			$("#Filter").attr("style","display:none");
-				$("#quote").attr("style","display:none");
 				$("#ResultsTable").attr("style","display:block");
-				
 				$("a[href='#PharmaTableContainer']").click();
 				
 				
+					
 				$.each(data, function(index, value) {
-				    $("#ProviderName").text(value.Providers.provider_name);
-				    $("#ProviderAddress").text(value.Providers.address);
+					$("#ProviderContainer").append("<tr><td id='ProviderName'>"+value.Providers.provider_name+"</td><td id='ProviderAddress'>"+value.Providers.address+"</td><td><a href='#' id='select' class='button tiny radius' onClick='javascript:callSelectProvider('');'>Set Preferred</a></td></tr>");
 				});
+				
+				$("#ProviderContainer").append("<tr><td>&nbsp;</td><td><a href='#' id='loadMore' class='button expand radius' >show more</a></td><td>&nbsp;</td></tr>");
+				
+				size_li = $("#ProviderContainer tr").size();
+				
+				$('#ProviderContainer tr').hide().slice(0, 5).show();
+				$('#ProviderContainer tr:last-child').show();
       			console.log("done.");
 				});
     			}
