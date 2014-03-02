@@ -113,10 +113,10 @@
 
 .products-item {
 	float: left;
-	margin: 2px;
 	overflow: hidden;
 	padding: 0;
 	display: inline-block;
+	border-bottom: 1px solid #F4F0E4;
 }
 
 .products-item a {
@@ -178,8 +178,6 @@
 	display: inline-block;
 	width: 843px;
 	height: 350px;
-	overflow: hidden;
-	border: 1px solid #F4F0E4; 
 }
 .nav.left {
     height: 200px;
@@ -194,8 +192,17 @@
 }
 
 /* ----- Product detail pull down section ----- */
+.pdetail-uparrow {
+	height: 22px;
+}
+
 .pdetail-section {
+	border: 1px solid #F4F0E4;
 	position: relative;
+	overflow: hidden;
+	width: 825px;
+	height: 350px;
+	margin-bottom: 20px;
 }
 
 .pdetail-close {
@@ -211,19 +218,22 @@
 	left: 350px;
 	top: -300px;
 	position: relative;
+	width: 55%;
 }
 
 .pdetail-label {
-	
+	font-size: 13px;
 }
 
 .pdetail-price {
 	font-weight: bold;
-	font-size: 12px;
+	font-size: 24px;
+	color: #0000FF;
 }
 
 .pdetail-company {
-	font-size: 12px;
+	font-size: 11px;
+	font-weight: bold;
 	text-transform: uppercase;
 }
 
@@ -236,6 +246,27 @@
 	font-size: 12px;
 	font-weight: bold;
 }
+
+.pdetail-seperator {
+	border-top: 1px dotted #C7C7C7;
+}
+
+.pdetail-leftblock {
+	width: 100%;
+}
+
+.pdetail-rightblock {
+	width: 50%;
+}
+
+.pdetail-desc {
+	
+}
+
+.pdetail-attributes {
+	
+}
+
 /*-------------------------------------------------*/
 
 .step {
