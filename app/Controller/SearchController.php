@@ -33,14 +33,27 @@ class SearchController extends AppNoAuthController {
 		}
 		$isBucketFilled =  $this->Cookie->read('basket-data');
 		
+		$isLocationSet =  $this->Cookie->read('location-data');
 		
 		$type= gettype($isBucketFilled);
+
 		if($type==='string'||$type==='NULL')
 		{
 			$this->set('isBucketFilled',"false");
 		}else{
 			$this->set('isBucketFilled',"true");
 		}
+		
+		$location_type= gettype($isLocationSet);
+		
+		if($location_type==='NULL')
+		{
+			$this->set('isLocationSet',"false");
+		}else{
+			$this->set('isLocationSet',"true");
+			$this->set('locationText',$isLocationSet);
+		}
+
 		
 			$selectedCount =0;
 			$selectedCount= $this->getItemsCount();

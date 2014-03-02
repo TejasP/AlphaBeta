@@ -132,7 +132,8 @@ class LocateProviderController extends AppNoAuthController {
 			$results= $this->Providers->find('all',$options);
 	
 			if(empty($results)){
-				echo 'results emptry';
+				//echo 'results emptry';
+				
 			}
 	
 			$this->response->type('json');
@@ -172,5 +173,27 @@ class LocateProviderController extends AppNoAuthController {
 			$json = json_encode(array('message'=>$results[0]['Providers']['area']));
 			$this->response->body($json);
 		}
+	}
+	
+	
+	
+	public function setPreferredLocation($area){
+		if(!empty($area)){
+			$this->Cookie->write('location-data',json_encode($area));
+			$this->autoRender=false;
+			$this->response->type('json');
+			$json = json_encode(array('message'=>json_encode($area)));
+			$this->response->body($json);
+		}
+	}
+	
+	public function getPreferredLocation(){
+
+			$location_data = $this->Cookie->read('location-data');
+			$this->autoRender=false;
+			$this->response->type('json');
+			$json = json_encode(array('message'=>json_encode($location_data)));
+			$this->response->body($json);
+
 	}
 }

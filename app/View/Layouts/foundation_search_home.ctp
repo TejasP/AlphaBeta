@@ -174,18 +174,21 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 	    			<!-- Selection Bar End-->
 	                <!-- Locate Bar-->
 	    <section>	
-	    			<div class="large-4 medium-2 columns">
-							<a href="javascript:openLocation();" >My Location</a>
+	    			<div class="large-4 medium-1 columns">		
+								<a href="javascript:openLocation();" >My Location</a>
 					</div>
-					<div class="large-8 medium-10 columns">
+					<div class="large-3 medium-6 columns" id="PreferredLocationText" <?php if($isLocationSet=='true') {?> style="display:block" > <?php }else{?> style="display:none" > <?php }?> 		
+							&nbsp;<?php if($isLocationSet=='true') { echo $locationText; } ?> 
+					</div>
+					<div class="large-6 medium-5 columns">
 						<div id="locateTable" style="display:none">
-									<div class="medium-4 small-5 columns">				
-					                 <input type="search" id="LocateProvider" value="Please enter area, city or pincode" />
+									<div class="medium-5 small-5 columns">				
+					                 	<input type="search" id="LocateProvider" value="Please enter area, city or pincode" />
 					                 </div>
 					                 <div class="medium-2 small-3 columns">
-					 				 <a href="#" class="button tiny radius" onclick="javascript:getProviderResults();">find</a>
+					 					<a href="#" class="button tiny radius" onclick="javascript:getProviderResults();">find</a>
 					 				 </div>
-					 				  <div class="medium-4 small-2 columns">
+					 				  <div class="medium-1 small-1 columns">
 					 					&nbsp;
 					 				 </div>
  					  	</div>
@@ -202,6 +205,17 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 					                <div class="medium-4 small-3 columns">
 					 				 <a href="#" class="button tiny radius" onclick="javascript:submitYes();">Yes</a>
 					 				 <a href="#" class="button tiny radius" onclick="javascript:submitNo();">No</a>
+					 				</div>
+					 				<div class="medium-2 small-2 columns">
+					 				 &nbsp;
+					 				</div>
+ 					  		</div>
+ 					  		<div id="NoResultsTable" style="display:none">
+									<div class="medium-4 small-5 columns">				
+					                	Sorry, No Results found. <a href="#" class="button tiny radius" onclick="javascript:submitNo();">close</a>
+					                </div>
+					                <div class="medium-4 small-3 columns">
+					 				 &nbsp
 					 				</div>
 					 				<div class="medium-2 small-2 columns">
 					 				 &nbsp;
@@ -406,9 +420,6 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
     			if(length>0){
     			$.getJSON($url, function(data){
       				console.log("Starting.");
-      				$("#PharmaTable").attr("style","display:block");
-					$("#ResultsTable").attr("style","display:block");
-					$("a[href='#PharmaTableContainer']").click();
 
 					$.each(data, function(index, value) {
 						$("#ProviderContainer").append("<tr><td id='ProviderName'>"+value.Providers.provider_name+"</td><td id='ProviderAddress'>"+value.Providers.address+"</td><td><a href='#' id='select' class='button tiny radius' onClick='javascript:callSelectProvider('');'>Set Preferred</a></td></tr>");
@@ -421,14 +432,18 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 				
 					$('#ProviderContainer tr').hide().slice(0, 5).show();
 					$('#ProviderContainer tr:last-child').show();
-	      			console.log("done.");
 	      			
+	      			console.log("done.");
 	      			console.log(size);
 	      			
 	    			if(size===0){
 	    				console.log("No results for Location");
+	    				$("#NoResultsTable").attr("style","display:block");
 	    			}
 	    			if(size >0){
+	    			    $("#PharmaTable").attr("style","display:block");
+						$("#ResultsTable").attr("style","display:block");
+						$("a[href='#PharmaTableContainer']").click();
 	    				$("#preferenceTable").attr("style","display:block");
 	    			}
 	      			
@@ -437,14 +452,28 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
     		}	
     	}
     
-    function submitYes(){	
+    function submitYes(){
+    	var locationText = $('#LocateProvider').val();
+		var $url = '<?php echo $this->Html->url(array('controller'=>'locateProvider', 'action'=>'setPreferredLocation'))?>'+'/'+locationText;
+		$.getJSON($url, function(data){
+			console.log("cookie value set for location");
+		});
     	$("#preferenceTable").hide();
+    	$("#PreferredLocationText").show();
+    	$("#PreferredLocationText").html("<div class='medium-5 columns'>"+locationText+"</div><div class='medium-1 columns'><a href='#' id='select' class='button tiny radius' onClick='javascript:changePreference();'>Change</a></div>");
+    	$("#locateTable").hide();
     }
     
     function submitNo(){
     	$("#preferenceTable").hide();
+    	$("#NoResultsTable").hide();
     }
-    	
+   	
+   	function changePreference(){
+   		$("#locateTable").show();
+   		$("#PreferredLocationText").hide();
+   	}
+   	
 </script>
   </body>
 </html>
