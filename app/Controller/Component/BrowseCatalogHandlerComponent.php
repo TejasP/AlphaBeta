@@ -3,8 +3,9 @@
 App::uses('AppNoAuthController', 'Controller');
 
 class BrowseCatalogHandlerComponent extends Object {
-	public function buildQuery($querystr) 
+	public function fetchFilters($querystr) 
 	{
+		$filters = null;
 		$cntr = 0;
 		$retValue = "";
 		$bcflt = "";
@@ -46,31 +47,26 @@ class BrowseCatalogHandlerComponent extends Object {
 			$cntr++;
 		}
 		
-		if(isset($filters)) {
+/*		if(isset($filters)) {
 			echo " displaying filters...... ";
 			for($i=0; $i<count($filters); $i++) {
 			echo "<pre>"; echo print_r($filters[$i]); echo "</pre> ";
 			}
 		}
-	
-		//echo " this is from buildQuery..." . $bcflt . " " . $pg . " \nbcfltkeys_tmp..." . implode(",", $bcfltkeys_tmp) . " pgkeys...." . implode(",", $pgkeys_tmp);
-		
-		//$retValue = "this is from buildQuery..." . $bcflt . " " . $pg . " bcfltkeys..." . implode(",", $bcfltkeys) . " pgkeys...." . implode(",", $pgkeys); 
-		
-		return $retValue;
+*/	
+		return $filters;
 	}
 	
-	
-	public function getParameterValue($paramcode, $querystr)
+	public function buildWhere($filters, $options)
 	{
-		$paramvalue = "";
-		for($i=0; $i<count($querystr); $i++)
-		{
-			if($querystr[i][0] == $paramcode)
-			{
-				$paramvalue = $querystr[i][0];
+		$newoptions = $options;
+		for($i=0; $i<count($filters); $i++) {
+			if ($filters[$i]["key"] == "ppr_min") {
+				$newoptions['product_headers.prod_price >= '] = $filters[$i]["value"];
+			} else if($filters[$i]["key"] == "ppr_max") {
+				$newoptions['product_headers.prod_price <= '] = $filters[$i]["value"];
 			}
 		}
-		
+		return $newoptions;
 	}
 }

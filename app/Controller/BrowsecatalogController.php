@@ -39,8 +39,8 @@ class BrowseCatalogController extends AppNoAuthController {
 		// calling handler component for generating query..
 		$querystr = $this->params['url'];
 		$bchandler = new BrowseCatalogHandlerComponent();
-		$queryresult = $bchandler->buildQuery($querystr);
-		echo $queryresult;
+		$filters = $bchandler->fetchFilters($querystr);
+		//echo $queryresult;
 		// ------------------------------------------------
 				
 		$options = array('conditions' => array(
@@ -49,12 +49,14 @@ class BrowseCatalogController extends AppNoAuthController {
 		
 		//echo json_encode($options);
 		
+		$main_cat_prd_count = 0;
 		$main_categories= $this->product_categories->find('all',$options);
 		$maincat_length = count($main_categories);
 		for($i=0 ; $i<$maincat_length;$i++)
 		{
 			$sub_categories = null;
 			$sub_cat_ctr = 0;
+			$sub_cat_prd_count = 0;
 			
 			$maincatid = $main_categories[$i]['product_categories']['cat_id'];
 			$maincatdesc = $main_categories[$i]['product_categories']['cat_desc'];
@@ -62,7 +64,7 @@ class BrowseCatalogController extends AppNoAuthController {
 			$level1cat_options = array('conditions' => array(
 					'product_categories.cat_parent' => $maincatid)
 			);
-			
+
 			$level1_categories= $this->product_categories->find('all',$level1cat_options);
 			$level1cat_length = count($level1_categories);
 			for($j=0; $j<$level1cat_length; $j++)
@@ -88,21 +90,31 @@ class BrowseCatalogController extends AppNoAuthController {
 					$poptions = array('conditions' => array(
 							'product_headers.prod_cat_id = ' => $level2catid)
 					);
-						
+
+					// add filters the conditions
+					$poptions = $bchandler->buildWhere($filters, $poptions);
+					/*if($level1catid == 22)
+						echo print_r($poptions);
+					*/
+					
 					$presults = $this->product_headers->find('all',$poptions);
 						
-					//if(count($presults) > 0)
-				//	{
+		//			if(count($presults) > 0)
+		//			{
 						$categories[$cat_ctr] = array("cat_id"=>$level2catid, "cat_desc"=>$level2catdesc, "cat_image_folder"=>$level2catimgfolder, "product_count"=>count($presults));
 						$cat_ctr++;
-				//	}
+		//			}
+					$sub_cat_prd_count = $sub_cat_prd_count + count($presults);
 				}
 				
-				$sub_categories[$sub_cat_ctr] = array("subcatid"=>$level1catid, "subcatdesc"=>$level1catdesc, "categories"=>$categories);
+				$sub_categories[$sub_cat_ctr] = array("subcatid"=>$level1catid, "subcatdesc"=>$level1catdesc, "product_count"=>$sub_cat_prd_count, "categories"=>$categories);
 				$sub_cat_ctr++;
+				$main_cat_prd_count = $main_cat_prd_count + $sub_cat_prd_count;
+				$sub_cat_prd_count = 0;
 			}
 			
-			$data[$i] = array("mainid"=>$maincatid, "maindesc"=>$maincatdesc, "subcategories"=>$sub_categories);
+			$data[$i] = array("mainid"=>$maincatid, "maindesc"=>$maincatdesc, "product_count"=>$main_cat_prd_count, "subcategories"=>$sub_categories);
+			$main_cat_prd_count = 0;
 		}
 
 		$this->set('categorydata',$data);
@@ -127,6 +139,13 @@ class BrowseCatalogController extends AppNoAuthController {
 	public function fetchCateogries (){
 		$this->layout = "foundation_search_home";
 
+		// calling handler component for generating query..
+		$querystr = $this->params['url'];
+		$bchandler = new BrowseCatalogHandlerComponent();
+		$filters = $bchandler->fetchFilters($querystr);
+		//echo $queryresult;
+		// ------------------------------------------------
+				
 		$query_catid = $this->request->query['catid'];
 
 		$cat_options = array('conditions' => array(
@@ -158,9 +177,16 @@ class BrowseCatalogController extends AppNoAuthController {
 		$options['conditions'] = array(
 			'product_categories.cat_parent' => $query_catid
 		);
+
+		// add filters the conditions
+		$options['conditions'] = $bchandler->buildWhere($filters, $options['conditions']);
+		//echo "after adding condition...."; echo print_r($options);
 		
 		$options['limit'] = 10;
 		$options['fields'] = array('product_categories.cat_id', 'product_categories.cat_desc', 'product_categories.cat_image_folder','product_headers.prod_id','product_headers.prod_desc','product_headers.prod_company','product_headers.prod_price');
+		
+		if($query_catid == 6)
+			echo print_r($options);
 		
 		$products = null;
 		$presults = $this->product_headers->find('all',$options);
@@ -180,53 +206,7 @@ class BrowseCatalogController extends AppNoAuthController {
 		
 		$this->autoRender = false;
 		return json_encode($products);
-	/*	
-		$presults = $this->product_headers->find('all', array('limit' => 10,
-				'prod_cat_id' => array(
-						'product_categories.cat-id' => array(
-								'product_categories.cat_parent' => $query_catid))
-		)
-		);
-			
-		echo $presults;
-	*/	
-		
-		/*
-		$cat_options = array('conditions' => array(
-			'product_categories.cat_parent' => $query_catid)
-			);
-					
-		$categories= $this->product_categories->find('all',$cat_options);
-		$cat_length = count($categories);
-		for($j=0; $j<$cat_length; $j++)
-		{
-			$cat_id = $categories[$j]['product_categories']['cat_id'];
-			$cat_desc = $categories[$j]['product_categories']['cat_desc'];
-			$cat_imagefolder = $categories[$j]['product_categories']['cat_image_folder'];
-
-			$poptions = array('limit' => 2, 'conditions' => array(
-					'product_headers.prod_cat_id = ' => $cat_id)
-			);
-			
-			$products = null;
-			$presults = $this->product_headers->find('all',$poptions);
-			$pcounts  = count($presults);
-			for($k=0; $k<$pcounts; $k++)
-			{
-				$prod_id = $presults[$k]['product_headers']['prod_id'];
-				$prod_desc = $presults[$k]['product_headers']['prod_desc'];
-				$prod_company = $presults[$k]['product_headers']['prod_company'];
-				$prod_price = $presults[$k]['product_headers']['prod_price'];
-				
-				$products[$k] = array("prod_id"=>$prod_id, "prod_desc"=>$prod_desc, "prod_company"=>$prod_company, "prod_price"=>$prod_price); 
-			}
-			
-			$data[$j] = array("cat_id"=>$cat_id, "cat_desc"=>$cat_desc, "cat_image_folder"=>$cat_imagefolder, "product_count"=> $pcounts, "products"=> $products);
-		}
-		
-		$this->autoRender = false;
-		return json_encode($data);
-*/	}
+	}
 	
 		
 	public function fetchProductDetail (){
