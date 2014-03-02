@@ -68,8 +68,14 @@
 			
 //			alert("index......." + $prodno);
 			
+			
+			
 			if(($prodno%5) > 0) {
+				$prodSeq = $prodno%5;
 				$prodno = $prodno + (5 - ($prodno%5));
+			}
+			else {
+				$prodSeq = 5;
 			}
 			
 //			alert("to be added at......." + $prodno + " " + $("ul#" + $catid + " li.products-item:eq(" + ($prodno-1) + ")").html());
@@ -83,7 +89,7 @@
 				$("ul#" + $catid + " li.products-item:eq(" + ($prodno-1) + ")").after("<li id='D" + $currprodid + "' class='productdetail'></li>");
 				
 				var $contentDiv = $("ul#" + $catid + " li#D" + $currprodid);
-				$.fetchProductDetail("D" + $currprodid, $contentDiv, "/alphabeta/browsecatalog/fetchProductDetail?prodid=" + $currprodid.split("-")[1]);
+				$.fetchProductDetail($prodSeq, "D" + $currprodid, $contentDiv, "/alphabeta/browsecatalog/fetchProductDetail?prodid=" + $currprodid.split("-")[1]);
 			}
 			else
 			{
@@ -123,23 +129,25 @@
 		}
 
 		// close link for product detail
-		$(document).on('click', 'div#pdetail-section div.pdetail-close' , function() {
+		$(document).on('click', 'div.pdetail-section div.pdetail-close' , function() {
 			$('li#' +  $(this).parent().attr("data")).css('display','none');
 		});
 
-		$.fetchProductDetail = function($prodId, $contentDiv, postUrl)
+		$.fetchProductDetail = function($prodSeq, $prodId, $contentDiv, postUrl)
 		{
 				$.getJSON(postUrl, function(data){
-					var $contents = $("<div id='pdetail-section' data='" + $prodId +"'></div>");
+					var $contents = $("<div class='pdetail-section' data='" + $prodId +"'></div>");
 					$contents.append("<div class='pdetail-close'><a class='action'>[X]</a></div>");
 					for (var i=0, len=data.length; i < len; i++) {
 						var $product = data[i];
 	
 						$contents.append("<div class='pdetail-thumbimg'><img width='300px' height='300px' src='/alphabeta/img/products/" + $product.cat_imagefolder + "/" + $product.prod_id + "_large.jpg'></div>");
-						$contents.append("<div class='pdetail-content'><div class='pdetail-prodname'>" + $product.prod_desc + "</div><div class='pdetail-company'>" + $product.prod_company + "</div><div class='pdetail-price'>Rs." + $product.prod_price + "</div></div>");
+						$contents.append("<div class='pdetail-content'><div class='pdetail-prodname'>" + $product.prod_desc + "</div><div class='pdetail-company'>" + $product.prod_company + "</div><div class='pdetail-desc'>product description to be placed here</div><div class='pdetail-leftblock'><div><span class='pdetail-label'>Starting from </span><span class='pdetail-price'>Rs. " + $product.prod_price + "</span></div><div><span class='pdetail-label'>inclusive of taxes</span></div><div class='pdetail-submit' style='width:100px;'><a class='postfix button expand' href='#'>Shortlist</a></div><div class='pdetail-seperator'></div></div><div class='pdetail-attributes'>product attributes to be placed here</div></div>");
 					}
 					
-					$contentDiv.html($contents);
+					$contentDiv.html("");
+					$contentDiv.append("<div class='pdetail-uparrow' style='margin-left:" + (($prodSeq*165)-82) + "px;'><img src='/alphabeta/img/up-arrow.png'></div>");
+					$contentDiv.append($contents);
 			});
 		}
 
