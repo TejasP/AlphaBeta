@@ -106,7 +106,7 @@
 				$("ul#" + $catid + " li.products-item:eq(" + ($prodno-1) + ")").after("<li id='D" + $currprodid + "' class='productdetail'></li>");
 				
 				var $contentDiv = $("ul#" + $catid + " li#D" + $currprodid);
-				$.fetchProductDetail($contentDiv, "/alphabeta/browsecatalog/fetchProductDetail?prodid=" + $currprodid.split("-")[1]);
+				$.fetchProductDetail("D" + $currprodid, $contentDiv, "/alphabeta/browsecatalog/fetchProductDetail?prodid=" + $currprodid.split("-")[1]);
 			}
 			else
 			{
@@ -142,10 +142,15 @@
 			});
 		}
 
-		$.fetchProductDetail = function($contentDiv, postUrl)
+		// close link for product detail
+		$(document).on('click', 'div#pdetail-section div.pdetail-close' , function() {
+			$('li#' +  $(this).parent().attr("data")).css('display','none');
+		});
+
+		$.fetchProductDetail = function($prodId, $contentDiv, postUrl)
 		{
 				$.getJSON(postUrl, function(data){
-					var $contents = $("<div id='pdetail-section'></div>");
+					var $contents = $("<div id='pdetail-section' data='" + $prodId +"'></div>");
 					$contents.append("<div class='pdetail-close'><a class='action'>[X]</a></div>");
 					for (var i=0, len=data.length; i < len; i++) {
 						var $product = data[i];
@@ -170,23 +175,27 @@
 					<div data-ved="0CCMQsis" class="sr__restricts" style="width:150px;">
 						<div class="sr__group">
 							<div class="sr__text">
-	<!--						<a	href="/search?tbs=vw:g&amp;tbm=shop&amp;q=chambray+shirt&amp;tbas=0&amp;sa=X&amp;ei=fC0KU4WsAqG5iQeNxIDoCQ&amp;ved=0CCQQvSs" class="sr__link"> --><a href="#"><span title="Clear all filters" class="sr__link-text"><span class="kcb"><input type="checkbox" value="clearall"></span>Clear all filters</span></a>
+								<a	href="?bcflt=vw:gr&amp;pg=cp:1,spoint:1&amp;q=">
+									<span title="Clear all filters" class="sr__link-text"><span class="kcb"><input type="checkbox" value="clearall"></span>Clear all filters</span></a>
 							</div>
 						</div>
 						<div class="sr__group">
 							<div class="sr__title"><b>Price</b></div>
 							<div class="sr__text">
-	<!--							<a	href="/search?tbs=vw:g,cat:212,gender:v--2female,price:1,ppr_max:25&amp;tbm=shop&amp;q=chambray+shirt&amp;sa=X&amp;ei=fC0KU4WsAqG5iQeNxIDoCQ&amp;ved=0CCgQvSs" class="sr__link"> --><a href="#">
+								<a	href="?bcflt=vw:gr,ppr_max:200&amp;pg=cp:1,spoint:1&amp;q=">
 									<span class="kcb"><input type="checkbox" value="xxx-200"></span><span title="Up to $25" class="sr__link-text">Up to Rs. 200</span></a>
 							</div>
 							<div class="sr__text">
-	<!--						<a href="/search?tbs=vw:g,cat:212,gender:v--2female,price:1,ppr_min:25,ppr_max:40&amp;tbm=shop&amp;q=chambray+shirt&amp;sa=X&amp;ei=fC0KU4WsAqG5iQeNxIDoCQ&amp;ved=0CCkQvSs" class="sr__link"> --><a href="#"><span class="kcb"><input type="checkbox" value="201-600"></span><span title="$25 &amp;#8211; $40" class="sr__link-text">Rs. 201 &ndash; Rs. 600</span></a>
+								<a	href="?bcflt=vw:gr,ppr_min:201,ppr_max:600&amp;pg=cp:1,spoint:1&amp;q=">
+									<span class="kcb"><input type="checkbox" value="201-600"></span><span title="$25 &amp;#8211; $40" class="sr__link-text">Rs. 201 &ndash; Rs. 600</span></a>
 							</div>
 							<div class="sr__text">
-	<!--						<a href="/search?tbs=vw:g,cat:212,gender:v--2female,price:1,ppr_min:40,ppr_max:60&amp;tbm=shop&amp;q=chambray+shirt&amp;sa=X&amp;ei=fC0KU4WsAqG5iQeNxIDoCQ&amp;ved=0CCoQvSs" class="sr__link"> --><a href="#"><span class="kcb"><input type="checkbox" value="610-800"></span><span title="$40 &amp;#8211; $60" class="sr__link-text">Rs. 601 &ndash; Rs. 800</span></a>
+								<a	href="?bcflt=vw:gr,ppr_min:601,ppr_max:800&amp;pg=cp:1,spoint:1&amp;q=">	
+									<span class="kcb"><input type="checkbox" value="601-800"></span><span title="$40 &amp;#8211; $60" class="sr__link-text">Rs. 601 &ndash; Rs. 800</span></a>
 							</div>
 							<div class="sr__text">
-	<!--						<a href="/search?tbs=vw:g,cat:212,gender:v--2female,price:1,ppr_min:60&amp;tbm=shop&amp;q=chambray+shirt&amp;sa=X&amp;ei=fC0KU4WsAqG5iQeNxIDoCQ&amp;ved=0CCsQvSs" class="sr__link"> --><a href="#"><span class="kcb"><input type="checkbox" value="801-xxx"></span><span title="Over $60" class="sr__link-text">Over Rs. 801</span></a>
+								<a	href="?bcflt=vw:gr,ppr_min:801&amp;pg=cp:1,spoint:1&amp;q=">
+									<span class="kcb"><input type="checkbox" value="801-xxx"></span><span title="Over $60" class="sr__link-text">Over Rs. 801</span></a>
 							</div>    
 						</div>
 					</div>

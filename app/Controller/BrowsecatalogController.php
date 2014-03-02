@@ -1,6 +1,7 @@
 <?php
 
 App::uses('AppNoAuthController', 'Controller');
+App::uses('BrowseCatalogHandlerComponent', 'Controller/Component');
 
 class BrowseCatalogController extends AppNoAuthController {
 
@@ -35,6 +36,13 @@ class BrowseCatalogController extends AppNoAuthController {
 		
 		$this->layout = "foundation_search_home";
 
+		// calling handler component for generating query..
+		$querystr = $this->params['url'];
+		$bchandler = new BrowseCatalogHandlerComponent();
+		$queryresult = $bchandler->buildQuery($querystr);
+		echo $queryresult;
+		// ------------------------------------------------
+				
 		$options = array('conditions' => array(
 				'product_categories.cat_parent' => 0)
 		);
