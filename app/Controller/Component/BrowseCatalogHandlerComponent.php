@@ -46,12 +46,13 @@ class BrowseCatalogHandlerComponent extends Object {
 			$cntr++;
 		}
 		
-		echo " displaying filters...... ";
-		
-		for($i=0; $i<count($filters); $i++) {
+		if(isset($filters)) {
+			echo " displaying filters...... ";
+			for($i=0; $i<count($filters); $i++) {
 			echo "<pre>"; echo print_r($filters[$i]); echo "</pre> ";
+			}
 		}
-		
+	
 		//echo " this is from buildQuery..." . $bcflt . " " . $pg . " \nbcfltkeys_tmp..." . implode(",", $bcfltkeys_tmp) . " pgkeys...." . implode(",", $pgkeys_tmp);
 		
 		//$retValue = "this is from buildQuery..." . $bcflt . " " . $pg . " bcfltkeys..." . implode(",", $bcfltkeys) . " pgkeys...." . implode(",", $pgkeys); 
