@@ -390,22 +390,31 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 				$("#ResultsTable").attr("style","display:block");
 				$("a[href='#PharmaTableContainer']").click();
 				
-				
+				size_li = 0;
 					
 				$.each(data, function(index, value) {
 					$("#ProviderContainer").append("<tr><td id='ProviderName'>"+value.Providers.provider_name+"</td><td id='ProviderAddress'>"+value.Providers.address+"</td><td><a href='#' id='select' class='button tiny radius' onClick='javascript:callSelectProvider('');'>Set Preferred</a></td></tr>");
 				});
 				
-				$("#ProviderContainer").append("<tr><td>&nbsp;</td><td><a href='#' id='loadMore' class='button expand radius' >show more</a></td><td>&nbsp;</td></tr>");
+					$("#ProviderContainer").append("<tr><td>&nbsp;</td><td><a href='#' id='loadMore' class='button expand radius' >show more</a></td><td>&nbsp;</td></tr>");
 				
-				size_li = $("#ProviderContainer tr").size();
+					size_li = $("#ProviderContainer tr").size();
 				
-				$('#ProviderContainer tr').hide().slice(0, 5).show();
-				$('#ProviderContainer tr:last-child').show();
-      			console.log("done.");
-				});
+					$('#ProviderContainer tr').hide().slice(0, 5).show();
+					$('#ProviderContainer tr:last-child').show();
+      				console.log("done.");
+					});
     			}
-    		}	
+    			
+    			if(size_li===0){
+    				alert('No results');
+    			}
+    			if(size_li >0){
+    			
+    				alert('Do you want to save the preference ?'); 
+    			}
+    		}
+    			
     	}
 </script>
 	

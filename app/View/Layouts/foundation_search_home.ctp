@@ -190,6 +190,24 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 					 				 </div>
  					  	</div>
 					</div>
+					<br/>
+					<div class="large-4 medium-2 columns">
+							&nbsp;
+					</div>
+					<div class="large-8 medium-10 columns">
+							<div id="preferenceTable" style="display:none">
+									<div class="medium-4 small-5 columns">				
+					                 Do you want to save the location as your preferred location ?
+					                </div>
+					                <div class="medium-4 small-3 columns">
+					 				 <a href="#" class="button tiny radius" onclick="javascript:submitYes();">Yes</a>
+					 				 <a href="#" class="button tiny radius" onclick="javascript:submitNo();">No</a>
+					 				</div>
+					 				<div class="medium-2 small-2 columns">
+					 				 &nbsp;
+					 				</div>
+ 					  		</div>
+					</div>
 					<hr/>
 	    </section>
 	    			<!-- Locate Bar End-->
@@ -370,6 +388,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
     
     function openLocation(){
         	$("#locateTable").toggle();
+        	$("#preferenceTable").hide();
     }
     
     function openQuotes(){
@@ -383,30 +402,49 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 				
 				
 			if(nSearch!=null){
+				var size = 0; 		
     			if(length>0){
     			$.getJSON($url, function(data){
-      			console.log("Starting.");
-      			$("#PharmaTable").attr("style","display:block");
-				$("#ResultsTable").attr("style","display:block");
-				$("a[href='#PharmaTableContainer']").click();
+      				console.log("Starting.");
+      				$("#PharmaTable").attr("style","display:block");
+					$("#ResultsTable").attr("style","display:block");
+					$("a[href='#PharmaTableContainer']").click();
+
+					$.each(data, function(index, value) {
+						$("#ProviderContainer").append("<tr><td id='ProviderName'>"+value.Providers.provider_name+"</td><td id='ProviderAddress'>"+value.Providers.address+"</td><td><a href='#' id='select' class='button tiny radius' onClick='javascript:callSelectProvider('');'>Set Preferred</a></td></tr>");
+						size = size +1;
+					});
 				
+					$("#ProviderContainer").append("<tr><td>&nbsp;</td><td><a href='#' id='loadMore' class='button expand radius' >show more</a></td><td>&nbsp;</td></tr>");
 				
-					
-				$.each(data, function(index, value) {
-					$("#ProviderContainer").append("<tr><td id='ProviderName'>"+value.Providers.provider_name+"</td><td id='ProviderAddress'>"+value.Providers.address+"</td><td><a href='#' id='select' class='button tiny radius' onClick='javascript:callSelectProvider('');'>Set Preferred</a></td></tr>");
-				});
+					size_li = $("#ProviderContainer tr").size();
 				
-				$("#ProviderContainer").append("<tr><td>&nbsp;</td><td><a href='#' id='loadMore' class='button expand radius' >show more</a></td><td>&nbsp;</td></tr>");
-				
-				size_li = $("#ProviderContainer tr").size();
-				
-				$('#ProviderContainer tr').hide().slice(0, 5).show();
-				$('#ProviderContainer tr:last-child').show();
-      			console.log("done.");
+					$('#ProviderContainer tr').hide().slice(0, 5).show();
+					$('#ProviderContainer tr:last-child').show();
+	      			console.log("done.");
+	      			
+	      			console.log(size);
+	      			
+	    			if(size===0){
+	    				console.log("No results for Location");
+	    			}
+	    			if(size >0){
+	    				$("#preferenceTable").attr("style","display:block");
+	    			}
+	      			
 				});
     			}
     		}	
     	}
+    
+    function submitYes(){	
+    	$("#preferenceTable").hide();
+    }
+    
+    function submitNo(){
+    	$("#preferenceTable").hide();
+    }
+    	
 </script>
   </body>
 </html>
