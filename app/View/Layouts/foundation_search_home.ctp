@@ -149,7 +149,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 					</br>
 					</br>
 		            <div class="large-4 medium-2 columns">
-							<a href="javascript:openCart();" id="bucketID">My Selection (<?php echo $selectedCount ?>)</a>
+							<a href="javascript:openCart();" id="bucketID">My Selection (<?php if (!empty($selectedCount)){ echo $selectedCount; }else {echo '0'; }?>)</a>
 					</div>
 					<div class="large-8 medium-10 columns" >
 			          		<div style="display:none" id="karttwistie_container">              
@@ -177,8 +177,8 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 	    			<div class="large-4 medium-1 columns">		
 								<a href="javascript:openLocation();" >My Location</a>
 					</div>
-					<div class="large-3 medium-6 columns" id="PreferredLocationText" <?php if($isLocationSet=='true') {?> style="display:block" > <?php }else{?> style="display:none" > <?php }?> 		
-							&nbsp;<?php if($isLocationSet=='true') { echo $locationText; } ?> 
+					<div class="large-3 medium-6 columns" id="PreferredLocationText" <?php if (!empty($isLocationSet)){  if($isLocationSet=='true') {?> style="display:block" > <?php } }else{?> style="display:none" > <?php }?> 		
+							<?php if (!empty($isLocationSet)){  if($isLocationSet=='true') { echo $locationText; } } else { ?>&nbsp; <?php }?> 
 					</div>
 					<div class="large-6 medium-5 columns">
 						<div id="locateTable" style="display:none">
