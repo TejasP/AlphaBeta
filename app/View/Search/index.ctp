@@ -70,8 +70,8 @@
 						  for($i=0;$i<$length;$i++)
 						  {
 						  ?>
-						  <tr>
-					      <td id="details-<?php echo ($results[$i][0]['medicines_header']['medicine_id']) ?>"><a href="#" onClick="javascript:openDetail('<?php echo $results[$i][0]['medicines_header']['medicine_id'] ?>');"><?php echo ($results[$i][0]['medicines_header']['medicine_name']) ?></a></td>
+						  <tr id="master-<?php echo ($results[$i][0]['medicines_header']['medicine_id']) ?>" >
+					      <td><a href="javascript:void(0);" onClick="javascript:openDetail('<?php echo $results[$i][0]['medicines_header']['medicine_id'] ?>');"><?php echo ($results[$i][0]['medicines_header']['medicine_name']) ?></a></td>
 					      <td><?php echo ($results[$i][0]['medicines_header']['mfg_name']) ?></td>
 					      <td><?php echo ($results[$i][0]['medicines_header']['price']) ?> &#8377; </td>
 					      <td><a href="#" id="quote-<?php echo ($results[$i][0]['medicines_header']['medicine_id']) ?>" class="button tiny radius" onClick="javascript:callBook('<?php echo $results[$i][0]['medicines_header']['medicine_id'] ?>');">Choose</a></td>
@@ -136,13 +136,9 @@
  	</div>
  </div>
 </section> 
-      <script type='text/javascript'>
 
+<script type='text/javascript'>
 
-
-   $(document).ready(function () {
-
-    });
     	
    	function Locate(){
       			$("#locateTable").attr("style","display:block");
@@ -248,8 +244,23 @@
     	openLocation();
     }	
     
+
+ 	$(document).on('click', "#closebutton", function (event) {
+    		event.preventDefault();
+			$(this).parent().hide();
+    });
+    
+            
     function openDetail(id){
+    	var masterID= "#"+"master-"+id;
     	var detailsID= "#"+"details-"+id;
-    	$(detailsID).append("<td> Description </td>");
+    	
+    	if($(detailsID).length){
+    		$(detailsID).toggle();	
+    	}
+    	else{
+	    	$(masterID).after("<div id='"+detailsID+"'> Description <div id='closebutton'>close</div></div>");
+    	}
+    	return false;
     }
     </script>
