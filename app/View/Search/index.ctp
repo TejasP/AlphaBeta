@@ -138,25 +138,10 @@
 </section> 
       <script type='text/javascript'>
 
-	var input = document.getElementById('LocateProvider');
-		input.onfocus = function() {
-		input.value = '';
-	}
+
 
    $(document).ready(function () {
-    	var $nSearch = $('#LocateProvider').val();
-    	
-        var options, a;
-        var $url = '<?php echo $this->Html->url(array('controller'=>'LocateProvider', 'action'=>'getAreaName'))?>'+"/"+$nSearch;
-        jQuery(function() {
-            options = { 
-                source: $url,
-                dataType: "json",
-                minChars: 4,
-            };
-            
-            a = $('#LocateProvider').autocomplete(options);
-        });
+
     });
     	
    	function Locate(){

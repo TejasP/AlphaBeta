@@ -177,7 +177,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 	    			<div class="large-4 medium-1 columns">		
 								<a href="javascript:openLocation();" >My Location</a>
 					</div>
-					<div class="large-3 medium-6 columns" id="PreferredLocationText" <?php if (!empty($isLocationSet)){  if($isLocationSet=='true') {?> style="display:block" > <?php } }else{?> style="display:none" > <?php }?> 		
+					<div class="large-3 medium-6 columns" id="PreferredLocationText" <?php if(!empty($isLocationSet)){  if($isLocationSet=='true') {?> style="display:block"  <?php } }else{?> style="display:none"  <?php }?> > 		
 							<?php if (!empty($isLocationSet)){  if($isLocationSet=='true') { echo $locationText; } } else { ?>&nbsp; <?php }?> 
 					</div>
 					<div class="large-6 medium-5 columns">
@@ -221,6 +221,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 					 				 &nbsp;
 					 				</div>
  					  		</div>
+					</div>
 					</div>
 					<hr/>
 	    </section>
@@ -282,8 +283,14 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
       
 	<script>
       $(document).foundation();
-      var doc = document.documentElement;
-      doc.setAttribute('data-useragent', navigator.userAgent);
+      	var doc = document.documentElement;
+      	doc.setAttribute('data-useragent', navigator.userAgent);
+      
+      	var input = document.getElementById('LocateProvider');
+		input.onfocus = function() {
+		input.value = '';
+		}
+	
     </script>
     
     
@@ -332,6 +339,19 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
         });
         
         
+        var $nSearch = $('#LocateProvider').val();
+    	
+        var options, a1;
+        var $url_locate = '<?php echo $this->Html->url(array('controller'=>'LocateProvider', 'action'=>'getAreaName'))?>'+"/"+$nSearch;
+        jQuery(function() {
+            options = { 
+                source: $url_locate,
+                dataType: "json",
+                minChars: 4,
+            };
+            
+            a1 = $('#LocateProvider').autocomplete(options);
+        });
         
 		
     });
