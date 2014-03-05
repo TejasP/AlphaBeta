@@ -196,4 +196,33 @@ class UsersController extends AppController {
     	// get Token and check against the DB and ask user to update password.
     	
 	}
+	
+	public function firstPage() {
+		$user = Authsome::get('username');
+		$role = Authsome::get('role');
+	
+		if (($user=== 'NULL') || ($user== '')) {
+			$this->set('isUserLoggedIn',"false");
+		}else
+		{
+			$this->set('isUserLoggedIn',"true");
+		}
+	
+		$isBucketFilled =  $this->Cookie->read('basket-data');
+	
+		$type= gettype($isBucketFilled);
+		if($type==='string'||$type==='NULL')
+		{
+			$this->set('isBucketFilled',"false");
+		}else{
+			$this->set('isBucketFilled',"true");
+		}
+		
+		parent::polulateLeftNav($user,$role);
+		$this->layout = 'foundation_without_topbar';
+		
+		//$this->User->recursive = 0;
+		$this->set('users', $this->paginate());
+		$this->render('login');
+	}
 }
