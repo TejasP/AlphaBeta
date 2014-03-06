@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: text/plain');
+
 
 App::uses('AppNoAuthController', 'Controller');
 App::uses('ConnectionManager', 'Model');
@@ -150,7 +150,7 @@ public function  cleanDuplicateElements($tableName){
 
 			$count = count($myData);
 	
-			for($j=1;$j<=2;$j++)
+			for($j=1;$j<=500;$j++)
 			{
 			$data = array(
 					'Providers_new' => array(
@@ -169,51 +169,60 @@ public function  cleanDuplicateElements($tableName){
 					'working_hours'=>$myData[$j]['providers']['working_hours'],
 					'listed_categories'=>$myData[$j]['providers']['listed_categories'])
 			);
-			/* if($this->Providers_new->update($data))
-			 	{
-				$response = "done.";
-			} */
+
 			
 			$url  ="https://maps.googleapis.com/maps/api/place/textsearch/xml?query=".str_replace(" ","%20%",$myData[$j]['providers']['provider_name'])."$20%near%20%".str_replace(" ","%20%",$myData[$j]['providers']['area'])."$20%".str_replace(" ","%20%",$myData[$j]['providers']['city'])."&sensor=false&key=AIzaSyD0brQ1DgNejCu1JEUK2ZNx98dPkz1GaMA";
 			//$url = "http://maps.googleapis.com/maps/api/geocode/json?address=pune&sensor=false";
 			
-		//	$url  ="https://maps.googleapis.com/maps/api/place/textsearch/xml?query=Apollo%20%Pharmacy%20%near%20%Pune&sensor=false&key=AIzaSyD0brQ1DgNejCu1JEUK2ZNx98dPkz1GaMA";
+			//$url  ="https://maps.googleapis.com/maps/api/place/textsearch/xml?query=Apollo%20%Pharmacy%20%near%20%Pune&sensor=false&key=AIzaSyD0brQ1DgNejCu1JEUK2ZNx98dPkz1GaMA";
 	
-			//$response = $this->curl($url);
+			$response = $this->curl($url);
 		 	
-			$response = "<?xml version='1.0' encoding='UTF-8'?>
-<PlaceSearchResponse>
- <status>OK</status>
- <result>
-  <name>Disha Diagnostic Center</name>
-  <type>health</type>
-  <type>establishment</type>
-  <formatted_address>1, Disha Apartment, Sanghvinagar, Near State Bank Of Patiala, Sangavi Keshri Rd, Ward No. 8, Aundh Gaon, Aundh, Pune, Maharashtra, India</formatted_address>
-  <geometry>
-   <location>
-    <lat>18.5608900</lat>
-    <lng>73.8111540</lng>
-   </location>
-  </geometry>
-  <icon>http://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png</icon>
-  <reference>CoQBeQAAAAd6rwj0YrnZ6ab2O1ydWPIb5ne9qKwKYKOvM6YAtLYBrIHqNFf9SKWPnA4qPF1NXSLa4yh7khbsspmYVFojh5R0YF1Yszb7LYEVOhdLp7koifvgtLOiJLrPdNX7GM6yDGTPdvc7c2uTfrjXmpqactxEtvlfbITFF3iLtvPKAfSREhDUqsdgoftd9HUNiw6Z1wMXGhQy7vCldahg_p1DeNSt7EDm7ec2ig</reference>
-  <id>23113ff6390bc26a6172eca1f415dc3a46483ba0</id>
-  <opening_hours>
-   <open_now>false</open_now>
-  </opening_hours>
- </result>
-</PlaceSearchResponse>";
-
-			
+		
 		//	$xml = new SimpleXMLElement($response); 
 			
 			$xml = $this->xml_to_array($response);
 
-			echo $xml['status'];
-			echo $xml['result']['name'];
-			
-	
-			
+			if ($xml['status']==='OK'){
+				if(count($xml['result']['name'])== 1){
+					echo count($xml['result']['name'])."</BR>";
+					echo $xml['result']['name']."</BR>";
+					echo $xml['result']['formatted_address']."</BR>";
+					echo $xml['result']['geometry']['location']['lat']."</BR>";
+					echo $xml['result']['geometry']['location']['lng']."</BR>";
+					echo "</br>";
+					
+					if($this->Providers_new->updateAll( array('Providers_new.google_address_1' =>"'".$xml['result']['formatted_address']."'", 'Providers_new.google_address_1_longi'=> $xml['result']['geometry']['location']['lng'], 'Providers_new.google_address_1_lati'=> $xml['result']['geometry']['location']['lat']),array('Providers_new.id' => $j)))
+					{
+						echo  "Updated .";
+						echo "</br>";
+						
+					}
+				}
+				else {
+					echo count($xml['result'][0]['name'])."</BR>";
+					echo $xml['result'][0]['name']."</BR>";
+					echo $xml['result'][0]['formatted_address']."</BR>";
+					echo $xml['result'][0]['geometry']['location']['lat']."</BR>";
+					echo $xml['result'][0]['geometry']['location']['lng']."</BR>";
+					echo "</br>";
+					echo count($xml['result'][1]['name'])."</BR>";
+					echo $xml['result'][1]['name']."</BR>";
+					echo $xml['result'][1]['formatted_address']."</BR>";
+					echo $xml['result'][1]['geometry']['location']['lat']."</BR>";
+					echo $xml['result'][1]['geometry']['location']['lng']."</BR>";
+					echo "</br>";
+					
+					if($this->Providers_new->updateAll( array('Providers_new.google_address_1' =>"'".$xml['result'][0]['formatted_address']."'", 'Providers_new.google_address_1_longi'=> $xml['result'][0]['geometry']['location']['lng'], 'Providers_new.google_address_1_lati'=> $xml['result'][0]['geometry']['location']['lat'],'Providers_new.google_address_2' =>"'".$xml['result'][1]['formatted_address']."'", 'Providers_new.google_address_2_longi'=> $xml['result'][1]['geometry']['location']['lng'], 'Providers_new.google_address_2_lati'=> $xml['result'][1]['geometry']['location']['lat']),array('Providers_new.id' => $j)))
+					{
+						echo  "Updated .";
+						echo "</br>";
+						
+					}
+					
+				}
+		//	var_dump($xml);
+			}
 		//	echo $xml->$status;
 			
 		//	echo $xml->$result->$name;
@@ -246,7 +255,6 @@ public function  cleanDuplicateElements($tableName){
 		$ch = curl_init();
 		
 		$options = array(CURLOPT_URL => $url,
-				CURLOPT_HEADER => TRUE,
 				CURLOPT_RETURNTRANSFER => TRUE
 		);
 		
