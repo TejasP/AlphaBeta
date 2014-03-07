@@ -71,10 +71,12 @@
 						  {
 						  ?>
 						  <tr id="master-<?php echo ($results[$i][0]['medicines_header']['medicine_id']) ?>" >
-					      <td><a href="javascript:void(0);" onClick="javascript:openDetail('<?php echo $results[$i][0]['medicines_header']['medicine_id'] ?>');"><?php echo ($results[$i][0]['medicines_header']['medicine_name']) ?></a></td>
+					      <td><a href="javascript:void(0);" onClick="javascript:openDetail('<?php echo $results[$i][0]['medicines_header']['medicine_id'] ?>',this);"><?php echo ($results[$i][0]['medicines_header']['medicine_name']) ?></a></td>
 					      <td><?php echo ($results[$i][0]['medicines_header']['mfg_name']) ?></td>
 					      <td><?php echo ($results[$i][0]['medicines_header']['price']) ?> &#8377; </td>
 					      <td><a href="#" id="quote-<?php echo ($results[$i][0]['medicines_header']['medicine_id']) ?>" class="button tiny radius" onClick="javascript:callBook('<?php echo $results[$i][0]['medicines_header']['medicine_id'] ?>');">Choose</a></td>
+					   	  </tr>
+					   	  <tr id="details-<?php echo ($results[$i][0]['medicines_header']['medicine_id'])?>"  style="display:none" >
 					   	  </tr>
 					    <?php 
 					    	}
@@ -247,20 +249,35 @@
 
  	$(document).on('click', "#closebutton", function (event) {
     		event.preventDefault();
-			$(this).parent().hide();
+			$(this).parent().parent().parent().attr("style","display:none");
     });
     
+    
             
-    function openDetail(id){
+    function openDetail(id,elem){
     	var masterID= "#"+"master-"+id;
     	var detailsID= "#"+"details-"+id;
     	
-    	if($(detailsID).length){
-    		$(detailsID).toggle();	
+
+    	if ( $(detailsID).css("display")== 'table-row') {
+    		 $(detailsID).attr("style","display:none");
     	}
     	else{
-	    	$(masterID).after("<div id='"+detailsID+"'> Description <div id='closebutton'>close</div></div>");
-    	}
-    	return false;
+    	   	var $url = '<?php echo $this->Html->url(array('controller'=>'Search', 'action'=>'getItemDetailsBasedonID'))?>'+'/'+id;
+    	   	var quantity,unit_measurement,packaging_type,composition,generic;
+    	   	
+			$.getJSON($url, function(data){
+ 				quantity =data[0].medicines_header.quantity;
+ 				unit_measurement = data[0].medicines_header.unit_measurement;
+ 				packaging_type = data[0].medicines_header.packaging_type;
+ 				composition = data[0].medicines_header.composition;
+ 				generic = data[0].medicines_header.generic;
+ 				console.log("quantity."+quantity);
+
+		    	$(detailsID).html("<TD colspan=3><div> Available in "+packaging_type+" of "+quantity+" "+unit_measurement +"<div id='closebutton'>close</div></div></TD>");
+		    	$(detailsID).attr("style","display:table-row");
+ 				});
+
+		}
     }
     </script>

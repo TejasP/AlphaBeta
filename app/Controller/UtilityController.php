@@ -150,7 +150,7 @@ public function  cleanDuplicateElements($tableName){
 
 			$count = count($myData);
 	
-			for($j=1;$j<=500;$j++)
+			for($j=1501;$j<=2000;$j++)
 			{
 			$data = array(
 					'Providers_new' => array(
