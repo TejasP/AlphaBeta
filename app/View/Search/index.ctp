@@ -215,36 +215,7 @@
     	
   
     	
- 	function callBook(id){
- 			// Get AJAX call
- 			
- 			
- 		var $url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'addToBucket'))?>'+'/'+id;
-		$.getJSON($url, function(data){
-      			console.log("done.");
-      			var quote= "#"+"quote-"+id;
-      			$(quote).text('Chosen');
-      			$(quote).attr("class","button tiny radius disabled");
-      			$("#book").attr("style","display:block");
- 			});
-
-    
-		var $url_count = '<?php echo $this->Html->url(array('controller'=>'Search', 'action'=>'getSelectedItemsCount'))?>';
-		$.getJSON($url_count, function(data){
-      			console.log("done.");
-				$.each(data, function(index, value) {
-				    $("#bucketID").text("My Selection ("+value+")");
-				});
- 			});
- 			
-  			$("#karttwistie_container").show();
-    		
-    	}    	
-    	
-    	
-    function callBooking(){
-    	openLocation();
-    }	
+ 	
     
 
  	$(document).on('click', "#closebutton", function (event) {

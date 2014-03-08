@@ -158,7 +158,6 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 									<ul>
 									<li><div class="blankSelection"></div></li>
 									<li><div class="blankSelection"></div></li>
-									<li><div class="blankSelection"></div></li>
 									</ul>
 									</div>
 									<ul class="amazon_scroller_nav">
@@ -368,20 +367,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
     }); 
     
       $(function() {
-				$("#karttwistie").amazon_scroller({
-                    scroller_title_show: 'disable',
-                    scroller_time_interval: '3000',
-                    scroller_window_background_color: "none",
-                    scroller_window_padding: '10',
-                    scroller_border_size: '0',
-                    scroller_border_color: '#CCC',
-                    scroller_images_width: '100',
-                    scroller_images_height: '80',
-                    scroller_title_size: '12',
-                    scroller_title_color: 'black',
-                    scroller_show_count: '2',
-                    directory: 'img'
-                });
+				
             });
   
     
@@ -402,22 +388,8 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
     
     function openCart(){
     	$("#karttwistie_container").toggle();
-
-    	$("#karttwistie").amazon_scroller({
-                    scroller_title_show: 'disable',
-                    scroller_time_interval: '300000',
-                    scroller_window_background_color: "none",
-                    scroller_window_padding: '0',
-                    scroller_border_size: '0',
-                    scroller_border_color: '#CCC',
-                    scroller_images_width: '100',
-                    scroller_images_height: '80',
-                    scroller_title_size: '12',
-                    scroller_title_color: 'black',
-                    scroller_show_count: '2',
-                    directory: 'img'
-                });
-    	
+    	$("#karttwistie > div > ul > li:first").html("<a href='#'><img src='' /></a>");
+    	initialzeKT();
     }
     
     function openLocation(){
@@ -494,6 +466,62 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
    		$("#PreferredLocationText").hide();
    	}
    	
+   	
+   	function callBook(id){
+ 			// Get AJAX call
+ 			
+ 			
+ 		var $url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'addToBucket'))?>'+'/'+id;
+		$.getJSON($url, function(data){
+      			console.log("done.");
+      			var quote= "#"+"quote-"+id;
+      			$(quote).text('Chosen');
+      			$(quote).attr("class","button tiny radius disabled");
+      			$("#book").attr("style","display:block");
+ 			});
+
+    
+		var $url_count = '<?php echo $this->Html->url(array('controller'=>'Search', 'action'=>'getSelectedItemsCount'))?>';
+		$.getJSON($url_count, function(data){
+      			
+      			 
+				$.each(data, function(index, value) {
+				    var sel = $("#bucketID").text();
+					var count = increaseSelectionCount(sel);
+      			 	$("#bucketID").text('My Selection ('+count+')');
+				});
+ 			});
+    		
+    	}    	
+    	
+    	function increaseSelectionCount(selection){
+    	    var openBracket = selection.indexOf('(');
+      		var closeBracket = selection.indexOf(')');
+      		var selectCount = parseInt(selection.substring(openBracket+1,closeBracket));
+      		var newCount = selectCount+1;
+      		return newCount;
+    	}
+    	
+    function callBooking(){
+    	openLocation();
+    }
+   	
+   	function initialzeKT(){
+   		$("#karttwistie").amazon_scroller({
+                    scroller_title_show: 'disable',
+                    scroller_time_interval: '3000',
+                    scroller_window_background_color: "none",
+                    scroller_window_padding: '10',
+                    scroller_border_size: '0',
+                    scroller_border_color: '#CCC',
+                    scroller_images_width: '100',
+                    scroller_images_height: '80',
+                    scroller_title_size: '12',
+                    scroller_title_color: 'black',
+                    scroller_show_count: '2',
+                    directory: 'img'
+                });
+   	}
 </script>
   </body>
 </html>
