@@ -150,7 +150,7 @@ public function  cleanDuplicateElements($tableName){
 
 			$count = count($myData);
 	
-			for($j=1501;$j<=2000;$j++)
+			for($j=1501;$j<=1550;$j++)
 			{
 			$data = array(
 					'Providers_new' => array(
@@ -171,7 +171,7 @@ public function  cleanDuplicateElements($tableName){
 			);
 
 			
-			$url  ="https://maps.googleapis.com/maps/api/place/textsearch/xml?query=".str_replace(" ","%20%",$myData[$j]['providers']['provider_name'])."$20%near%20%".str_replace(" ","%20%",$myData[$j]['providers']['area'])."$20%".str_replace(" ","%20%",$myData[$j]['providers']['city'])."&sensor=false&key=AIzaSyD0brQ1DgNejCu1JEUK2ZNx98dPkz1GaMA";
+			$url  ="https://maps.googleapis.com/maps/api/place/textsearch/xml?query=".str_replace(" ","%20%",$myData[$j]['providers']['provider_name'])."%20%near%20%".str_replace(" ","%20%",$myData[$j]['providers']['area'])."%20%".str_replace(" ","%20%",$myData[$j]['providers']['city'])."&sensor=false&key=AIzaSyBSDjiTpiGA5JmwAav6VodAfRozJRP0a4E";
 			//$url = "http://maps.googleapis.com/maps/api/geocode/json?address=pune&sensor=false";
 			
 			//$url  ="https://maps.googleapis.com/maps/api/place/textsearch/xml?query=Apollo%20%Pharmacy%20%near%20%Pune&sensor=false&key=AIzaSyD0brQ1DgNejCu1JEUK2ZNx98dPkz1GaMA";
