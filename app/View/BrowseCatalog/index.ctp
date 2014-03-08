@@ -32,13 +32,13 @@
 			var $catId = $("div").find("#"+ $(this).next("div").attr("id")).find("a").attr("id");
 			var $tabcontentDiv = $("div #" + $(this).next("div").attr("id") + "-1");
 			
-			$.fetchCategories($tabcontentDiv, "/alphabeta/browsecatalog/fetchCateogries?catid=" + $catId + getURLParameter('bcflt') + getURLParameter('pg') + "&q="); 
+			$.fetchCategories($tabcontentDiv, "<?php echo Configure::read('browsecatalogURL'); ?>/fetchCateogries?catid=" + $catId + getURLParameter('bcflt') + getURLParameter('pg') + "&q="); 
 		});
 
 		$("dd", "dl #mytab").click(function(e) {
 			var $panelId = $(this).find("a").attr("href");
 			var $contentDiv = $("div").find($panelId);
-			$.fetchCategories($contentDiv, "/alphabeta/browsecatalog/fetchCateogries?catid=" + $(this).find("a").attr("id") + getURLParameter('bcflt') + getURLParameter('pg') + "&q=");
+			$.fetchCategories($contentDiv, "<?php echo Configure::read('browsecatalogURL'); ?>/fetchCateogries?catid=" + $(this).find("a").attr("id") + getURLParameter('bcflt') + getURLParameter('pg') + "&q=");
 		});
 
 		$(document).on('click', 'ul.products li.products-item' , function() {
@@ -89,7 +89,7 @@
 				$("ul#" + $catid + " li.products-item:eq(" + ($prodno-1) + ")").after("<li id='D" + $currprodid + "' class='productdetail'></li>");
 				
 				var $contentDiv = $("ul#" + $catid + " li#D" + $currprodid);
-				$.fetchProductDetail($prodSeq, "D" + $currprodid, $contentDiv, "/alphabeta/browsecatalog/fetchProductDetail?prodid=" + $currprodid.split("-")[1]);
+				$.fetchProductDetail($prodSeq, "D" + $currprodid, $contentDiv, "<?php echo Configure::read('browsecatalogURL'); ?>/fetchProductDetail?prodid=" + $currprodid.split("-")[1]);
 			}
 			else
 			{
@@ -111,7 +111,7 @@
 	
 					  	var $prodcatli = $("<li class='products-item' id='" + $product.cat_id + "-" + $product.prod_id + "' style='width: 165px;'></li>");						
 						$prodlink  = $("<a class='fllt'></a>");
-						$prodlink.append("<div class='fllt imageBox'><img width='60px' height='80px' src='/alphabeta/img/products/" + $product.cat_imagefolder + "/" + $product.prod_id + "_small.jpg'></div>");
+						$prodlink.append("<div class='fllt imageBox'><img width='60px' height='80px' src='" + "<?php echo Configure::read('imgproductfolder'); ?>" + "/" + $product.cat_imagefolder + "/" + $product.prod_id + "_small.jpg'></div>");
 						$prodlink.append("<div class='fllt labelBox' style='height:85px;'><span class='arrow-right'>" + $product.prod_desc + "</span><span class='arrow-right'>(Rs." + $product.prod_price + ")<br></span><span class='arrow-right'>" + $product.cat_desc + "</span></div>");
 						
 						$prodcatli.append($prodlink);
@@ -141,7 +141,7 @@
 					for (var i=0, len=data.length; i < len; i++) {
 						var $product = data[i];
 	
-						$contents.append("<div class='pdetail-thumbimg'><img width='300px' height='300px' src='/alphabeta/img/products/" + $product.cat_imagefolder + "/" + $product.prod_id + "_large.jpg'></div>");
+						$contents.append("<div class='pdetail-thumbimg'><img width='300px' height='300px' src='" + "<?php echo Configure::read('imgproductfolder'); ?>" + "/" + $product.cat_imagefolder + "/" + $product.prod_id + "_large.jpg'></div>");
 						$contents.append("<div class='pdetail-content'><div class='pdetail-prodname'>" + $product.prod_desc + "</div><div class='pdetail-company'>" + $product.prod_company + "</div><div class='pdetail-desc'>product description to be placed here</div><div class='pdetail-leftblock'><div><span class='pdetail-label'>Starting from </span><span class='pdetail-price'>Rs. " + $product.prod_price + "</span></div><div><span class='pdetail-label'>inclusive of taxes</span></div><div class='pdetail-submit' style='width:100px;'><a class='postfix button expand' href='#'>Shortlist</a></div><div class='pdetail-seperator'></div></div><div class='pdetail-attributes'>product attributes to be placed here</div></div>");
 					}
 					

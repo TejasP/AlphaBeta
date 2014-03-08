@@ -115,4 +115,6 @@ $init_data = parse_ini_file('../Config/init_config.ini');
 Configure::write('dashboard',$init_data['dashboard']);
 Configure::write('searchURL',$init_data['searchURL']);
 Configure::write('bookingURL',$init_data['bookingURL']);
+Configure::write('browsecatalogURL',$init_data['browsecatalogURL']);
+Configure::write('imgproductfolder',$init_data['imgproductfolder']);
 
