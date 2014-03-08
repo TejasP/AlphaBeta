@@ -126,6 +126,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 		echo $this->Html->script('/js/vendor/jquery-ui.js');
 		echo $this->Html->script('/js/vendor/jquery.ui.widget.js');
 
+
 	?>
        <!-- Top sections -->
        		<section>
@@ -388,8 +389,17 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
     
     function openCart(){
     	$("#karttwistie_container").toggle();
-    	$("#karttwistie > div > ul > li:first").html("<a href='#'><img src='' /></a>");
-    	initialzeKT();
+    	initialzeKT();    	
+    	$url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'getCookie'))?>';
+    	$.getJSON($url, function(data){
+    		//		console.log(data);
+    	    		$.each(data, function(index, value) {
+    	    			var indexCount = index+1;
+    	    			var selector = "#karttwistie > div > ul > li:nth-child("+indexCount+")";
+    	    			$(selector).html("<a href='#' onclick='openSelectedItem("+value[0].medicines_header.medicine_id+");'><img src='' />"+value[0].medicines_header.medicine_name+"</a>");
+					});
+    	});
+
     }
     
     function openLocation(){
