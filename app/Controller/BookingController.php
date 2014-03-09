@@ -6,7 +6,7 @@ class BookingController extends AppNoAuthController {
 	
 	public $uses = array('Search','medicines_header','Providers');
 	
-	public function addToBucket($ItemId){
+	public function addToBucket($ItemId,$category){
 		// first check if cookie exists
 		// IF yes add to existing else create cookie and add
 		$cookieData = $this->Cookie->read('basket-data');
@@ -18,7 +18,7 @@ class BookingController extends AppNoAuthController {
 
 		$basketData = array();
 		$basketData =$cookieData;
-		$basketData []= $ItemId;
+		$basketData []= array('category'=>$category,'item'=>$ItemId,);
 		
 		
 		$this->Cookie->write('basket-data',json_encode($basketData));
@@ -28,14 +28,17 @@ class BookingController extends AppNoAuthController {
 		$this->response->body($json); 
 	}
 	
-	public function removeFromBucket($ItemId){
+	public function removeFromBucket($ItemId,$category){
 		// remove item from cookie
 		$cookieData = $this->Cookie->read('basket-data');
 		$type= gettype($cookieData);
-
+		var_dump( ($cookieData));
 		
-		 foreach (array_keys($cookieData, $ItemId) as $key) {
-		 	unset($cookieData[$key]);
+		foreach(array_keys($cookieData) as $keyOut){
+				echo  $keyOut;
+				 if ($cookieData[$keyOut]['category']===$category && $cookieData[$keyOut]['item']=== $ItemId) {
+		 			unset($cookieData[$keyOut]);
+			}
 		}
 		
 		$new_cookieData = array_values($cookieData);

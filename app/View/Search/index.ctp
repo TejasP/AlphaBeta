@@ -74,7 +74,7 @@
 					      <td><a href="javascript:void(0);" onClick="javascript:openDetail('<?php echo $results[$i][0]['medicines_header']['medicine_id'] ?>',this);"><?php echo ($results[$i][0]['medicines_header']['medicine_name']) ?></a></td>
 					      <td><?php echo ($results[$i][0]['medicines_header']['mfg_name']) ?></td>
 					      <td><?php echo ($results[$i][0]['medicines_header']['price']) ?> &#8377; </td>
-					      <td><a href="#" id="quote-<?php echo ($results[$i][0]['medicines_header']['medicine_id']) ?>" class="button tiny radius" onClick="javascript:callBook('<?php echo $results[$i][0]['medicines_header']['medicine_id'] ?>');">Choose</a></td>
+					      <td><a href="#" id="quote-<?php echo ($results[$i][0]['medicines_header']['medicine_id']) ?>" class="button tiny radius" onClick="javascript:callBook('<?php echo $results[$i][0]['medicines_header']['medicine_id'] ?>','1');">Choose</a></td>
 					   	  </tr>
 					   	  <tr id="details-<?php echo ($results[$i][0]['medicines_header']['medicine_id'])?>"  style="display:none" >
 					   	  </tr>

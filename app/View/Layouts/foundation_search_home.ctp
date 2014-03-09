@@ -477,11 +477,11 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
    	}
    	
    	
-   	function callBook(id){
+   	function callBook(id,category){
  			// Get AJAX call
  			
  			
- 		var $url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'addToBucket'))?>'+'/'+id;
+ 		var $url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'addToBucket'))?>'+'/'+id+'/'+category;
 		$.getJSON($url, function(data){
       			console.log("done.");
       			var quote= "#"+"quote-"+id;
