@@ -191,6 +191,40 @@
     width: 20px;
 }
 
+/* ----- Browse Catalog filter section ----- */
+.kcb {
+    -moz-box-sizing: border-box;
+    border: 1px solid #DCDCDC;
+    border-radius: 1px 1px 1px 1px;
+    cursor: default;
+    display: inline-block;
+    height: 13px;
+    margin: 0;
+    position: relative;
+    text-indent: 0;
+    width: 13px;
+}
+
+.sr__filled {
+    -moz-appearance: none;
+    -moz-box-sizing: border-box;
+    background-color: #BBBBBB;
+    border-radius: 1px 1px 1px 1px;
+    display: inline-block;
+    height: 9px;
+    left: 1px;
+    position: absolute;
+    text-indent: 0;
+    top: 1px;
+    vertical-align: top;
+    width: 9px;
+}
+.sr__link-text {
+    white-space: normal;
+}
+.sr__link, .sr__link:link, .sr__link:visited {
+    color: #777777;
+}
 /* ----- Product detail pull down section ----- */
 .pdetail-uparrow {
 	height: 22px;

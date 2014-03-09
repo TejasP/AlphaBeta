@@ -1,3 +1,50 @@
+<?php
+	// reading query str to add them when any link is clicked.	
+	$querystr = $this->params['url'];
+	
+	$bchandler = new BrowseCatalogHandlerComponent();
+	$filters = $bchandler->fetchFilters($querystr);
+
+	$parambcflt = "";
+	$parampg = "";
+	$ppr_min;
+	$ppr_max;	
+	$cp;
+	$spoint;
+	for($i=0; $i<count($filters); $i++) {
+		if ($filters[$i]["key"] == "ppr_min") {
+			$ppr_min = $filters[$i]["value"];
+		} else if($filters[$i]["key"] == "ppr_max") {
+			$ppr_max= $filters[$i]["value"];
+		} else if($filters[$i]["key"] == "cp") {
+			$cp = $filters[$i]["value"];
+		} else if($filters[$i]["key"] == "spoint") {
+			$spoint = $filters[$i]["value"];
+		}
+	}
+	
+	$parambcflt = "bcflt=vw:gr";
+	
+	if(isset($ppr_min)) {
+		$parambcflt = $parambcflt . ",ppr_min:" . $ppr_min;
+	}
+		
+	if(isset($ppr_max)) {
+		$parambcflt = $parambcflt . ",ppr_max:" . $ppr_max;
+	}
+	
+	$parampg = $parampg . "&pg=";
+	if(isset($cp)) {
+		$parampg = $parampg . "cp:" . $cp;
+	}
+	
+	if(isset($spoint)) {
+		$parampg = $parampg . ",spoint:" . $spoint;
+	}
+	
+	$parampg = $parampg . "&q=";
+?>
+
 <script language="javascript">
 
 	function getURLParameter(sParam)
@@ -32,13 +79,13 @@
 			var $catId = $("div").find("#"+ $(this).next("div").attr("id")).find("a").attr("id");
 			var $tabcontentDiv = $("div #" + $(this).next("div").attr("id") + "-1");
 			
-			$.fetchCategories($tabcontentDiv, "<?php echo Configure::read('browsecatalogURL'); ?>/fetchCateogries?catid=" + $catId + getURLParameter('bcflt') + getURLParameter('pg') + "&q="); 
+			$.fetchCategories($tabcontentDiv, "<?php echo Configure::read('browsecatalogURL'); ?>/fetchCateogries?catid=" + $catId + "&<?php echo $parambcflt . $parampg ?>"); 
 		});
 
 		$("dd", "dl #mytab").click(function(e) {
 			var $panelId = $(this).find("a").attr("href");
 			var $contentDiv = $("div").find($panelId);
-			$.fetchCategories($contentDiv, "<?php echo Configure::read('browsecatalogURL'); ?>/fetchCateogries?catid=" + $(this).find("a").attr("id") + getURLParameter('bcflt') + getURLParameter('pg') + "&q=");
+			$.fetchCategories($contentDiv, "<?php echo Configure::read('browsecatalogURL'); ?>/fetchCateogries?catid=" + $(this).find("a").attr("id") + "&<?php echo $parambcflt . $parampg ?>");
 		});
 
 		$(document).on('click', 'ul.products li.products-item' , function() {
@@ -67,7 +114,6 @@
 			});
 			
 //			alert("index......." + $prodno);
-			
 			
 			
 			if(($prodno%5) > 0) {
@@ -102,7 +148,7 @@
 		{
 			$.getJSON(postUrl, function(data){
 				$contentDiv.html("");
-				var $contents  = $("<div class='nav left'><a href='#'><b>&lt;</b></a></div><div class='nav right'><a href='#'><b>&gt;</b></a></div>");
+				var $contents  = $("<div class='nav left'><a href='" + "<?php echo Configure::read('browsecatalogURL') . '?' . $parambcflt . $parampg ?>" + "'><b>&lt;</b></a></div><div class='nav right'><a href='" + "<?php echo Configure::read('browsecatalogURL') . '?' . $parambcflt . $parampg ?>" + "'><b>&gt;</b></a></div>");
 				var $prodlinks = $("<div id='prodlinks'></div>");
 				if(data != null) {
 					var $prodcat = $("<ul id='" + data[0].cat_id + "' class='products'></ul>");
@@ -164,26 +210,26 @@
 						<div class="sr__group">
 							<div class="sr__text">
 								<a	href="?bcflt=vw:gr&amp;pg=cp:1,spoint:1&amp;q=">
-									<span title="Clear all filters" class="link-text"><span class="kcb"><input type="checkbox" value="clearall"></span><span class="link-text">&nbsp;Clear all filters</span></a>
+									<span title="Clear all filters" class="link-text"><span class="kcb"></span><span class="link-text">&nbsp;Clear all filters</span></a>
 							</div>
 						</div>
 						<div class="sr__group">
 							<div class="sr__title"><b>Price</b></div>
 							<div class="sr__text">
 								<a	href="?bcflt=vw:gr,ppr_max:1000&amp;pg=cp:1,spoint:1&amp;q=">
-									<span class="kcb"><input type="checkbox" value="xxx-1000"></span><span class="link-text">&nbsp;Up to Rs. 1000</span></a>
+									<span class="kcb"></span><span class="link-text">&nbsp;Up to Rs. 1000</span></a>
 							</div>
 							<div class="sr__text">
 								<a	href="?bcflt=vw:gr,ppr_min:1001,ppr_max:10000&amp;pg=cp:1,spoint:1&amp;q=">
-									<span class="kcb"><input type="checkbox" value="1001-10000"></span><span class="link-text">&nbsp;Rs. 1001 &ndash; Rs. 10000</span></a>
+									<span class="kcb"></span><span class="link-text">&nbsp;Rs. 1001 &ndash; Rs. 10000</span></a>
 							</div>
 							<div class="sr__text">
 								<a	href="?bcflt=vw:gr,ppr_min:10001,ppr_max:25000&amp;pg=cp:1,spoint:1&amp;q=">	
-									<span class="kcb"><input type="checkbox" value="10001-25000"></span><span class="link-text">&nbsp;Rs. 10001 &ndash; Rs. 25000</span></a>
+									<span class="kcb"></span><span class="link-text">&nbsp;Rs. 10001 &ndash; Rs. 25000</span></a>
 							</div>
 							<div class="sr__text">
 								<a	href="?bcflt=vw:gr,ppr_min:25001&amp;pg=cp:1,spoint:1&amp;q=">
-									<span class="kcb"><input type="checkbox" value="25001-xxx"></span><span class="link-text">&nbsp;Over Rs. 25001</span></a>
+									<span class="kcb"></span><span class="link-text">&nbsp;Over Rs. 25001</span></a>
 							</div>    
 						</div>
 					</div>
