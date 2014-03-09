@@ -305,13 +305,25 @@ class SearchController extends AppNoAuthController {
 	
 	public function getItemsCount(){
 		$chosenId =$this->Cookie->read('basket-data');
-		$length =  count($chosenId);
-		return $length;
+		$count = 0;
+		if(!empty($chosenId)){
+			foreach(array_keys($chosenId) as $keyOut){
+					$count++;
+			}
+		}
+		return $count;
 	}
 	
 	public function getSelectedItemsCount(){
 		$chosenId =$this->Cookie->read('basket-data');
-		$length =  count($chosenId);
+		$count = 0;
+		if(!empty($chosenId)){
+			foreach(array_keys($chosenId) as $keyOut){
+					$count++;
+			}
+		}
+		
+		$length = $count;
 		$this->autoRender=false;
 		$this->response->type('json');
 		$json = json_encode(array('count'=>json_encode($length)));

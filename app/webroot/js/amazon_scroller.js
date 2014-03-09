@@ -1,12 +1,3 @@
-// Copyright 2010 htmldrive.net Inc.
-/**
-* @projectHomepage http://www.htmldrive.net/welcome/amazon-scroller
-* @projectDescription Amazon style image and title scroller
-* @author htmldrive.net
-* More script and css style : htmldrive.net
-* @version 1.0
-* @license http://www.apache.org/licenses/LICENSE-2.0
-*/ 
 (function(a){
     a.fn.amazon_scroller=function(p){
         var p=p||{};
@@ -34,7 +25,7 @@
         var u;
         var v;
         var w=dom.find("ul:first").children("li").length;
-        var x=Math.ceil(w/r);
+      //  var x=Math.ceil(w/r);
         if(dom.find("ul").length==0||dom.find("li").length==0){
             dom.append("Require content");
             return null
@@ -106,7 +97,7 @@
             dom.find("ul:first").css("position","absolute");
             dom.children(".amazon_scroller_mask").width(u);
             dom.children(".amazon_scroller_mask").height(v);
-            dom.find(".amazon_scroller_nav").css('top',(v-50)/2+parseInt(j)+"px");
+            //dom.find(".amazon_scroller_nav").css('top',(v-50)/2+parseInt(j)+"px");
             dom.find(".amazon_scroller_nav").width(u+60)
 			dom.find("ul:first").clone().appendTo(dom.children(".amazon_scroller_mask"));
 			dom.children(".amazon_scroller_mask").find("ul:last").css("left",a);

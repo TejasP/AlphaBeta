@@ -159,6 +159,8 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 									<ul>
 									<li><div class="blankSelection"></div></li>
 									<li><div class="blankSelection"></div></li>
+									<li><div class="blankSelection"></div></li>
+									<li><div class="blankSelection"></div></li>
 									</ul>
 									</div>
 									<ul class="amazon_scroller_nav">
@@ -392,11 +394,11 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
     	initialzeKT();    	
     	$url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'getCookie'))?>';
     	$.getJSON($url, function(data){
-    		//		console.log(data);
-    	    		$.each(data, function(index, value) {
-    	    			var indexCount = index+1;
-    	    			var selector = "#karttwistie > div > ul > li:nth-child("+indexCount+")";
-    	    			$(selector).html("<a href='#' onclick='openSelectedItem("+value[0].medicines_header.medicine_id+");'><img src='' />"+value[0].medicines_header.medicine_name+"</a>");
+    	    		$.each(data, function(index, valueInner) {
+    	    				var indexCount = index+1;
+    	    				var selector = "#karttwistie > div > ul > li:nth-child("+indexCount+")";
+    	    				$(selector).html("<a href='#' onclick='openSelectedItem("+valueInner[0].medicines_header.medicine_id+");'><img src='' />"+valueInner[0].medicines_header.medicine_name+"</a>");
+    	    			
 					});
     	});
 
@@ -528,7 +530,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
                     scroller_images_height: '80',
                     scroller_title_size: '12',
                     scroller_title_color: 'black',
-                    scroller_show_count: '2',
+                    scroller_show_count: '6',
                     directory: 'img'
                 });
    	}

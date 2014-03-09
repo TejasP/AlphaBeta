@@ -110,32 +110,24 @@ class BookingController extends AppNoAuthController {
 	
 	
 	public function getCookie(){
-		
-		$isBucketFilled =  $this->Cookie->read('basket-data');
-		
-		$type= gettype($isBucketFilled);
-		
-		if($type==='string')
-		{
 
-		}else{
-
-		}
-		
-	
 		$chosenId =$this->Cookie->read('basket-data');
-		$length =  count($chosenId);
-		$mresults = array();
+		$type= gettype($chosenId);
 		
-		for($i=0;$i<$length;$i++){
 		
-			$moptions = array('conditions' => array(
-					'medicines_header.medicine_id = ' => $chosenId[$i])
-			);
-				
-			$mresults[]= $this->medicines_header->find('all',$moptions);
+		if(!empty($chosenId)){
+			$i = 0;
+			foreach(array_keys($chosenId) as $keyOut){
+				$id =  $chosenId[$keyOut]['item'];
+
+				$moptions = array('conditions' => array(
+						'medicines_header.medicine_id = ' => $id)
+				);
+
+				$mresults[]= $this->medicines_header->find('all',$moptions);
+				$i++;
+			}
 		}
-		
 		$this->autoRender=false;
 		$this->response->type('json');
 		$json = json_encode($mresults);
