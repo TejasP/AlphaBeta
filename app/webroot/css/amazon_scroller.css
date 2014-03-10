@@ -10,10 +10,34 @@ border-radius: 10px;
 .amazon_scroller .amazon_scroller_nav {
 position: absolute;
 }
+
 .amazon_scroller .amazon_scroller_nav li {
 cursor: pointer;
 position: absolute;
 }
+.amazon_scroller .amazon_scroller_nav li {
+cursor: pointer;
+position: absolute;
+}
+
+.amazon_scroller_left_arrow{
+width: 25px; 
+height: 50px; 
+background-image: url(http://localhost/alphabeta/img/arrow_left.png); 
+left: 0px; 
+background-position: 0% 0%; 
+background-repeat: no-repeat no-repeat;
+}
+
+.amazon_scroller_right_arrow{
+width: 25px; 
+height: 50px; 
+background-image: url(http://localhost/alphabeta/img/arrow_right.png); 
+right: 0px; 
+background-position: 100% 0%; 
+background-repeat: no-repeat no-repeat;
+}
+
 .amazon_scroller .amazon_scroller_mask {
 position: absolute;
 margin-left: 30px;

@@ -17,7 +17,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
+$cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Solutions');
 ?>
 <!DOCTYPE html>
 <html>
@@ -149,10 +149,10 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 			<section>
 					</br>
 					</br>
-		            <div class="large-4 medium-2 columns">
+		            <div class="large-2 medium-1 columns">
 							<a href="javascript:openCart();" id="bucketID">My Selection (<?php if (!empty($selectedCount)){ echo $selectedCount; }else {echo '0'; }?>)</a>
 					</div>
-					<div class="large-8 medium-10 columns" >
+					<div class="large-5 medium-9 columns" >
 			          		<div style="display:none" id="karttwistie_container">              
 		    	          		<div class="amazon_scroller" id="karttwistie">
 									<div class="amazon_scroller_mask">
@@ -164,12 +164,21 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
 									</ul>
 									</div>
 									<ul class="amazon_scroller_nav">
-										<li></li>
-										<li></li>
+										<li class="amazon_scroller_left_arrow"></li>
+										<li class="amazon_scroller_right_arrow"></li>
 									</ul>
 								<div style="clear: both"></div>
 								</div>
 							</div>
+				    </div>
+				    <div class="large-3 medium-2 columns" >
+				    	<div style="display:none" id="kart_itemdisplay_container">  
+				   	 	</div>
+				    </div>
+				     <div class="large-2 medium-2 columns" >
+				     	<div style="display:none"  id="kart_booking"> 
+							<a href="#"  class="button tiny radius" onClick="javascript:callBooking();">Book</a>
+						</div>	
 				    </div>
 				<hr/></br>
 	    	</section>
@@ -397,11 +406,11 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
     	    		$.each(data, function(index, valueInner) {
     	    				var indexCount = index+1;
     	    				var selector = "#karttwistie > div > ul > li:nth-child("+indexCount+")";
-    	    				$(selector).html("<a href='#' onclick='openSelectedItem("+valueInner[0].medicines_header.medicine_id+");'><img src='' />"+valueInner[0].medicines_header.medicine_name+"</a>");
+    	    				$(selector).html("<a href='#' onclick='openSelectedItem("+valueInner[0].medicines_header.id+");'"+"><img src='' />"+valueInner[0].medicines_header.medicine_name+"</a>");
     	    			
 					});
     	});
-
+		$("#kart_booking").toggle();
     }
     
     function openLocation(){
@@ -534,6 +543,13 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
                     directory: 'img'
                 });
    	}
+   	
+	function openSelectedItem(value){
+	   		console.log("container :"+kart_itemdisplay_container);
+	   		$("#kart_itemdisplay_container").html("<div>"+value+"</div>");
+	   		$("#kart_itemdisplay_container").show();
+	}
+
 </script>
   </body>
 </html>

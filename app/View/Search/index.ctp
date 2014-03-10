@@ -116,7 +116,7 @@
  	            </div>
  	            
  	            <div class="large-3 columns"  style="display:none" id="book">
-                <a href="#"  class="button tiny radius" onClick="javascript:callBooking();">Book</a>
+
                 </div>
  	            
  			</div>
