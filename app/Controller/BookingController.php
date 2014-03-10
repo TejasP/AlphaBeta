@@ -127,7 +127,11 @@ class BookingController extends AppNoAuthController {
 				$mresults[]= $this->medicines_header->find('all',$moptions);
 				$i++;
 			}
+		}else{
+			$mresults = array('data'=>'No Data');
 		}
+		
+		
 		$this->autoRender=false;
 		$this->response->type('json');
 		$json = json_encode($mresults);

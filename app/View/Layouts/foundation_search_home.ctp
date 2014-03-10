@@ -189,7 +189,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 								<a href="javascript:openLocation();" >My Location</a>
 					</div>
 					<div class="large-3 medium-6 columns" id="PreferredLocationText" <?php if(!empty($isLocationSet)){  if($isLocationSet=='true') {?> style="display:block"  <?php } }else{?> style="display:none"  <?php }?> > 		
-							<?php if (!empty($isLocationSet)){  if($isLocationSet=='true') { echo $locationText; } } else { ?>&nbsp; <?php }?> 
+							<div class='medium-5 columns'><?php if (!empty($isLocationSet)){  if($isLocationSet=='true') { echo $locationText;  ?><div class='medium-1 columns'><a href='#' id='select' class='button tiny radius' onClick='javascript:changePreference();'>Change</a></div><?php } }   else { ?>&nbsp; <?php }?></div>
 					</div>
 					<div class="large-6 medium-5 columns">
 						<div id="locateTable" style="display:none">
@@ -403,14 +403,20 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
     	initialzeKT();    	
     	$url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'getCookie'))?>';
     	$.getJSON($url, function(data){
-    	    		$.each(data, function(index, valueInner) {
-    	    				var indexCount = index+1;
-    	    				var selector = "#karttwistie > div > ul > li:nth-child("+indexCount+")";
-    	    				$(selector).html("<a href='#' onclick='openSelectedItem("+valueInner[0].medicines_header.id+");'"+"><img src='' />"+valueInner[0].medicines_header.medicine_name+"</a>");
-    	    			
-					});
+					if(data.data === "No Data"){
+						$("#kart_booking").hide();
+					}else{
+	    	    		$.each(data, function(index, valueInner) {
+	    	    				var indexCount = index+1;
+	    	    				var selector = "#karttwistie > div > ul > li:nth-child("+indexCount+")";
+	    	    				$(selector).html("<a href='#' onclick='openSelectedItem("+valueInner[0].medicines_header.id+");'"+"><img src='' />"+valueInner[0].medicines_header.medicine_name+"</a>");
+	    	    			
+						});
+						$("#kart_booking").show();
+					}
+
     	});
-		$("#kart_booking").toggle();
+
     }
     
     function openLocation(){
