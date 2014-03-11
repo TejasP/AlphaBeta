@@ -139,4 +139,73 @@ class BookingController extends AppNoAuthController {
 		
 	}
 	
+	
+	public function getLocationCookie(){
+	
+		$location =$this->Cookie->read('location-data');
+		$type= gettype($location);
+	
+	
+		if(!empty($location)){
+			$mresults = array($location);
+		}else{
+			$mresults = array('data'=>'No Data');
+		}
+	
+	
+		$this->autoRender=false;
+		$this->response->type('json');
+		$json = json_encode($mresults);
+		$this->response->body($json);
+	
+	}
+	
+	
+	public function getLocationAuthenticateCookie(){
+		$location =$this->Cookie->read('location-data');
+		$type= gettype($location);
+		
+		$user = Authsome::get('username');
+		$role = Authsome::get('role');
+		$result;
+		if (($user=== 'NULL') || ($user== '')) {
+			$result = "NOTAUTHENTICATED";
+		}else
+		{
+			$result = "AUTHENTICATED";
+		}
+		
+		if(!empty($location)){
+			$mresults = array('location'=>$location ,'authenticated'=>$result);
+		}else{
+			$mresults = array('location'=>'No Data','authenticated'=>$result);
+		}
+		
+		
+		$this->autoRender=false;
+		$this->response->type('json');
+		$json = json_encode($mresults);
+		$this->response->body($json);
+		
+	}
+	
+	public function getQuotData(){
+		
+		$user = Authsome::get('username');
+		$role = Authsome::get('role');
+		$result;
+		if (($user=== 'NULL') || ($user== '')) {
+			$result = "NOTAUTHENTICATED";
+		}else
+		{
+			$result = array('getting details');
+		}
+		
+		$this->autoRender=false;
+		$this->response->type('json');
+		$json = json_encode($result);
+		$this->response->body($json);
+		
+	}
+	
 }

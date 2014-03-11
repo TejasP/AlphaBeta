@@ -327,7 +327,6 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
     				alert('No results');
     			}
     			if(size_li >0){
-    			
     				alert('Do you want to save the preference ?'); 
     			}
     		}

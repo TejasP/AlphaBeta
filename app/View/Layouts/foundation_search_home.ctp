@@ -185,14 +185,16 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 	    			<!-- Selection Bar End-->
 	                <!-- Locate Bar-->
 	    <section>	
-	    			<div class="large-4 medium-1 columns">		
+	    			<div class="row"><div data-alert class="alert-box alert round" id="locationAlert" style="display:none" >Please choose location for getting quote. <a href="" class="close">&times;</a> </div></div>
+	    			<div class="large-4 medium-3 columns">		
 								<a href="javascript:openLocation();" >My Location</a>
 					</div>
-					<div class="large-3 medium-6 columns" id="PreferredLocationText" <?php if(!empty($isLocationSet)){  if($isLocationSet=='true') {?> style="display:block"  <?php } }else{?> style="display:none"  <?php }?> > 		
-							<div class='medium-5 columns'><?php if (!empty($isLocationSet)){  if($isLocationSet=='true') { echo $locationText;  ?><div class='medium-1 columns'><a href='#' id='select' class='button tiny radius' onClick='javascript:changePreference();'>Change</a></div><?php } }   else { ?>&nbsp; <?php }?></div>
+					<div class="large-3 columns" id="PreferredLocationText" <?php if(!empty($isLocationSet)){  if($isLocationSet=='true') {?> style="display:block"  <?php } }else{?> style="display:none"  <?php }?> > 		
+							<div  class="medium-6 columns" ><?php if (!empty($isLocationSet)){  if($isLocationSet=='true') { echo $locationText;  ?></div><div  class="medium-6 columns" ><a href='#' id='select' class='button tiny radius' onClick='javascript:changePreference();'>Change</a></div><?php } }   else { ?>&nbsp;</div><?php }?>
 					</div>
-					<div class="large-6 medium-5 columns">
-						<div id="locateTable" style="display:none">
+					</div>
+					<div class="large-6 medium-5 columns" id="locateTable" style="display:none">
+						<div>
 									<div class="medium-5 small-5 columns">				
 					                 	<input type="search" id="LocateProvider" value="Please enter area, city or pincode" />
 					                 </div>
@@ -205,11 +207,11 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
  					  	</div>
 					</div>
 					<br/>
-					<div class="large-4 medium-2 columns">
+					<div class="large-2 medium-4 columns">
 							&nbsp;
 					</div>
-					<div class="large-8 medium-10 columns">
-							<div id="preferenceTable" style="display:none">
+					<div class="large-8 medium-10 columns" id="preferenceTable" style="display:none">
+							<div >
 									<div class="medium-4 small-5 columns">				
 					                 Do you want to save the location as your preferred location ?
 					                </div>
@@ -240,6 +242,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 					<!-- Quote Bar -->
 			<section>
 					</br>
+					<div class="row"><div data-alert class="alert-box alert round" id="quoteAlert" style="display:none" >Please log-in to view or submit quote. <a href="" class="close">&times;</a> </div></div>
 		            <div class="large-4 medium-2 columns">
 							<a href="javascript:openQuotes();" id="bucketID">My Quotes</a>
 					</div>
@@ -378,10 +381,6 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 		  $('#ProviderContainer tr').eq(++curr).hide();
     }); 
     
-      $(function() {
-				
-            });
-  
     
     function callModal(){
 		$('a.reveal-link').trigger('click');
@@ -419,14 +418,37 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 
     }
     
+    
     function openLocation(){
-        	$("#locateTable").toggle();
-        	$("#preferenceTable").hide();
+        	$url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'getLocationCookie'))?>';
+    			$.getJSON($url, function(data){
+						if(data.data === "No Data"){
+							console.log(data.data);
+							$("#preferenceTable").hide();
+        					$("#locateTable").show();							
+        				}else{
+							console.log(data);
+
+        					$("#PreferredLocationText").show();			
+						}
+					});
     }
     
+    
     function openQuotes(){
-    	$("#quoteTable").toggle();
-    }	
+
+    	$url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'getQuotData'))?>';
+    	$.getJSON($url, function(data){
+						if(data === "NOTAUTHENTICATED"){
+							$("#quoteAlert").show();	
+        				}else{
+							console.log(data);
+							$("#quoteTable").toggle();
+						}
+					});
+    }
+    
+    
     function getProviderResults(){
     		var nSearch = $('#LocateProvider').val();
     		var length = nSearch.length;
@@ -481,6 +503,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
     	$("#PreferredLocationText").show();
     	$("#PreferredLocationText").html("<div class='medium-5 columns'>"+locationText+"</div><div class='medium-1 columns'><a href='#' id='select' class='button tiny radius' onClick='javascript:changePreference();'>Change</a></div>");
     	$("#locateTable").hide();
+    	$("#locationAlert").hide();
     }
     
     function submitNo(){
@@ -490,6 +513,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
    	
    	function changePreference(){
    		$("#locateTable").show();
+   		$("#PreferredLocationText").hide();
    		$("#PreferredLocationText").hide();
    	}
    	
@@ -510,8 +534,6 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
     
 		var $url_count = '<?php echo $this->Html->url(array('controller'=>'Search', 'action'=>'getSelectedItemsCount'))?>';
 		$.getJSON($url_count, function(data){
-      			
-      			 
 				$.each(data, function(index, value) {
 				    var sel = $("#bucketID").text();
 					var count = increaseSelectionCount(sel);
@@ -530,7 +552,21 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
     	}
     	
     function callBooking(){
-    	openLocation();
+
+    	$url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'getLocationAuthenticateCookie'))?>';
+    			$.getJSON($url, function(data){
+						if(data.location === "No Data"){
+							openLocation();
+							$("#locationAlert").show();
+        				}else{
+        					if(data.authenticated === "NOTAUTHENTICATED"){
+								openQuotes();
+							}else
+							{
+							console.log("Submit the quote");
+							}
+						}
+					});					
     }
    	
    	function initialzeKT(){
