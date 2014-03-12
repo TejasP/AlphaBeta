@@ -42,6 +42,9 @@
 		$parampg = $parampg . ",spoint:" . $spoint;
 	}
 	
+	if(isset($parampg))
+		$parampg = "cp:1,spoint:1";
+	
 	$parampg = $parampg . "&q=";
 ?>
 
