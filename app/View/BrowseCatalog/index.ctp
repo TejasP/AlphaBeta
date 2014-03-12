@@ -190,8 +190,9 @@
 					for (var i=0, len=data.length; i < len; i++) {
 						var $product = data[i];
 	
+						var $callBook = "javascript:callBook('1000','1');";
 						$contents.append("<div class='pdetail-thumbimg'><img width='300px' height='300px' src='" + "<?php echo Configure::read('imgproductfolder'); ?>" + "/" + $product.cat_imagefolder + "/" + $product.prod_id + "_large.jpg'></div>");
-						$contents.append("<div class='pdetail-content'><div class='pdetail-prodname'>" + $product.prod_desc + "</div><div class='pdetail-company'>" + $product.prod_company + "</div><div class='pdetail-desc'>product description to be placed here</div><div class='pdetail-leftblock'><div><span class='pdetail-label'>Starting from </span><span class='pdetail-price'>Rs. " + $product.prod_price + "</span></div><div><span class='pdetail-label'>inclusive of taxes</span></div><div class='pdetail-submit' style='width:100px;'><a class='postfix button expand' href='#'>Shortlist</a></div><div class='pdetail-seperator'></div></div><div class='pdetail-attributes'>product attributes to be placed here</div></div>");
+						$contents.append("<div class='pdetail-content'><div class='pdetail-prodname'>" + $product.prod_desc + "</div><div class='pdetail-company'>" + $product.prod_company + "</div><div class='pdetail-desc'>product description to be placed here</div><div class='pdetail-leftblock'><div><span class='pdetail-label'>Starting from </span><span class='pdetail-price'>Rs. " + $product.prod_price + "</span></div><div><span class='pdetail-label'>inclusive of taxes</span></div><div class='pdetail-submit' style='width:100px;'><a class='postfix button expand' href='#' onClick='javascript:callBook("+ $product.prod_id + ", 2);'>Shortlist</a></div><div class='pdetail-seperator'></div></div><div class='pdetail-attributes'>product attributes to be placed here</div></div>");
 					}
 					
 					$contentDiv.html("");
