@@ -438,12 +438,19 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
     function openQuotes(){
 
     	$url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'getQuotData'))?>';
+    	
+    	$url_quote = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'retrieveLastQuotes'))?>';
+    	
     	$.getJSON($url, function(data){
 						if(data === "NOTAUTHENTICATED"){
 							$("#quoteAlert").show();	
         				}else{
-							console.log(data);
-							$("#quoteTable").toggle();
+        					$.getJSON($url_quote, function(data){
+        						$htmlStr ="<div>Your Last quotes submitted are :</div>" ; 
+	        					$.each(data, function(index, valueInner) { $htmlStr= $htmlStr+"</br><div>"+valueInner.Quotes.submitted+"</div>";});
+    	    					 $("#quoteTable").html($htmlStr);
+        					 });
+        					$("#quoteTable").toggle();
 						}
 					});
     }
@@ -554,6 +561,9 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
     function callBooking(){
 
     	$url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'getLocationAuthenticateCookie'))?>';
+    	$url_cart = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'submitCart'))?>';
+    	$url_quote = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'submitQuote'))?>';
+    	
     			$.getJSON($url, function(data){
 						if(data.location === "No Data"){
 							openLocation();
@@ -563,7 +573,9 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 								openQuotes();
 							}else
 							{
-							console.log("Submit the quote");
+							$.getJSON($url, function(data){});
+							
+							$.getJSON($url, function(data){});
 							}
 						}
 					});					
