@@ -4,7 +4,7 @@ App::uses('AppNoAuthController', 'Controller');
 
 class BookingController extends AppNoAuthController {
 	
-	public $uses = array('Search','medicines_header','Providers');
+	public $uses = array('Search','medicines_header','Providers', 'product_headers');
 	
 	public function addToBucket($ItemId,$category){
 		// first check if cookie exists
@@ -111,30 +111,59 @@ class BookingController extends AppNoAuthController {
 	
 	public function getCookie(){
 
+		$products = null;
 		$chosenId =$this->Cookie->read('basket-data');
 		$type= gettype($chosenId);
 		
+		//echo print_r($chosenId);
 		
 		if(!empty($chosenId)){
 			$i = 0;
 			foreach(array_keys($chosenId) as $keyOut){
 				$id =  $chosenId[$keyOut]['item'];
-
-				$moptions = array('conditions' => array(
-						'medicines_header.medicine_id = ' => $id)
-				);
-
-				$mresults[]= $this->medicines_header->find('all',$moptions);
+				$category = $chosenId[$keyOut]['category'];
+	
+				if($category == "1")
+				{
+					$moptions['conditions'] = array(
+							'medicines_header.medicine_id = ' => $id);
+					
+					$mresults = $this->medicines_header->find('all',$moptions);
+					
+					$mcounts  = count($mresults);
+					for($k=0; $k<$mcounts; $k++)
+					{
+						$prodid = $mresults[$k]['medicines_header']['id'];
+						$prodname = $mresults[$k]['medicines_header']['medicine_name'];
+				
+						$products[$i] = array("prodid"=>$prodid, "prodname"=>$prodname);
+					}
+				}
+				else if($category == "2")
+				{
+					$poptions['conditions'] = array(
+							'product_headers.prod_id = ' => $id);
+						
+					$presults = $this->product_headers->find('all',$poptions);
+						
+					$pcounts  = count($presults);
+					for($j=0; $j<$pcounts; $j++)
+					{
+						$prodid = $presults[$j]['product_headers']['prod_id'];
+						$prodname = $presults[$j]['product_headers']['prod_desc'];
+					
+						$products[$i] = array("prodid"=>$prodid, "prodname"=>$prodname);
+					}
+				}
 				$i++;
 			}
 		}else{
-			$mresults = array('data'=>'No Data');
+			$products = array('data'=>'No Data');
 		}
-		
 		
 		$this->autoRender=false;
 		$this->response->type('json');
-		$json = json_encode($mresults);
+		$json = json_encode($products);
 		$this->response->body($json);
 		
 	}

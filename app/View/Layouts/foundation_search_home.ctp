@@ -408,7 +408,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 	    	    		$.each(data, function(index, valueInner) {
 	    	    				var indexCount = index+1;
 	    	    				var selector = "#karttwistie > div > ul > li:nth-child("+indexCount+")";
-	    	    				$(selector).html("<a href='#' onclick='openSelectedItem("+valueInner[0].medicines_header.id+");'"+"><img src='' />"+valueInner[0].medicines_header.medicine_name+"</a>");
+	    	    				$(selector).html("<a href='#' onclick='openSelectedItem("+valueInner.prodid+");'"+"><img src='' />"+valueInner.prodname+"</a>");
 	    	    			
 						});
 						$("#kart_booking").show();

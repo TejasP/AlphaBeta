@@ -43,7 +43,7 @@
 	}
 	
 	if(isset($parampg))
-		$parampg = "cp:1,spoint:1";
+		$parampg = "&pg=cp:1,spoint:1";
 	
 	$parampg = $parampg . "&q=";
 ?>
