@@ -3,7 +3,7 @@
 App::uses('AppNoAuthController', 'Controller');
 
 class LocationAPIController extends AppNoAuthController {
-	public $uses = array('Providers');
+	public $uses = array('Providers_datas');
 	
 	function index (){
 		$this->layout ="";
@@ -23,5 +23,135 @@ class LocationAPIController extends AppNoAuthController {
 		echo  ($geocodeDetails->results{0}->geometry->location->lat).'</br>';
 		echo  ($geocodeDetails->results{0}->geometry->location->lng).'</br>';
 		}
+	}
+	
+	
+	
+	function getDistance() {
+		
+		$this->autoRender = false;
+		
+		$lat1 = $this->request->query['lat1']; 
+		$lon1= $this->request->query['lon1']; 
+		$lat2= $this->request->query['lat2']; 
+		$lon2= $this->request->query['lon2']; 
+		$unit=$this->request->query['unit'];
+		
+		$theta = $lon1 - $lon2;
+		$dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+		$dist = acos($dist);
+		$dist = rad2deg($dist);
+		$miles = $dist * 60 * 1.1515;
+		$unit = strtoupper($unit);
+		
+		if ($unit == "K") {
+			$miles = $miles * 1.609344;
+		} else if ($unit == "N") {
+			$miles = $miles * 0.8684;
+		} else {
+			$miles = $miles;
+		}
+
+
+		$this->response->type('json');
+		$json = json_encode($miles);
+		$this->response->body($json);
+	}
+	
+	
+	function getDistanceWith($lat1,$lon1,$lat2,$lon2,$unit) {
+	
+		$this->autoRender = false;
+	
+		$theta = $lon1 - $lon2;
+		$dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+		$dist = acos($dist);
+		$dist = rad2deg($dist);
+		$miles = $dist * 60 * 1.1515;
+		$unit = strtoupper($unit);
+	
+		if ($unit == "K") {
+			$miles = $miles * 1.609344;
+		} else if ($unit == "N") {
+			$miles = $miles * 0.8684;
+		} else {
+			$miles = $miles;
+		}
+	
+	
+		$this->response->type('json');
+		$json = json_encode($miles);
+		$this->response->body($json);
+	}
+	
+	
+	function getDistanceBetween($lat1,$lon1,$providerID,$unit) {
+	
+		$this->autoRender = false;
+		
+		$moptions = array('fields' => array('providers_datas.provider_name','providers_datas.provider_type','providers_datas.latitude','providers_datas.longitude',),'conditions' => array(
+				'providers_datas.id = ' => $providerID)
+		);
+		$mresults = $this->Providers_datas->find('all',$moptions);
+		
+		$lat2 = ($mresults[0]['Providers_datas']['latitude']);
+		$lon2  = ($mresults[0]['Providers_datas']['longitude']);
+		
+		$theta = $lon1 - $lon2;
+		$dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+		$dist = acos($dist);
+		$dist = rad2deg($dist);
+		$miles = $dist * 60 * 1.1515;
+		$unit = strtoupper($unit);
+	
+		if ($unit == "K") {
+			$miles = $miles * 1.609344;
+		} else if ($unit == "N") {
+			$miles = $miles * 0.8684;
+		} else {
+			$miles = $miles;
+		}
+	
+	
+		$this->response->type('json');
+		$json = json_encode($miles);
+		$this->response->body($json);
+	}
+	
+	function getNearestProviders($lat1,$lon1,$distance) {
+	
+		$this->autoRender = false;
+		//First get the name of the location based on co-ordinates assuming it is pune for now.
+		$city = "Pune";
+		// Get all the providers for that location.
+	
+		$moptions = array('fields' => array('providers_datas.id','providers_datas.provider_name','providers_datas.address','providers_datas.provider_type','providers_datas.latitude','providers_datas.longitude',),'conditions' => array(
+				'providers_datas.city = ' => $city)
+		);
+		$mresults = $this->Providers_datas->find('all',$moptions);
+		
+		$resultArray = array();
+		
+		for($i = 0;$i<count($mresults);$i++ ){
+				$providerID= ($mresults[$i]['Providers_datas']['id']);
+				$providerName = ($mresults[$i]['Providers_datas']['provider_name']);
+				$address = ($mresults[$i]['Providers_datas']['address']);
+				$lat2 = ($mresults[$i]['Providers_datas']['latitude']);
+				$lon2  = ($mresults[$i]['Providers_datas']['longitude']);
+
+				$theta = $lon1 - $lon2;
+				$dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+				$dist = acos($dist);
+				$dist = rad2deg($dist);
+				$miles = $dist * 60 * 1.1515;
+				
+				if($miles <=$distance){
+					$resultArray[] = array($providerID,$providerName,$address);
+				}
+		}
+		
+		$this->response->type('json');
+		$json = json_encode($resultArray);
+		$this->response->body($json);
 	}
 }
