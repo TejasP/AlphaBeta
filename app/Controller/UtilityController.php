@@ -7,7 +7,7 @@ App::uses('Sanitize','Utility');
 App::uses('Xml','Utility');
 
 class UtilityController extends AppNoAuthController {
-	public $uses = array('Providers','Providers_new');
+	public $uses = array('Providers','Providers_new','location','Providers_datas');
 	
 public function  cleanDuplicateElements($tableName){
 	
@@ -144,15 +144,15 @@ public function  cleanDuplicateElements($tableName){
 		if (!$db->isConnected()) {
 			$response = "Error";
 		} else {
-			$sql_query = "SELECT DISTINCT `provider_name` , `url`, `provider_type`, `provider_name`, `website`, `mobile`, `phone`, `contact_person`, `area`, `address`, `city`, `pin_code`, `landmark`, `working_hours`, `listed_categories` FROM  `providers` group by provider_name, area, address having count(*) > 1  order by id asc";
-				
+			// $sql_query = "SELECT DISTINCT `provider_name` , `url`, `provider_type`, `provider_name`, `website`, `mobile`, `phone`, `contact_person`, `area`, `address`, `city`, `pin_code`, `landmark`, `working_hours`, `listed_categories` FROM  `providers_datas` group by provider_name, area, address having count(*) > 1  order by id asc";
+			$sql_query = "SELECT DISTINCT (`area`) `address`, `city`, `pin_code`, `landmark` FROM  `providers_datas` order by id asc";	
 			$myData = $db->fetchAll($sql_query);
 
 			$count = count($myData);
 	
-			for($j=1501;$j<=1550;$j++)
+			for($j=0;$j<=500;$j++)
 			{
-			$data = array(
+			/*$data = array(
 					'Providers_new' => array(
 					'url' => $myData[$j]['providers']['url'],
 					'provider_type' => $myData[$j]['providers']['provider_type'],
@@ -168,11 +168,20 @@ public function  cleanDuplicateElements($tableName){
 					'landmark'=>$myData[$j]['providers']['landmark'],
 					'working_hours'=>$myData[$j]['providers']['working_hours'],
 					'listed_categories'=>$myData[$j]['providers']['listed_categories'])
-			);
+			); */
+				
+			$data = array(
+						'Providers_new' => array(
+								'area'=>$myData[$j]['providers']['area'],
+								'address'=>$myData[$j]['providers']['address'],
+								'city'=>$myData[$j]['providers']['city'],
+								'pin_code'=>$myData[$j]['providers']['pin_code'],
+								'landmark'=>$myData[$j]['providers']['landmark'])
+				);
 
 			
-			$url  ="https://maps.googleapis.com/maps/api/place/textsearch/xml?query=".str_replace(" ","%20%",$myData[$j]['providers']['provider_name'])."%20%near%20%".str_replace(" ","%20%",$myData[$j]['providers']['area'])."%20%".str_replace(" ","%20%",$myData[$j]['providers']['city'])."&sensor=false&key=AIzaSyBSDjiTpiGA5JmwAav6VodAfRozJRP0a4E";
-			//$url = "http://maps.googleapis.com/maps/api/geocode/json?address=pune&sensor=false";
+		//	$url  ="https://maps.googleapis.com/maps/api/place/textsearch/xml?query=".str_replace(" ","%20%",$myData[$j]['providers']['provider_name'])."%20%near%20%".str_replace(" ","%20%",$myData[$j]['providers']['area'])."%20%".str_replace(" ","%20%",$myData[$j]['providers']['city'])."&sensor=false&key=AIzaSyBSDjiTpiGA5JmwAav6VodAfRozJRP0a4E";
+			$url = "http://maps.googleapis.com/maps/api/geocode/json?address=".str_replace(" ","%20%",$myData[$j]['providers']['area'])." ".str_replace(" ","%20%",$myData[$j]['providers']['city'])."&sensor=false";
 			
 			//$url  ="https://maps.googleapis.com/maps/api/place/textsearch/xml?query=Apollo%20%Pharmacy%20%near%20%Pune&sensor=false&key=AIzaSyD0brQ1DgNejCu1JEUK2ZNx98dPkz1GaMA";
 	
@@ -270,4 +279,125 @@ public function  cleanDuplicateElements($tableName){
 		curl_close($ch);
 		return $data;
 	}
+	
+	public function updateLocationDBWithGoogleData(){
+	
+		$db = ConnectionManager::getDataSource('default');
+		$response;
+	
+		if (!$db->isConnected()) {
+			$response = "Error";
+		} else {
+			$sql_query = "SELECT DISTINCT (`area`) , `city`, `pin_code`, `landmark` FROM  `providers_datas` order by id asc";
+			$myData = $db->fetchAll($sql_query);
+	
+			$count = count($myData);
+	
+			for($j=0;$j<=100;$j++)
+			{
+
+	
+		
+			$url = "http://maps.googleapis.com/maps/api/geocode/xml?address=".str_replace(" ","%20",$myData[$j]['providers_datas']['area']).",".str_replace(" ","%20",$myData[$j]['providers_datas']['city'])."&sensor=false";
+			echo $url;
+			$response = $this->curl($url);
+		
+			$xml = $this->xml_to_array($response);
+			//var_dump($xml);
+			
+			if ($xml['status']==='OK'){
+				echo '</BR> RESULT COUNT'.count($xml);
+				var_dump(($xml));
+				if(count($xml['result']) <=5){
+				$data = array(
+						'location' => array(
+								'tags'=>$myData[$j]['providers_datas']['area'],
+								'city'=>$myData[$j]['providers_datas']['city'],
+								'pin_code'=>$myData[$j]['providers_datas']['pin_code'],
+								'landmark'=>$myData[$j]['providers_datas']['landmark'],
+								'bounds_northeast_lat'=>$xml['result']['geometry']['bounds']['northeast']['lat'],
+								'bounds_northeast_lng'=>$xml['result']['geometry']['bounds']['northeast']['lng'],
+								'bounds_southwest_lat'=>$xml['result']['geometry']['bounds']['southwest']['lat'],
+								'bounds_southwest_lng'=>$xml['result']['geometry']['bounds']['southwest']['lng'],
+								'location_lat'=>$xml['result']['geometry']['location']['lat'],
+								'location_lng'=>$xml['result']['geometry']['location']['lng']
+						)
+					);
+				
+					
+						/* echo $xml['result']['geometry']['location']['lat']."</BR>";
+						echo $xml['result']['geometry']['location']['lng']."</BR>";						
+						echo $xml['result']['geometry']['bounds']['southwest']['lat']."</BR>";
+						echo $xml['result']['geometry']['bounds']['southwest']['lng']."</BR>";
+						echo $xml['result']['geometry']['bounds']['northeast']['lat']."</BR>";
+						echo $xml['result']['geometry']['bounds']['northeast']['lng']."</BR>";
+						echo "</br>";	 */	
+								
+										$this->location->create();
+										var_dump($data);
+										if($this->location->save($data))
+										{
+										echo  "created .";
+										echo "</br>";
+										}
+										else{
+											debug($this->location->invalidFields());
+										}
+				}
+
+				if(count($xml['result']) >5){
+							/* if(($xml['result'][0]['geometry']['bounds'])!=null){
+								$bounds_northeast_lat=$xml['result'][0]['geometry']['bounds']['northeast']['lat'];
+								$bounds_northeast_lng=$xml['result'][0]['geometry']['bounds']['northeast']['lng'];
+								$bounds_southwest_lat=$xml['result'][0]['geometry']['bounds']['southwest']['lat'];
+								$bounds_southwest_lng=$xml['result'][0]['geometry']['bounds']['southwest']['lng'];
+							}
+							if(count($xml['result'][0]['geometry']['location'])>0){
+								$location_lat=$xml['result'][0]['geometry']['location']['lat'];
+								$location_lng=$xml['result'][0]['geometry']['location']['lng'];
+							}					
+							$data = array(
+									'location' => array(
+											'tags'=>$myData[$j]['providers_datas']['area'],
+											'city'=>$myData[$j]['providers_datas']['city'],
+											'pin_code'=>$myData[$j]['providers_datas']['pin_code'],
+											'landmark'=>$myData[$j]['providers_datas']['landmark'],
+											'bounds_northeast_lat'=>$bounds_northeast_lat,
+											'bounds_northeast_lng'=>$bounds_northeast_lng,
+											'bounds_southwest_lat'=>$bounds_southwest_lat,
+											'bounds_southwest_lng'=>$bounds_southwest_lng,
+											'location_lat'=>$location_lat,
+											'location_lng'=>$location_lng
+									)
+							);
+						
+
+							 echo $xml['result'][0]['geometry']['location']['lat']."</BR>";
+							echo $xml['result'][0]['geometry']['location']['lng']."</BR>";
+							echo $xml['result'][0]['geometry']['bounds']['southwest']['lat']."</BR>";
+							echo $xml['result'][0]['geometry']['bounds']['southwest']['lng']."</BR>";
+							echo $xml['result'][0]['geometry']['bounds']['northeast']['lat']."</BR>";
+							echo $xml['result'][0]['geometry']['bounds']['northeast']['lng']."</BR>";
+							echo "</br>"; 
+						
+							$this->location->create();
+
+							if($this->location->save($data))
+							{
+								echo  "created .";
+								echo "</br>";
+							}
+							else{
+								debug($this->location->invalidFields());
+							} */
+						} 
+
+						
+					}
+		}
+		$this->autoRender = false;
+			/* 	$this->response->type('json');
+			$this->response->body($xml); */
+			}
+		}
 }

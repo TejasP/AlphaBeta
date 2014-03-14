@@ -154,4 +154,13 @@ class LocationAPIController extends AppNoAuthController {
 		$json = json_encode($resultArray);
 		$this->response->body($json);
 	}
+	
+	
+	function getCityAreaBasedoncordinates($lat1,$lon1){
+		
+
+		$this->response->type('json');
+		$json = json_encode($resultArray);
+		$this->response->body($json);
+	}
 }
