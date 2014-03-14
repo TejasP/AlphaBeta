@@ -19,6 +19,8 @@ class SearchController extends AppNoAuthController {
 
 		$user = Authsome::get('username');
 		$role = Authsome::get('role');
+
+		$this->log("inside search/index...." . $role);
 		
 		$this->Session->write('Redirect.Controller', 'Search');
 		$this->Session->write('Redirect.Action', 'index');

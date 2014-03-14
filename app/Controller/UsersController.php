@@ -111,8 +111,9 @@ class UsersController extends AppController {
     }
     
     public function login() {
-    	$this->layout = "foundation_search_home";
-   	
+    	
+    	$this->layout = "foundation_with_topbar";
+    	
     	$user = Authsome::get('username');
     	$role = Authsome::get('role');
     	
@@ -148,12 +149,28 @@ class UsersController extends AppController {
     	$action= $this->Session->read('Redirect.Action');
     	echo $controller;
     	
-    	if($controller!=null || $controller != ''){
+    	$loggedrole = $user['User']['role'];
+
+    	$this->log($user);
+    	$this->log("user login..." . $loggedrole);
+    	
+    	
+    	 
+  /*  	if(isset($controller)) {
     		return  $this->redirect(array('controller' => $controller,'action' => $action));
     	}
     	else{
-    		return  $this->redirect(array('controller' => 'search','action' => 'index'));
-    	} 
+*/	  		if($loggedrole == "admin") {
+				$this->log("inside..... admin condition");
+    			return  $this->redirect(array('controller' => 'admin','action' => 'index'));
+    		} else if ($loggedrole == "org") {
+    			$this->log("inside..... org condition");
+    			return  $this->redirect(array('controller' => 'org','action' => 'index'));
+    		} else {
+    			$this->log("inside..... else condition");
+   				return  $this->redirect(array('controller' => 'search','action' => 'index'));
+  			}
+  //  	} 
     	
     }
     
