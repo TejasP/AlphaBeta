@@ -153,10 +153,10 @@ class UsersController extends AppController {
 
     	$this->log($user);
     	$this->log("user login..." . $loggedrole);
-    	
-    	
-    	 
-  /*  	if(isset($controller)) {
+
+// Need to revisit, not able redirecting properly.
+/*    	if(isset($controller)) {
+    		$this->log("found redirect..... " . $controller);
     		return  $this->redirect(array('controller' => $controller,'action' => $action));
     	}
     	else{
@@ -170,7 +170,7 @@ class UsersController extends AppController {
     			$this->log("inside..... else condition");
    				return  $this->redirect(array('controller' => 'search','action' => 'index'));
   			}
-  //  	} 
+	//  	} 
     	
     }
     
