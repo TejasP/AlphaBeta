@@ -4,7 +4,7 @@ App::uses('AppNoAuthController', 'Controller');
 
 class LocateProviderController extends AppNoAuthController {
 	
-	public $uses = array('Providers');
+	public $uses = array('Providers','locations');
 	
 	
 	
@@ -148,7 +148,7 @@ class LocateProviderController extends AppNoAuthController {
 	
 	
 	
-		if(!empty($AreaCode)){
+			if(!empty($AreaCode)){
 			{
 				if(!empty($this->request->query['term'])){
 					$AreaCode = $this->request->query['term'];
@@ -159,18 +159,29 @@ class LocateProviderController extends AppNoAuthController {
 			}
 	
 	
-			$options = array('fields'=>'DISTINCT Providers.area','conditions' => array(
-					'Providers.area LIKE '=> '%'.$AreaCode.'%')
+			$options = array('fields'=>'DISTINCT locations.tags ,locations.locationid','conditions' => array(
+					'locations.tags LIKE '=> '%'.$AreaCode.'%')
 			);
 	
-			$results= $this->Providers->find('all',$options);
+			$results= $this->locations->find('all',$options);
 	
 			if(empty($results)){
 				echo 'results emptry';
 			}
 	
 			$this->response->type('json');
-			$json = json_encode(array('message'=>$results[0]['Providers']['area']));
+			
+			$data = array ();
+			$lenght = count($results);
+			if ($lenght >5) {
+				$lenght =5;
+			}
+			for($i=0 ; $i<$lenght;$i++)
+			{
+			$data [$i] = array("label"=>$results[$i]['locations']['tags'],"searchID"=>$results[$i]['locations']['locationid']);
+			}
+			
+			$json = json_encode($data);
 			$this->response->body($json);
 		}
 	}

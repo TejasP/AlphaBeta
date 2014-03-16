@@ -3,7 +3,7 @@
 App::uses('AppNoAuthController', 'Controller');
 
 class LocationAPIController extends AppNoAuthController {
-	public $uses = array('Providers_datas');
+	public $uses = array('Providers_datas','locations');
 	
 	function index (){
 		$this->layout ="";
@@ -59,7 +59,7 @@ class LocationAPIController extends AppNoAuthController {
 	}
 	
 	
-	function getDistanceWith($lat1,$lon1,$lat2,$lon2,$unit) {
+	function getDistanceBtwoLocation($lat1,$lon1,$lat2,$lon2,$unit) {
 	
 		$this->autoRender = false;
 	
@@ -85,7 +85,7 @@ class LocationAPIController extends AppNoAuthController {
 	}
 	
 	
-	function getDistanceBetween($lat1,$lon1,$providerID,$unit) {
+	function getDistanceBLocationProvider($lat1,$lon1,$providerID,$unit) {
 	
 		$this->autoRender = false;
 		
@@ -157,10 +157,80 @@ class LocationAPIController extends AppNoAuthController {
 	
 	
 	function getCityAreaBasedoncordinates($lat1,$lon1){
+		$this->autoRender = false;
+		// first get the list which is between southwest and northeast region.
+		$moptions = array('fields' => array('locations.locationid','locations.tags','locations.city','locations.bounds_southwest_lat','locations.bounds_southwest_lng','locations.bounds_northeast_lat','locations.bounds_northeast_lng'),'conditions' => array('locations.bounds_northeast_lat >'=>$lat1 ,'locations.bounds_southwest_lat <'=> $lat1,'locations.bounds_northeast_lng >'=>$lon1,'locations.bounds_southwest_lng <'=>$lon1));
 		
+		$mresults = $this->locations->find('all',$moptions);
+		$positionid;
+		$lastSelectedID ;
+		$lastselectedDistance;
 
+		$count = count($mresults);
+		// first do it with southwest 
+			for($i=0;$i<$count;$i++){
+				$locationID =$mresults[$i]['locations']['locationid'];
+				$bounds_southwest_lat = $mresults[$i]['locations']['bounds_southwest_lat'];
+				$bounds_southwest_lng = $mresults[$i]['locations']['bounds_southwest_lng'];
+				
+				$distance = $this->getDistanceLocal($lat1,$lon1,$bounds_southwest_lat,$bounds_southwest_lng,"K");
+				
+				if($i==0){
+						$positionid = $i;
+						$lastselectedDistance = $distance;
+						$lastSelectedID = $locationID;
+				}else{
+					if($lastselectedDistance >$distance ){
+						$positionid = $i;
+						$lastselectedDistance  = $distance;
+						$lastSelectedID = $locationID;
+					}
+				}
+				
+			}
+			
+			// now  do it with northeast
+			for($i=0;$i<$count;$i++){
+				$locationID =$mresults[$i]['locations']['locationid'];
+				$bounds_northeast_lat = $mresults[$i]['locations']['bounds_northeast_lat'];
+				$bounds_northeast_lng = $mresults[$i]['locations']['bounds_northeast_lng'];
+			
+				$distance = $this->getDistanceLocal($lat1,$lon1,$bounds_northeast_lat,$bounds_northeast_lng,"K");
+				
+					if($lastselectedDistance >$distance ){
+						$positionid = $i;
+						$lastselectedDistance  = $distance;
+						$lastSelectedID = $locationID;
+					}
+			
+			}
+
+			
 		$this->response->type('json');
-		$json = json_encode($resultArray);
+		$json = json_encode($mresults[$positionid]);
 		$this->response->body($json);
 	}
+	
+	private function getDistanceLocal($lat1,$lon1,$lat2,$lon2,$unit) {
+		
+		$theta = $lon1 - $lon2;
+		$dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+		$dist = acos($dist);
+		$dist = rad2deg($dist);
+		$miles = $dist * 60 * 1.1515;
+		$unit = strtoupper($unit);
+	
+		if ($unit == "K") {
+			$miles = $miles * 1.609344;
+		} else if ($unit == "N") {
+			$miles = $miles * 0.8684;
+		} else {
+			$miles = $miles;
+		}
+	
+		return $miles;
+		
+	}
+	
+	
 }
