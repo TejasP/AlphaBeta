@@ -38,7 +38,7 @@ function getQuoteDetail($quoteid) {
 	$.getJSON($url, function(data){
 		console.log("Starting.");
 
-		$("#quoteheader").html("<div class='section-header padder'><div class='section-title-text'><b>Quote #</b> " + data[0].quote_id +"</div></div>");
+		$("#quoteheader").html("<div class='section-header padder'><div class='section-title-text'><b>Quote #</b> " + data[0].quote_id +"</div>provider_id:<br>" + data[0].provider_id+ "</div>");
 		
 		$proddetails = "";
 		$.each(data[0].products, function(index, product) {
@@ -47,7 +47,7 @@ function getQuoteDetail($quoteid) {
 			else
 				$proddetails = $proddetails + "<br>" + product.prod_id + " " + product.prod_name + " " + product.qty + " " + product.price;
 		});
-		$("#quotedetail").html("<div class='section-detail padder'><div class='section-title-text'>Quote detail for " + data[0].quote_id + " here</div>" + $proddetails + "</div>");
+		$("#quotedetail").html("<div class='section-detail padder'><div class='section-title-text'>Quote detail for " + data[0].quote_id + " here</div>products:<br>" + $proddetails + "</div>");
 		
 		$notesdetails = "";
 		$.each(data[0].notifications, function(index, notification) {
@@ -56,7 +56,7 @@ function getQuoteDetail($quoteid) {
 			else
 				$notesdetails = $notesdetails + "<br>" + notification.initiated_by + " " + notification.time + " " + notification.comments;
 		});
-		$("#quotenotification").html("<div class='section-notification padder'><div class='section-title-text'>Notifications for " + data[0].quote_id + " here</div>" + $notesdetails + "<br><textarea name='newcomment' value=''/><div style='width:150px'><a class='postfix button expand' href='#' onClick='javascript:saveNotification("+ data[0].quote_id + ", 2);'>Save Comment</a></div></div>");
+		$("#quotenotification").html("<div class='section-notification padder'><div class='section-title-text'>Notifications for " + data[0].quote_id + " here</div>notifications:<br>" + $notesdetails + "<br><textarea name='newcomment' value=''/><div style='width:150px'><a class='postfix button expand' href='#' onClick='javascript:saveNotification("+ data[0].quote_id + ", 2);'>Save Comment</a></div></div>");
 	
 		console.log("done.");
 	});

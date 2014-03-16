@@ -50,10 +50,10 @@ class OrgController extends AppNoAuthController {
 		$products[2] = array("prod_id"=>3, "prod_name"=>"product 3", "qty"=>3, "price"=>"30.00");
 		$products[3] = array("prod_id"=>4, "prod_name"=>"product 4", "qty"=>4, "price"=>"40.00");
 
-		$notification[0] = array("id"=>1, "initiated_by"=>"user 1", "time"=>1, "comments"=>"comment1");
-		$notification[1] = array("id"=>2, "initiated_by"=>"user 2", "time"=>2, "comments"=>"comment2");
-		$notification[2] = array("id"=>3, "initiated_by"=>"user 1", "time"=>3, "comments"=>"comment3");
-		$notification[3] = array("id"=>4, "initiated_by"=>"user 2", "time"=>4, "comments"=>"comment4");
+		$notification[0] = array("id"=>1, "initiated_by"=>"user 1", "time"=>"1st March 2014 10:00:00", "comments"=>"comment1");
+		$notification[1] = array("id"=>2, "initiated_by"=>"user 2", "time"=>"2nd March 2014 09:00:00", "comments"=>"comment2");
+		$notification[2] = array("id"=>3, "initiated_by"=>"user 1", "time"=>"2nd March 2014 12:00:00", "comments"=>"comment3");
+		$notification[3] = array("id"=>4, "initiated_by"=>"user 2", "time"=>"3rd March 2014 00:00:00", "comments"=>"comment4");
 		
 		$quote[0] = array("quote_id"=>$query_quoteid, "provider_id"=>1, "products"=>$products, "notifications"=>$notification);
 	
