@@ -345,4 +345,41 @@ class SearchController extends AppNoAuthController {
 		$json = json_encode($descriptionArray);
 		$this->response->body($json);
 	}
+	
+	
+	public function getAllGenericsBasedonGeneric($generic){
+	
+		$moptions = array('fields' => array('medicines_header.quantity','medicines_header.unit_measurement','medicines_header.packaging_type','medicines_header.composition','medicines_header.generic'),'conditions' => array(
+				'medicines_header.generic = ' => $generic)
+		);
+	
+		$descriptionArray= $this->medicines_header->find('all',$moptions);
+	
+		$this->autoRender=false;
+		$this->response->type('json');
+		$json = json_encode($descriptionArray);
+		$this->response->body($json);
+	}
+	
+	public function getAllGenericsBasedonID($medID){
+		
+		$moptions = array('fields' => array('medicines_header.composition','medicines_header.generic'),'conditions' => array(
+				'medicines_header.medicine_id = ' => $medID)
+		);
+		
+		$descriptionArray= $this->medicines_header->find('all',$moptions);
+				
+		$generic = $descriptionArray[0]['medicines_header']['generic'];
+	
+		$moptions = array('fields' => array('medicines_header.quantity','medicines_header.unit_measurement','medicines_header.packaging_type','medicines_header.composition','medicines_header.generic'),'conditions' => array(
+				'medicines_header.generic = ' => $generic)
+		);
+	
+		$descriptionArray= $this->medicines_header->find('all',$moptions);
+	
+		$this->autoRender=false;
+		$this->response->type('json');
+		$json = json_encode($descriptionArray);
+		$this->response->body($json);
+	}
 }

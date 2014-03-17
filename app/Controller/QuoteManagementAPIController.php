@@ -62,7 +62,7 @@ class QuoteManagementAPIController extends AppNoAuthController {
 	    $date = date('Y-m-d H:i:s');
 	    $results;
 	    if($userID != null){
-	    		$results= array ("userID"=>$userID ,"cartID"=>$cartID,"providerID"=>$providerID);
+	    		$results= array ("user_ID"=>$userID ,"cart_ID"=>$cartID,"provider_ID"=>$providerID);
 				$data = array(
 		   			 'Quotes' => array(
 		       			 'cart_id' => $cartID,
@@ -75,19 +75,6 @@ class QuoteManagementAPIController extends AppNoAuthController {
 			    {
 			    	$results = array ("userID"=>$userID ,"cartID"=>$cartID,"providerID"=>$providerID);
 			    }
-			    
-			    /* $data_quotes_details = array(
-			    		'Quotes_detail' => array(
-			    				'quote_id' => 001,
-			    				'product_id' => $providerID,
-			    				'qty'=>10
-			    		)
-			    );
-			    
-			    if($this->Quotes_detail->save($data_quotes_details))
-			    {
-			    	$results_quotes_details = array ("quote_id"=>'bb' ,"product_id"=>$providerID,"qty"=>'10');
-			    } */
 	    }
 	    else{
 	    	$results = "NOTAUTHENTICATED";
@@ -102,6 +89,24 @@ class QuoteManagementAPIController extends AppNoAuthController {
 		
 	}
 	
+	public function showQuoteByProvider(){
+		
+	}
+	public function submitQuoteByProvider(){
+		
+		/* $data_quotes_details = array(
+		 'Quotes_detail' => array(
+		 		'quote_id' => 001,
+		 		'product_id' => $providerID,
+		 		'qty'=>10
+		 )
+		);
+		 
+		if($this->Quotes_detail->save($data_quotes_details))
+		{
+		$results_quotes_details = array ("quote_id"=>'bb' ,"product_id"=>$providerID,"qty"=>'10');
+		} */
+	}
 	
 	public function sendQuoteRequestEmail($sendTo){
 		$this->autoRender = false; // no view to render
