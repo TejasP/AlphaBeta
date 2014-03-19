@@ -19,6 +19,7 @@ class SearchController extends AppNoAuthController {
 
 		$user = Authsome::get('username');
 		$role = Authsome::get('role');
+		
 
 		$this->log("inside search/index...." . $role);
 		

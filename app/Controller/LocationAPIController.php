@@ -159,7 +159,7 @@ class LocationAPIController extends AppNoAuthController {
 	function getCityAreaBasedoncordinates($lat1,$lon1){
 		$this->autoRender = false;
 		// first get the list which is between southwest and northeast region.
-		$moptions = array('fields' => array('locations.locationid','locations.tags','locations.city','locations.bounds_southwest_lat','locations.bounds_southwest_lng','locations.bounds_northeast_lat','locations.bounds_northeast_lng'),'conditions' => array('locations.bounds_northeast_lat >'=>$lat1 ,'locations.bounds_southwest_lat <'=> $lat1,'locations.bounds_northeast_lng >'=>$lon1,'locations.bounds_southwest_lng <'=>$lon1));
+		$moptions = array('fields' => array('locations.locationid','locations.tags','locations.city','locations.bounds_southwest_lat','locations.bounds_southwest_lng','locations.bounds_northeast_lat','locations.bounds_northeast_lng','locations.location_lat','locations.location_lng'),'conditions' => array('locations.bounds_northeast_lat >'=>$lat1 ,'locations.bounds_southwest_lat <'=> $lat1,'locations.bounds_northeast_lng >'=>$lon1,'locations.bounds_southwest_lng <'=>$lon1));
 		
 		$mresults = $this->locations->find('all',$moptions);
 		$positionid;
@@ -211,6 +211,7 @@ class LocationAPIController extends AppNoAuthController {
 		$this->response->body($json);
 	}
 	
+	// method to only support controller functions.
 	private function getDistanceLocal($lat1,$lon1,$lat2,$lon2,$unit) {
 		
 		$theta = $lon1 - $lon2;

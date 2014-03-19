@@ -32,7 +32,7 @@ class BookingController extends AppNoAuthController {
 		// remove item from cookie
 		$cookieData = $this->Cookie->read('basket-data');
 		$type= gettype($cookieData);
-		var_dump( ($cookieData));
+
 		
 		foreach(array_keys($cookieData) as $keyOut){
 				echo  $keyOut;

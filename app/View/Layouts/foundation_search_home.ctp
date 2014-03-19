@@ -561,7 +561,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
     function callBooking(){
 
     	$url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'getLocationAuthenticateCookie'))?>';
-    	$url_cart = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'submitCart'))?>';
+    	$url_cart = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'submitCartFromCookie'))?>';
     	$url_quote = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'submitQuote'))?>';
     	
     			$.getJSON($url, function(data){
@@ -573,9 +573,11 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 								openQuotes();
 							}else
 							{
-							$.getJSON($url, function(data){});
+							$.post($url_cart, function(data){
+								console.log("Successful");
+							});
 							
-							$.getJSON($url, function(data){});
+						//	$.post($url_quote, function(data){});
 							}
 						}
 					});					

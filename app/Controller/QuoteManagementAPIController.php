@@ -165,4 +165,77 @@ class QuoteManagementAPIController extends AppNoAuthController {
 		
 		
 	}
+	
+	public function  submitCartFromCookie(){
+		$this->autoRender = false; // no view to render
+		
+		
+		$user_id = Authsome::get('id');
+		$cookieData =$this->Cookie->read('basket-data');
+		$locationData =$this->Cookie->read('location-data');
+		$qty;
+		
+		if ($cookieData != null && $locationData != null && $user_id != null){
+			foreach(array_keys($cookieData) as $keyOut){
+					$productid = $cookieData[$keyOut]['item'];
+					$producttype = $cookieData[$keyOut]['category'];
+					if(isset($cookieData[$keyOut]['qty'])){
+						$qty =$cookieData[$keyOut]['qty'];
+					}
+			}
+		
+			// if default qty is null then set it to 1
+			if(!isset($qty))
+			{
+				$qty = 1;
+			}
+
+			$data = array(
+					'Carts' => array(
+							'productid' => $productid,
+							'producttype' => $producttype,
+							'qty'=>$qty,
+							'user_id'=>$user_id
+					)
+			);
+			$results = array("No DATA");
+			if($this->Carts->save($data,array('validate'=>false, 'callbacks'=>false)))
+			{
+				$results = "ID:".$this->Carts->id;
+				
+			}
+		}
+		else{
+			if($user_id == null){
+				$results = "NOTAUTHENTICATED";
+			}
+			else if($cookieData == null){
+				$results = "NOCARTDATA";
+			}
+			else if($locationData == null){
+				$results = "NOLOCATIONDATA";
+			}
+		}
+			
+		$this->response->type('json');
+		$json = json_encode($results);
+		$this->response->body($json);
+	}
+	
+	public function  checkCookie(){
+		$this->autoRender = false; // no view to render
+		
+		$user_id = Authsome::get('id');
+		
+		echo "user_id".$user_id;
+		
+		$cookieData =$this->Cookie->read('basket-data');
+		
+		var_dump($cookieData);
+		
+		$locationData =$this->Cookie->read('location-data');
+		
+		var_dump($locationData);
+		
+	}
 }
