@@ -4,7 +4,7 @@ App::uses('AppNoAuthController', 'Controller');
 
 class SearchController extends AppNoAuthController {
 
-	public $uses = array('Search','medicines_header','Providers','medicines_detail','medicines_detail_searches','search_audit');
+	public $uses = array('Search','medicines_header','Providers','medicines_detail','medicines_detail_searches','search_audit','product_header');
 	
 	public $helpers = array('Html');
 	
@@ -340,6 +340,24 @@ class SearchController extends AppNoAuthController {
 		);
 		
 		$descriptionArray= $this->medicines_header->find('all',$moptions);
+		
+		$this->autoRender=false;
+		$this->response->type('json');
+		$json = json_encode($descriptionArray);
+		$this->response->body($json);
+	}
+	
+	
+	public function getItemDetailsBasedonIDCategory($medID,$catID){
+	
+		if($catID==1){
+				$moptions = array('fields' => array('medicines_header.quantity','medicines_header.unit_measurement','medicines_header.packaging_type','medicines_header.composition','medicines_header.generic'),'conditions' => array('medicines_header.medicine_id = ' => $medID));
+				$descriptionArray= $this->medicines_header->find('all',$moptions);
+		}
+		if($catID==2){
+				$moptions = array('fields' => array('product_header.prod_desc','product_header.prod_company','product_header.prod_price'),'conditions' => array('product_header.prod_id = ' => $medID));
+				$descriptionArray= $this->product_header->find('all',$moptions);
+		}
 		
 		$this->autoRender=false;
 		$this->response->type('json');

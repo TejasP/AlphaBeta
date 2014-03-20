@@ -136,7 +136,7 @@ class BookingController extends AppNoAuthController {
 						$prodid = $mresults[$k]['medicines_header']['id'];
 						$prodname = $mresults[$k]['medicines_header']['medicine_name'];
 				
-						$products[$i] = array("prodid"=>$prodid, "prodname"=>$prodname);
+						$products[$i] = array("prodid"=>$prodid, "prodname"=>$prodname,"prodCategory"=>$category);
 					}
 				}
 				else if($category == "2")
@@ -152,7 +152,7 @@ class BookingController extends AppNoAuthController {
 						$prodid = $presults[$j]['product_headers']['prod_id'];
 						$prodname = $presults[$j]['product_headers']['prod_desc'];
 					
-						$products[$i] = array("prodid"=>$prodid, "prodname"=>$prodname);
+						$products[$i] = array("prodid"=>$prodid, "prodname"=>$prodname,"prodCategory"=>$category);
 					}
 				}
 				$i++;

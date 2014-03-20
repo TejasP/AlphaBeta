@@ -408,14 +408,14 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 	    	    		$.each(data, function(index, valueInner) {
 	    	    				var indexCount = index+1;
 	    	    				var selector = "#karttwistie > div > ul > li:nth-child("+indexCount+")";
-	    	    				$(selector).html("<a href='#' onclick='openSelectedItem("+valueInner.prodid+");'"+"><img src='' />"+valueInner.prodname+"</a>");
+	    	    				$(selector).html("<a href='#' onclick='openSelectedItem("+"&apos;"+valueInner.prodid+"&apos;,&apos;"+valueInner.prodname+"&apos;,&apos;"+valueInner.prodCategory+"&apos;);'"+"><img src='' />"+valueInner.prodname+"</a>");
 	    	    			
 						});
 						$("#kart_booking").show();
 					}
 
     	});
-
+	   	$("#kart_itemdisplay_container").hide();
     }
     
     
@@ -600,9 +600,30 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
                 });
    	}
    	
-	function openSelectedItem(value){
-	   		console.log("container :"+kart_itemdisplay_container);
-	   		$("#kart_itemdisplay_container").html("<div>"+value+"</div>");
+	function openSelectedItem(id, desc,category){
+				
+    			var $url = '<?php echo $this->Html->url(array('controller'=>'Search', 'action'=>'getItemDetailsBasedonIDCategory'))?>'+'/'+id+'/'+category;
+    			var quantity,unit_measurement,packaging_type,composition,generic;
+
+    			$.getJSON($url, function(data){
+    				if (category==1){
+    				quantity =data[0].medicines_header.quantity;
+ 					unit_measurement = data[0].medicines_header.unit_measurement;
+ 					packaging_type = data[0].medicines_header.packaging_type;
+ 					composition = data[0].medicines_header.composition;
+ 					generic = data[0].medicines_header.generic;
+ 					//TODO add delete item button.
+	   				$("#kart_itemdisplay_container").html("<div>"+desc+"</div><div>Generic :"+generic+"</div><div>Composition:"+composition+"</div>");
+	   				}
+	   				
+	   				if (category==2){
+ 					prddesc = data[0].product_header.prod_desc;
+ 					company = data[0].product_header.prod_company;
+ 					//TODO add delete item button.
+	   				$("#kart_itemdisplay_container").html("<div>"+desc+"</div><div>Product Detail :"+prddesc+"</div><div>Company:"+company+"</div>");
+	   				}    			
+    			});
+
 	   		$("#kart_itemdisplay_container").show();
 	}
 
