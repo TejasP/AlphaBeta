@@ -1,12 +1,12 @@
 <?php
 
-App::uses('AuthComponent', 'Controller/Component');
+
+App::uses('AppNoAuthController', 'Controller');
 
 class UsersController extends AppController {
 	
-	public $uses = array('user','login_token');
+	public $uses = array('User','login_token');
 
-	var $components = array('Session','RequestHandler','Cookie');
 	
    /*  public function beforeFilter() {
         parent::beforeFilter();
@@ -14,10 +14,10 @@ class UsersController extends AppController {
     } */
 
     public function index() {
-    	$user = Authsome::get('username');
+    	$username = Authsome::get('username');
 		$role = Authsome::get('role');
 		
-		if (($user=== 'NULL') || ($user== '')) {
+		if (($username=== 'NULL') || ($username== '')) {
 			$this->set('isUserLoggedIn',"false");
 		}else
 		{
@@ -34,16 +34,16 @@ class UsersController extends AppController {
 			$this->set('isBucketFilled',"true");
 		}
 		
-    	parent::polulateLeftNav($user,$role);
+    //	parent::polulateLeftNav($user,$role);
     	$this->layout = 'foundation_with_topbar';
         $this->User->recursive = 0;
         $this->set('users', $this->paginate());
     }
 
     public function view($id = null) {
-    	$user = Authsome::get('username');
+    	$username = Authsome::get('username');
     	$role = Authsome::get('role');
-    	parent::polulateLeftNav($user,$role);
+    	parent::polulateLeftNav($username,$role);
     	$this->layout = 'foundation_with_topbar';
         $this->User->id = $id;
         if (!$this->User->exists()) {
@@ -53,12 +53,15 @@ class UsersController extends AppController {
     }
 
     public function add() {
-    	$user = Authsome::get('username');
+    	$username = Authsome::get('username');
     	$role = Authsome::get('role');
-    	parent::polulateLeftNav($user,$role);
+    	
+    //	parent::polulateLeftNav($username,$role);
     	$this->layout = 'foundation_with_topbar';
+    	
         if ($this->request->is('post')) {
             $this->User->create();
+            echo 'here';
             if ($this->User->save($this->request->data)) {
                 $this->Session->setFlash(__('The user has been saved'));
                 return $this->redirect(array('action' => 'index'));
@@ -66,13 +69,13 @@ class UsersController extends AppController {
             $this->Session->setFlash(
                 __('The user could not be saved. Please, try again.')
             );
-        }
+        } 
     }
 
     public function edit($id = null) {
-    	$user = Authsome::get('username');
+    	$username = Authsome::get('username');
     	$role = Authsome::get('role');
-    	parent::polulateLeftNav($user,$role);
+    	parent::polulateLeftNav($username,$role);
     	$this->layout = 'foundation_with_topbar';
         $this->User->id = $id;
         if (!$this->User->exists()) {
@@ -114,10 +117,10 @@ class UsersController extends AppController {
     	
     	$this->layout = "foundation_with_topbar";
     	
-    	$user = Authsome::get('username');
+    	$username = Authsome::get('username');
     	$role = Authsome::get('role');
     	
-    	if (($user=== 'NULL') || ($user== '')) {
+    	if (($username=== 'NULL') || ($username== '')) {
     		$this->set('isUserLoggedIn',"false");
     	}else
     	{
@@ -179,40 +182,8 @@ class UsersController extends AppController {
     	return  $this->redirect(array('controller' => 'search','action' => 'logoutUser'));
     }
     
-    public function  resetPassword($userID){
-    	$this->autoRender = false; // no view to render
+    
 
-    	//First generate token add to DB and send link
-    	$date = date('Y-m-d H:i:s', strtotime('+1 hours'));
-    	$duration = '+1 hours';
-    	$token = md5(uniqid(mt_rand(), true));
-    	
-    	$token_data = array(
-    			'login_token' => array(
-    					'user_id' => $userID,
-    					'token' => $token,
-    					'duration' => $duration,
-    					'expires' => $date
-    			)
-    	);
-    		
-    	
-	//	$return = $this->login_token->save($token_data);
-		echo 'hi'.$return;
-	
-    /* 	$log = $this->login_token->getDataSource()->getLog(false, false);
-    	echo $log; */
-    	
-    	$this->response->type('json');
-    	$json = json_encode($return);
-    	$this->response->body($json);
-    	
-    }
-
-	public function validatePassword($tokenID){
-    	// get Token and check against the DB and ask user to update password.
-    	
-	}
 	
 	public function firstPage() {
 		$user = Authsome::get('username');

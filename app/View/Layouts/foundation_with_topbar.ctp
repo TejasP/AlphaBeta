@@ -51,7 +51,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
             <!-- Title Area -->
 
             <li class="name">
-              <h1><a href="<?php echo Configure::read('dashboard'); ?>">Top Bar Title</a></h1>
+              <h1><a href="<?php echo Configure::read('dashboard'); ?>"><?php echo $this->Html->image('/img/logo.png', array('alt' => 'eMediplus')); ?></a></h1>
             </li>
 
             <li class="toggle-topbar menu-icon">

@@ -31,7 +31,7 @@ class User extends AppModel {
 			)
 	);
 	
-	/*public function beforeSave($options = array()) {
+	public function beforeSave($options = array()) {
 		if (isset($this->data[$this->alias]['password'])) {
 			$passwordHasher = new SimplePasswordHasher();
 			$this->data[$this->alias]['password'] = $passwordHasher->hash(
@@ -39,7 +39,7 @@ class User extends AppModel {
 			);
 		}
 		return true;
-	} */
+	} 
 	
 	public function authsomeLogin($type, $credentials = array()) {
 		switch ($type) {
@@ -48,8 +48,7 @@ class User extends AppModel {
 				// have a guest account, just return an empty array
 				return array('it' => 'works');
 			case 'credentials':
-				//$password = Authsome::hash($credentials['password']);
-				$password = $credentials['password'];
+				$password = Authsome::hash($credentials['password']);
 				
 				// This is the logic for validating the login
 				$conditions = array(
