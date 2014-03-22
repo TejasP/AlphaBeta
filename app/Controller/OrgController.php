@@ -5,7 +5,7 @@ App::uses('CommonDBHandlerComponent', 'Controller/Component');
 
 class OrgController extends AppNoAuthController {
 
-	public $uses = array('quotes','quotes_details','carts', 'quotes_notifications', 'users');
+	public $uses = array('quotes','quotes_details','carts', 'quotes_notification', 'users');
 	
 	public function index (){
 		$user = Authsome::get('username');
@@ -68,27 +68,28 @@ class OrgController extends AppNoAuthController {
 	}
 
 	public function quoteDetail (){
-		$this->layout = "foundation_org_home";
-	
+	//	$this->layout = "foundation_org_home";
+		$this->autoRender = false;
+		
 		$query_quoteid = $this->request->query['quoteid'];
 		
-
-		$qoptions = array('conditions' => array(
-				'quotes.id' => $query_quoteid)
-		);
+		
+		
+		$qoptions = array('conditions' => array('quotes.id' => $query_quoteid));
 		
 		$quotes_data = $this->quotes->find('all',$qoptions);
 		$qlength = count($quotes_data);
-		for($j=0; $j<$qlength; $j++)
+
+		 for($j=0; $j<$qlength; $j++)
 		{
 			$cart_id = $quotes_data[$j]['quotes']['cart_id'];
 			$quote_id = $quotes_data[$j]['quotes']['id'];
 			$user_id = $quotes_data[$j]['quotes']['user_id'];
 			$submitted = $quotes_data[$j]['quotes']['submitted'];
 			
-			$uoptions = array('conditions' => array(
-					'users.id' => $user_id)
-			);
+			
+			
+			$uoptions = array('conditions' => array('users.id' => $user_id));
 			
 			$userdata = $this->users->find('all',$uoptions);
 			$ulength = count($userdata);
@@ -119,14 +120,15 @@ class OrgController extends AppNoAuthController {
 				$products[$y] = array("prod_id"=> $product_id, "prod_name"=> $product_name, "qty"=> $qty, "price"=> $price);
 			}
 			
-/*			
+		
 			// quote notifications
-			$coptions = array('conditions' => array(
-					'quotes_notifications.quote_id' => $cart_id)
+			 $coptions = array('conditions' => array(
+					'quote_id' => $cart_id)
 			);
 				
-			$notifications = $this->quotes_notifications->find('all',$coptions);
+			$notifications = $this->quotes_notification->find('all',$coptions);
 			$nlength = count($notifications);
+			$notification = array();
 			for($z=0; $z<$nlength; $z++)
 			{
 				$notification_id = $notifications[$z]['quotes_notifications']['id'];
@@ -137,14 +139,14 @@ class OrgController extends AppNoAuthController {
 			
 				$notification[$z] = array("id"=> $notification_id, "initiated_by"=> $initiated_by, "initiated_time"=>$initiated_time, "initiated_for"=>$initiated_for, "comments"=>$comments);
 			}
-*/
+			
 
-			$quote[0] = array("quote_id"=> $quote_id, "provider_id"=> 1, "cart_id"=> $cart_id, "user_id"=> $user_id, "user_name"=> $user_name, "submitted"=>$submitted, "products"=>$products, "notifications"=>$notification);
-		}
+			$quote[0] = array("quote_id"=> $quote_id, "provider_id"=> 1, "cart_id"=> $cart_id, "user_id"=> $user_id, "user_name"=> $user_name, "submitted"=>$submitted, "products"=>$products, "notifications"=>$notification); 
+		} 
 		
 		
 	
-		$this->autoRender = false;
+
 		return json_encode($quote);
 	}
 }
