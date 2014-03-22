@@ -18,7 +18,7 @@ function getRecentQuotes() {
 			else
 				$arrow = "";
 
-			$("#recentquotes").append("<div class='section-listing'><a id='" + value.quote_id + "' class='listing-item'><div class='section-listing-text'>" + value.quote_id  + $arrow + "</div></a>");
+			$("#recentquotes").append("<div class='section-listing'><a id='" + value.quote_id + "' class='listing-item'><span class='section-listing-text'>Quote " + value.quote_id  + " </span></a><span>recevied from <a id='" + value.user_id + "' class='listing-item'>" + value.user_name + "</a></span><div class='quote-received'>Received at " + value.submitted + "</div></div>");
 		});
 	
 		console.log("done.");
@@ -38,16 +38,16 @@ function getQuoteDetail($quoteid) {
 	$.getJSON($url, function(data){
 		console.log("Starting.");
 
-		$("#quoteheader").html("<div class='section-header padder'><div class='section-title-text'><b>Quote #</b> " + data[0].quote_id +"</div>provider_id:<br>" + data[0].provider_id+ "</div>");
+		$("#quoteheader").html("<div class='section-header padder'><div class='order-status'></div><div class='order-header'>Quote #" + data[0].quote_id +" received from " + data[0].user_name + "</div><div class='order-detail'>order comments here</div></div>");
 		
 		$proddetails = "";
 		$.each(data[0].products, function(index, product) {
 			if($proddetails == "")
-				$proddetails = product.prod_id + " " + product.prod_name + " " + product.qty + " " + product.price
+				$proddetails = product.prod_name + " qty:" + product.qty + " Rs." + product.price
 			else
-				$proddetails = $proddetails + "<br>" + product.prod_id + " " + product.prod_name + " " + product.qty + " " + product.price;
+				$proddetails = $proddetails + "<br>" + product.prod_name + " qty:" + product.qty + " Rs." + product.price;
 		});
-		$("#quotedetail").html("<div class='section-detail padder'><div class='section-title-text'>Quote detail for " + data[0].quote_id + " here</div>products:<br>" + $proddetails + "</div>");
+		$("#quotedetail").html("<div class='section-detail padder'><div class='order-prodheader'>Products</div><div class='order-proddetail'>" + $proddetails + "</div></div>");
 		
 		$notesdetails = "";
 		$.each(data[0].notifications, function(index, notification) {
@@ -69,7 +69,7 @@ function getQuoteDetail($quoteid) {
 	#background-color: blue;
     border: 1px solid #9CACBC;
     border-radius: 7px 0px 0 0;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    #box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     position: absolute;
 }
 
@@ -101,6 +101,10 @@ function getQuoteDetail($quoteid) {
  	height: 52px;
 }
 
+#leftpane {
+	background-color: #FFFFFF;
+}
+
 #leftpane .section-header {
     background-color: #CED7E0;
     background-image: -moz-linear-gradient(90deg, #CED7E0 0%, #ECF0F3);
@@ -112,8 +116,10 @@ function getQuoteDetail($quoteid) {
 }
 
 #leftpane .section-listing {
-	width: 150px;
-    height: 20px;
+	font-size: 14px;
+	font-weight: bold;
+	width: 250px;
+    height: 40px;
     margin-bottom: 1px;
     padding: 5px 5px 3px 5px;
 }
@@ -129,9 +135,49 @@ function getQuoteDetail($quoteid) {
     white-space: nowrap;
 }
 
+.quote-received {
+	font-size: 10px;
+	font-weight: 100;
+	color: #A7A7A7;
+}
+
+.listing-item {
+	text-decoration: underline;
+}
+
 .arrow-indicator {
 	#background-image: url("http://localhost/alphabeta/img/arrow-indicator.png");
 }
+
+.order-status {
+	border: 1px solid #A7A7A7;
+	border-radius: 2px;
+	width: 20px;
+	padding: 10px;
+	margin-top: 7px;
+}
+
+.order-header {
+	font-weight: bold;
+	font-size: 14px;
+	margin-left: 30px;
+	margin-top: -18px;
+}
+
+.order-detail {
+	margin-left: 30px;
+	font-size: 13px;
+}
+
+.order-prodheader {
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.order-proddetail {
+	font-size: 12px;
+}
+
 
 .section-listing-text {
     font-family: proxima-nova-condensed,"Helvetica Neue",Arial,sans-serif;
@@ -140,7 +186,6 @@ function getQuoteDetail($quoteid) {
     overflow: hidden;
     text-overflow: ellipsis;
     text-shadow: 0 1px #ECF0F3;
-    text-transform: uppercase;
     white-space: nowrap;
 }
 
@@ -162,7 +207,7 @@ function getQuoteDetail($quoteid) {
 					</div>
 				</div>
 
-				<div id="centerpane" style="left: 251px; top: 20px; width: 572px; height: 92%; position: absolute;">
+				<div id="centerpane" style="left: 300px; top: 20px; width: 572px; height: 92%; position: absolute;">
 					<div id="quoteheader">
 						
 					</div>
@@ -172,9 +217,10 @@ function getQuoteDetail($quoteid) {
 					<div id="quotenotification">
 						
 					</div>
-					<div class="section-footer padder">
+			<!--		<div class="section-footer padder">
 						<div class="section-title-text">Footer here</div>
-					</div>
+					</div> 
+			-->
 				</div>
 				
 			</div>

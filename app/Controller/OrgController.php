@@ -1,9 +1,12 @@
 <?php
 
 App::uses('AppNoAuthController', 'Controller');
+App::uses('CommonDBHandlerComponent', 'Controller/Component');
 
 class OrgController extends AppNoAuthController {
 
+	public $uses = array('quotes','quotes_details','carts', 'quotes_notifications', 'users');
+	
 	public function index (){
 		$user = Authsome::get('username');
 		$role = Authsome::get('role');
@@ -25,17 +28,41 @@ class OrgController extends AppNoAuthController {
 	public function recentQuotes (){
 		$this->layout = "foundation_org_home";
 		
-		$myQuotes[0] = array("quote_id"=> 1234567890, "provider_id"=> 1);
-		$myQuotes[1] = array("quote_id"=> 1234567891, "provider_id"=> 1);
-		$myQuotes[2] = array("quote_id"=> 1234567892, "provider_id"=> 1);
-		$myQuotes[3] = array("quote_id"=> 1234567893, "provider_id"=> 1);
-		$myQuotes[4] = array("quote_id"=> 1234567894, "provider_id"=> 1);
-		$myQuotes[5] = array("quote_id"=> 1234567895, "provider_id"=> 1);
-		$myQuotes[6] = array("quote_id"=> 1234567896, "provider_id"=> 1);
-		$myQuotes[7] = array("quote_id"=> 1234567897, "provider_id"=> 1);
-		$myQuotes[8] = array("quote_id"=> 1234567898, "provider_id"=> 1);
-		$myQuotes[9] = array("quote_id"=> 1234567899, "provider_id"=> 1);
+		$provider_id = 1;
+
+		$qoptions = array('conditions' => array(
+				'quotes.provider_id' => $provider_id),
+				'limit' => 10 
+		);
 		
+		$quotes_data = $this->quotes->find('all',$qoptions);
+		$qlength = count($quotes_data);
+		for($j=0; $j<$qlength; $j++)
+		{
+			$cart_id = $quotes_data[$j]['quotes']['cart_id']; 
+			$quote_id = $quotes_data[$j]['quotes']['id']; 
+			$user_id = $quotes_data[$j]['quotes']['user_id'];
+			$submitted = $quotes_data[$j]['quotes']['submitted'];
+			
+/*			// calling handler component for generating query..
+			$dbhandler = new CommonDBHandlerComponent();
+			$user_name = $dbhandler->getDescription("users", "username", $user_id);
+			// ------------------------------------------------
+*/		
+			$uoptions = array('conditions' => array(
+					'users.id' => $user_id)
+			);
+				
+			$userdata = $this->users->find('all',$uoptions);
+			$ulength = count($userdata);
+			for($k=0; $k<$ulength; $k++)
+			{
+				 $user_name = $userdata[$k]['users']['username'];
+			}
+			
+			$myQuotes[$j] = array("quote_id"=> $quote_id, "provider_id"=> 1, "cart_id"=> $cart_id, "user_id"=> $user_id, "user_name"=> $user_name, "submitted"=>$submitted);
+		}
+				
 		$this->autoRender = false;
 		return json_encode($myQuotes);
 	}
@@ -45,17 +72,77 @@ class OrgController extends AppNoAuthController {
 	
 		$query_quoteid = $this->request->query['quoteid'];
 		
-		$products[0] = array("prod_id"=>1, "prod_name"=>"product 1", "qty"=>1, "price"=>"10.00");
-		$products[1] = array("prod_id"=>2, "prod_name"=>"product 2", "qty"=>2, "price"=>"20.00");
-		$products[2] = array("prod_id"=>3, "prod_name"=>"product 3", "qty"=>3, "price"=>"30.00");
-		$products[3] = array("prod_id"=>4, "prod_name"=>"product 4", "qty"=>4, "price"=>"40.00");
 
-		$notification[0] = array("id"=>1, "initiated_by"=>"user 1", "time"=>"1st March 2014 10:00:00", "comments"=>"comment1");
-		$notification[1] = array("id"=>2, "initiated_by"=>"user 2", "time"=>"2nd March 2014 09:00:00", "comments"=>"comment2");
-		$notification[2] = array("id"=>3, "initiated_by"=>"user 1", "time"=>"2nd March 2014 12:00:00", "comments"=>"comment3");
-		$notification[3] = array("id"=>4, "initiated_by"=>"user 2", "time"=>"3rd March 2014 00:00:00", "comments"=>"comment4");
+		$qoptions = array('conditions' => array(
+				'quotes.id' => $query_quoteid)
+		);
 		
-		$quote[0] = array("quote_id"=>$query_quoteid, "provider_id"=>1, "products"=>$products, "notifications"=>$notification);
+		$quotes_data = $this->quotes->find('all',$qoptions);
+		$qlength = count($quotes_data);
+		for($j=0; $j<$qlength; $j++)
+		{
+			$cart_id = $quotes_data[$j]['quotes']['cart_id'];
+			$quote_id = $quotes_data[$j]['quotes']['id'];
+			$user_id = $quotes_data[$j]['quotes']['user_id'];
+			$submitted = $quotes_data[$j]['quotes']['submitted'];
+			
+			$uoptions = array('conditions' => array(
+					'users.id' => $user_id)
+			);
+			
+			$userdata = $this->users->find('all',$uoptions);
+			$ulength = count($userdata);
+			for($k=0; $k<$ulength; $k++)
+			{
+				$user_name = $userdata[$k]['users']['username'];
+			}
+
+			// quote detail
+			$coptions = array('conditions' => array(
+					'carts.id' => $cart_id)
+			);
+			
+			$cart_detail = $this->carts->find('all',$coptions);
+			$clength = count($cart_detail);
+			for($y=0; $y<$clength; $y++)
+			{
+				$product_id = $cart_detail[$y]['carts']['productid'];
+				$product_type = $cart_detail[$y]['carts']['producttype'];
+				$qty = $cart_detail[$y]['carts']['qty'];
+				$price = "10.00";
+										
+				if($product_type == "1")
+					$product_name = "medicine product name here";
+				else 
+					$product_name = "non-medicine product name here";
+				
+				$products[$y] = array("prod_id"=> $product_id, "prod_name"=> $product_name, "qty"=> $qty, "price"=> $price);
+			}
+			
+/*			
+			// quote notifications
+			$coptions = array('conditions' => array(
+					'quotes_notifications.quote_id' => $cart_id)
+			);
+				
+			$notifications = $this->quotes_notifications->find('all',$coptions);
+			$nlength = count($notifications);
+			for($z=0; $z<$nlength; $z++)
+			{
+				$notification_id = $notifications[$z]['quotes_notifications']['id'];
+				$initiated_by = $notifications[$z]['quotes_notifications']['initiated_by'];
+				$initiated_time = $notifications[$z]['quotes_notifications']['initiated_time'];
+				$initiated_for = $notifications[$z]['quotes_notifications']['initiated_for'];
+				$comments = $notifications[$z]['quotes_notifications']['comments'];
+			
+				$notification[$z] = array("id"=> $notification_id, "initiated_by"=> $initiated_by, "initiated_time"=>$initiated_time, "initiated_for"=>$initiated_for, "comments"=>$comments);
+			}
+*/
+
+			$quote[0] = array("quote_id"=> $quote_id, "provider_id"=> 1, "cart_id"=> $cart_id, "user_id"=> $user_id, "user_name"=> $user_name, "submitted"=>$submitted, "products"=>$products, "notifications"=>$notification);
+		}
+		
+		
 	
 		$this->autoRender = false;
 		return json_encode($quote);
