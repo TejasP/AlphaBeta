@@ -176,13 +176,14 @@ class QuoteManagementAPIController extends AppNoAuthController {
 		$qty;
 		
 		if ($cookieData != null && $locationData != null && $user_id != null){
-			foreach(array_keys($cookieData) as $keyOut){
-					$productid = $cookieData[$keyOut]['item'];
-					$producttype = $cookieData[$keyOut]['category'];
-					if(isset($cookieData[$keyOut]['qty'])){
-						$qty =$cookieData[$keyOut]['qty'];
+
+		foreach($cookieData as $keyOut){
+					$productid = $keyOut['item'];
+					$producttype = $keyOut['category'];
+					if(isset($keyIn['qty'])){
+						$qty =$keyIn['qty'];
 					}
-			}
+
 		
 			// if default qty is null then set it to 1
 			if(!isset($qty))
@@ -198,12 +199,15 @@ class QuoteManagementAPIController extends AppNoAuthController {
 							'user_id'=>$user_id
 					)
 			);
+
 			$results = array("No DATA");
+			$this->Carts->create();
 			if($this->Carts->save($data,array('validate'=>false, 'callbacks'=>false)))
 			{
 				$results = "ID:".$this->Carts->id;
 				
 			}
+		 }	
 		}
 		else{
 			if($user_id == null){
