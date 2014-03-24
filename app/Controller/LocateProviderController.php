@@ -178,7 +178,7 @@ class LocateProviderController extends AppNoAuthController {
 			}
 			for($i=0 ; $i<$lenght;$i++)
 			{
-			$data [$i] = array("label"=>$results[$i]['locations']['tags'],"searchID"=>$results[$i]['locations']['locationid']);
+			$data [$i] = array("label"=>$results[$i]['locations']['tags'],"locationID"=>$results[$i]['locations']['locationid']);
 			}
 			
 			$json = json_encode($data);
@@ -188,12 +188,12 @@ class LocateProviderController extends AppNoAuthController {
 	
 	
 	
-	public function setPreferredLocation($area){
+	public function setPreferredLocation($area,$locationID){
 		if(!empty($area)){
-			$this->Cookie->write('location-data',json_encode($area));
+			$this->Cookie->write('location-data',json_encode(array('area'=>$area,'locationID'=>$locationID)));
 			$this->autoRender=false;
 			$this->response->type('json');
-			$json = json_encode(array('message'=>json_encode($area)));
+			$json = json_encode(array('message'=>json_encode(array('area'=>$area,'locationID'=>$locationID))));
 			$this->response->body($json);
 		}
 	}
@@ -203,8 +203,18 @@ class LocateProviderController extends AppNoAuthController {
 			$location_data = $this->Cookie->read('location-data');
 			$this->autoRender=false;
 			$this->response->type('json');
-			$json = json_encode(array('message'=>json_encode($location_data)));
+			$json = json_encode(array('message'=>json_encode($location_data['area'])));
 			$this->response->body($json);
 
+	}
+	
+	public function getPreferredLocationID(){
+	
+		$location_data = $this->Cookie->read('location-data');
+		$this->autoRender=false;
+		$this->response->type('json');
+		$json = json_encode(array('message'=>json_encode($location_data['locationID'])));
+		$this->response->body($json);
+	
 	}
 }

@@ -197,6 +197,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 						<div>
 									<div class="medium-5 small-5 columns">				
 					                 	<input type="search" id="LocateProvider" value="Please enter area, city or pincode" />
+					                 	<input type="hidden" id="LocationId"/>
 					                 </div>
 					                 <div class="medium-2 small-3 columns">
 					 					<a href="#" class="button tiny radius" onclick="javascript:getProviderResults();">find</a>
@@ -362,6 +363,15 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
                 source: $url_locate,
                 dataType: "json",
                 minChars: 4,
+                   select: function( event, ui ) {
+						$( "#LocateProvider").val(ui.item.label);
+						$( "#LocationId").val(ui.item.locationID);
+							return false;
+					},
+				 focus: function( event, ui ) {
+					$( "#LocateProvider" ).val( ui.item.label );
+						return false;
+					}
             };
             
             a1 = $('#LocateProvider').autocomplete(options);
@@ -502,7 +512,8 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
     
     function submitYes(){
     	var locationText = $('#LocateProvider').val();
-		var $url = '<?php echo $this->Html->url(array('controller'=>'locateProvider', 'action'=>'setPreferredLocation'))?>'+'/'+locationText;
+    	var locationID = $('#LocationId').val();
+		var $url = '<?php echo $this->Html->url(array('controller'=>'locateProvider', 'action'=>'setPreferredLocation'))?>'+'/'+locationText+'/'+locationID;
 		$.getJSON($url, function(data){
 			console.log("cookie value set for location");
 		});

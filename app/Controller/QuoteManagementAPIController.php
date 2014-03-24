@@ -5,7 +5,7 @@ App::uses('AppNoAuthController', 'Controller');
 
 class QuoteManagementAPIController extends AppNoAuthController {
 	
-	public $uses = array('Quotes','Carts','Quotes_detail');
+	public $uses = array('Quotes','Carts','Quotes_detail','Cart_detail');
 	
 	public function  submitCart(){
 		$this->autoRender = false; // no view to render		
@@ -173,41 +173,61 @@ class QuoteManagementAPIController extends AppNoAuthController {
 		$user_id = Authsome::get('id');
 		$cookieData =$this->Cookie->read('basket-data');
 		$locationData =$this->Cookie->read('location-data');
+		
+		$locationID = $locationData['locationID'];
+		
+		$date = date('Y-m-d H:i:s');
 		$qty;
 		
 		if ($cookieData != null && $locationData != null && $user_id != null){
-
-		foreach($cookieData as $keyOut){
-					$productid = $keyOut['item'];
-					$producttype = $keyOut['category'];
-					if(isset($keyIn['qty'])){
-						$qty =$keyIn['qty'];
-					}
-
+			$data = array(
+					'Carts' => array(
+							'user_id'=>$user_id,
+							'location_id'=>$locationID,
+							'submitted'=>$date
+					)
+			);
 		
+
+			$cartID;
+			
+			// First save it to Cart Table.
+			$this->Carts->create();
+			if($this->Carts->save($data,array('validate'=>false, 'callbacks'=>false)))
+			{
+				$cartID = $this->Carts->id;
+			}
+			
+			// Now save it to Cart Details table. 
 			// if default qty is null then set it to 1
 			if(!isset($qty))
 			{
 				$qty = 1;
 			}
+			$results = array();
+			
+			foreach($cookieData as $keyOut){
+				$productid = $keyOut['item'];
+				$producttype = $keyOut['category'];
+				if(isset($keyIn['qty'])){
+					$qty =$keyIn['qty'];
+				}
 
-			$data = array(
-					'Carts' => array(
-							'productid' => $productid,
-							'producttype' => $producttype,
-							'qty'=>$qty,
-							'user_id'=>$user_id
-					)
-			);
-
-			$results = array("No DATA");
-			$this->Carts->create();
-			if($this->Carts->save($data,array('validate'=>false, 'callbacks'=>false)))
-			{
-				$results = "ID:".$this->Carts->id;
+				$data = array(
+						'Cart_detail' => array(
+								'productid' => $productid,
+								'producttype' => $producttype,
+								'qty'=>$qty,
+								'cart_id'=>$cartID
+						)
+				);
 				
-			}
-		 }	
+				$this->Cart_detail->create();
+				if($this->Cart_detail->save($data,array('validate'=>false, 'callbacks'=>false)))
+				{
+					$results []= "ID:".$this->Cart_detail->id;
+				}	
+		  	}	
 		}
 		else{
 			if($user_id == null){
@@ -222,7 +242,7 @@ class QuoteManagementAPIController extends AppNoAuthController {
 		}
 			
 		$this->response->type('json');
-		$json = json_encode($results);
+		$json = json_encode($cartID);
 		$this->response->body($json);
 	}
 	
@@ -241,5 +261,53 @@ class QuoteManagementAPIController extends AppNoAuthController {
 		
 		var_dump($locationData);
 		
+	}
+	
+	public function getPreferredProvider() {
+		
+	}
+	
+	public function submitQuoteBasedOnCookie($cartID){
+		$this->autoRender = false; // no view to render
+	
+		$userID  = Authsome::get('id');
+		
+		$locationData =$this->Cookie->read('location-data');
+		
+		// get Provider based on location.
+		
+		$providerID = 
+		
+
+		$date = date('Y-m-d H:i:s');
+		$results;
+		
+		if($userID != null){
+			$results= array ("user_ID"=>$userID ,"cart_ID"=>$cartID,"provider_ID"=>$providerID);
+			$data = array(
+					'Quotes' => array(
+							'cart_id' => $cartID,
+							'provider_id' => $providerID,
+							'user_id'=>$userID,
+							'submitted'=>$date
+					)
+			);
+			$this->Quotes->create();
+			if($this->Quotes->save($data))
+			{
+				$results = array ("userID"=>$userID ,"cartID"=>$cartID,"providerID"=>$providerID);
+			}
+		}
+		else{
+			$results = "NOTAUTHENTICATED";
+		}
+	
+		/* 	    $log = $this->Quotes->getDataSource()->getLog(false, false);
+		 debug($log); */
+		 
+		$this->response->type('json');
+		$json = json_encode($results);
+		$this->response->body($json);
+	
 	}
 }

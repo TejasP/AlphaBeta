@@ -54,7 +54,7 @@ class SearchController extends AppNoAuthController {
 			$this->set('isLocationSet',"false");
 		}else{
 			$this->set('isLocationSet',"true");
-			$this->set('locationText',$isLocationSet);
+			$this->set('locationText',$isLocationSet['area']);
 		}
 
 		
