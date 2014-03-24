@@ -3,7 +3,7 @@
 App::uses('AppNoAuthController', 'Controller');
 
 class LocationAPIController extends AppNoAuthController {
-	public $uses = array('Providers_datas','locations');
+	public $uses = array('Providers','locations');
 	
 	function index (){
 		$this->layout ="";
@@ -89,13 +89,13 @@ class LocationAPIController extends AppNoAuthController {
 	
 		$this->autoRender = false;
 		
-		$moptions = array('fields' => array('providers_datas.provider_name','providers_datas.provider_type','providers_datas.latitude','providers_datas.longitude',),'conditions' => array(
-				'providers_datas.id = ' => $providerID)
+		$moptions = array('fields' => array('providers.provider_name','providers.provider_type','providers.latitude','providers.longitude',),'conditions' => array(
+				'providers.id = ' => $providerID)
 		);
-		$mresults = $this->Providers_datas->find('all',$moptions);
+		$mresults = $this->Providers->find('all',$moptions);
 		
-		$lat2 = ($mresults[0]['Providers_datas']['latitude']);
-		$lon2  = ($mresults[0]['Providers_datas']['longitude']);
+		$lat2 = ($mresults[0]['Providers']['latitude']);
+		$lon2  = ($mresults[0]['Providers']['longitude']);
 		
 		$theta = $lon1 - $lon2;
 		$dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
@@ -118,26 +118,26 @@ class LocationAPIController extends AppNoAuthController {
 		$this->response->body($json);
 	}
 	
-	function getNearestProviders($lat1,$lon1,$distance) {
+	function getNearestProviders($lat1,$lon1,$distance,$city) {
 	
 		$this->autoRender = false;
 		//First get the name of the location based on co-ordinates assuming it is pune for now.
-		$city = "Pune";
+		//$city = "Pune";
 		// Get all the providers for that location.
 	
-		$moptions = array('fields' => array('providers_datas.id','providers_datas.provider_name','providers_datas.address','providers_datas.provider_type','providers_datas.latitude','providers_datas.longitude',),'conditions' => array(
-				'providers_datas.city = ' => $city)
+		$moptions = array('fields' => array('providers.id','providers.provider_name','providers.address','providers.provider_type','providers.latitude','providers.longitude',),'conditions' => array(
+				'providers.city = ' => $city)
 		);
-		$mresults = $this->Providers_datas->find('all',$moptions);
+		$mresults = $this->Providers->find('all',$moptions);
 		
 		$resultArray = array();
 		
 		for($i = 0;$i<count($mresults);$i++ ){
-				$providerID= ($mresults[$i]['Providers_datas']['id']);
-				$providerName = ($mresults[$i]['Providers_datas']['provider_name']);
-				$address = ($mresults[$i]['Providers_datas']['address']);
-				$lat2 = ($mresults[$i]['Providers_datas']['latitude']);
-				$lon2  = ($mresults[$i]['Providers_datas']['longitude']);
+				$providerID= ($mresults[$i]['Providers']['id']);
+				$providerName = ($mresults[$i]['Providers']['provider_name']);
+				$address = ($mresults[$i]['Providers']['address']);
+				$lat2 = ($mresults[$i]['Providers']['latitude']);
+				$lon2  = ($mresults[$i]['Providers']['longitude']);
 
 				$theta = $lon1 - $lon2;
 				$dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));

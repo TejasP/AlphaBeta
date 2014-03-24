@@ -5,7 +5,7 @@ App::uses('AppNoAuthController', 'Controller');
 
 class QuoteManagementAPIController extends AppNoAuthController {
 	
-	public $uses = array('Quotes','Carts','Quotes_detail','Cart_detail');
+	public $uses = array('Quotes','Carts','Quotes_detail','Cart_detail','locations');
 	
 	public function  submitCart(){
 		$this->autoRender = false; // no view to render		
@@ -274,13 +274,29 @@ class QuoteManagementAPIController extends AppNoAuthController {
 		
 		$locationData =$this->Cookie->read('location-data');
 		
-		// get Provider based on location.
-		
-		$providerID = 
-		
+		$locationID= $locationData['locationID'];
 
-		$date = date('Y-m-d H:i:s');
-		$results;
+		// First get Location Details based on locationID
+		$moptions = array('fields' => array('locations.locationid','locations.tags','locations.city','locations.bounds_southwest_lat','locations.bounds_southwest_lng','locations.bounds_northeast_lat','locations.bounds_northeast_lng','locations.location_lat','locations.location_lng'),'conditions' => array('locations.locationid ='=>$locationID));
+		$locationResult = $this->locations->find('all',$moptions);
+		
+		$locationLat = ($locationResult[0]['locations']['location_lat']);
+		$locationLng = ($locationResult[0]['locations']['location_lng']);
+		$locationCity= ($locationResult[0]['locations']['city']);
+		
+		// get Provider based on location.
+
+		$providerIDJSON  =  $this->requestAction(array('controller' => 'LocationAPI', 'action' => 'getNearestProviders'),array($locationLat,$locationLng,2,$locationCity));
+		$providerIDArray = json_decode($providerIDJSON);
+		$count=  count($providerIDArray);
+		$limit;
+		if($count>5){
+			$limit = 5;
+		}
+		for($i = 0;$i<$limit;$i++){
+			$providerID = ($providerIDArray[$i][0]);
+			$date = date('Y-m-d H:i:s');
+			$results;
 		
 		if($userID != null){
 			$results= array ("user_ID"=>$userID ,"cart_ID"=>$cartID,"provider_ID"=>$providerID);
@@ -292,22 +308,18 @@ class QuoteManagementAPIController extends AppNoAuthController {
 							'submitted'=>$date
 					)
 			);
-			$this->Quotes->create();
-			if($this->Quotes->save($data))
-			{
-				$results = array ("userID"=>$userID ,"cartID"=>$cartID,"providerID"=>$providerID);
+				$this->Quotes->create();
+				if($this->Quotes->save($data))
+				{
+					$results = array ("userID"=>$userID ,"cartID"=>$cartID,"providerID"=>$providerID);
+				}
 			}
-		}
-		else{
-			$results = "NOTAUTHENTICATED";
-		}
-	
-		/* 	    $log = $this->Quotes->getDataSource()->getLog(false, false);
-		 debug($log); */
-		 
+			else{
+				$results = "NOTAUTHENTICATED";
+			}
+		} 
 		$this->response->type('json');
 		$json = json_encode($results);
 		$this->response->body($json);
-	
 	}
 }

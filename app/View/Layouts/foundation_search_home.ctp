@@ -573,7 +573,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 
     	$url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'getLocationAuthenticateCookie'))?>';
     	$url_cart = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'submitCartFromCookie'))?>';
-    	$url_quote = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'submitQuote'))?>';
+    	$url_quote = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'submitQuoteBasedOnCookie'))?>';
     	
     			$.getJSON($url, function(data){
 						if(data.location === "No Data"){
