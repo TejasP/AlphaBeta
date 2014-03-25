@@ -244,6 +244,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 			<section>
 					</br>
 					<div class="row"><div data-alert class="alert-box alert round" id="quoteAlert" style="display:none" >Please log-in to view or submit quote. <a href="" class="close">&times;</a> </div></div>
+		         	<div class="row"><div data-alert class="alert-box success radius" id="quoteSubmitAlert" style="display:none" >Your cart is submitted and request for quote is under process. <a href="" class="close">&times;</a> </div></div>
 		            <div class="large-4 medium-2 columns">
 							<a href="javascript:openQuotes();" id="bucketID">My Quotes</a>
 					</div>
@@ -456,8 +457,8 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 							$("#quoteAlert").show();	
         				}else{
         					$.getJSON($url_quote, function(data){
-        						$htmlStr ="<div>Your Last quotes submitted are :</div>" ; 
-	        					$.each(data, function(index, valueInner) { $htmlStr= $htmlStr+"</br><div>"+valueInner.Quotes.submitted+"</div>";});
+        						$htmlStr ="<div>Your Last quotes submitted are :</div>";
+	        					$.each(data, function(index, valueInner) { $htmlStr= $htmlStr+"</br><div>"+$.datepicker.formatDate('MM dd, yy',new Date(valueInner.Quotes.submitted))+"</div>";});
     	    					 $("#quoteTable").html($htmlStr);
         					 });
         					$("#quoteTable").toggle();
@@ -536,11 +537,11 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
    	}
    	
    	
-   	function callBook(id,category){
+   	function callBook(id,category,qty){
  			// Get AJAX call
  			
  			
- 		var $url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'addToBucket'))?>'+'/'+id+'/'+category;
+ 		var $url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'addToBucket'))?>'+'/'+id+'/'+category+'/'+qty;
 		$.getJSON($url, function(data){
       			console.log("done.");
       			var quote= "#"+"quote-"+id;
@@ -572,9 +573,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
     function callBooking(){
 
     	$url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'getLocationAuthenticateCookie'))?>';
-    	$url_cart = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'submitCartFromCookie'))?>';
-    	$url_quote = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'submitQuoteBasedOnCookie'))?>';
-    	
+    	$url_cart_quote = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'callCartAndQuoteSubmit'))?>';
     			$.getJSON($url, function(data){
 						if(data.location === "No Data"){
 							openLocation();
@@ -584,11 +583,12 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 								openQuotes();
 							}else
 							{
-							$.post($url_cart, function(data){
-								console.log("Successful");
+							$.post($url_cart_quote, function(data){
+								if(data === "SUCCESS"){
+									$("#quoteSubmitAlert").show();
+								}
 							});
 							
-						//	$.post($url_quote, function(data){});
 							}
 						}
 					});					

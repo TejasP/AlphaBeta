@@ -146,8 +146,8 @@ class QuoteManagementAPIController extends AppNoAuthController {
 		$results;
 		if($userID != null){
 			
-			$moptions = array('limit' => 5,'conditions' => array(
-					'quotes.user_id = ' => $userID),'order'=>'quotes.submitted DESC'
+			$moptions = array('fields'=>'quotes.submitted','limit' => 5,'conditions' => array(
+					'quotes.user_id = ' => $userID),'group'=>'quotes.cart_id' , 'order'=>'quotes.submitted DESC'
 			);
 			
 			$results = $this->Quotes->find('all',$moptions);
@@ -166,19 +166,28 @@ class QuoteManagementAPIController extends AppNoAuthController {
 		
 	}
 	
-	public function  submitCartFromCookie(){
+	public function  submitCartFromCookieJSON(){
 		$this->autoRender = false; // no view to render
 		
-		
+		$cartID = $this->submitCartFromCookie();
+		$this->response->type('json');
+		$json = json_encode($cartID);
+		$this->response->body($json);
+	}
+	
+	public function  submitCartFromCookie(){
+		$this->autoRender = false; // no view to render
+	
+	
 		$user_id = Authsome::get('id');
 		$cookieData =$this->Cookie->read('basket-data');
 		$locationData =$this->Cookie->read('location-data');
-		
+	
 		$locationID = $locationData['locationID'];
-		
+	
 		$date = date('Y-m-d H:i:s');
 		$qty;
-		
+	
 		if ($cookieData != null && $locationData != null && $user_id != null){
 			$data = array(
 					'Carts' => array(
@@ -187,32 +196,32 @@ class QuoteManagementAPIController extends AppNoAuthController {
 							'submitted'=>$date
 					)
 			);
-		
-
+	
+	
 			$cartID;
-			
+				
 			// First save it to Cart Table.
 			$this->Carts->create();
 			if($this->Carts->save($data,array('validate'=>false, 'callbacks'=>false)))
 			{
 				$cartID = $this->Carts->id;
 			}
-			
-			// Now save it to Cart Details table. 
+				
+			// Now save it to Cart Details table.
 			// if default qty is null then set it to 1
 			if(!isset($qty))
 			{
 				$qty = 1;
 			}
 			$results = array();
-			
+				
 			foreach($cookieData as $keyOut){
 				$productid = $keyOut['item'];
 				$producttype = $keyOut['category'];
-				if(isset($keyIn['qty'])){
-					$qty =$keyIn['qty'];
+				if(isset($keyOut['qty'])){
+					$qty =$keyOut['qty'];
 				}
-
+	
 				$data = array(
 						'Cart_detail' => array(
 								'productid' => $productid,
@@ -221,13 +230,13 @@ class QuoteManagementAPIController extends AppNoAuthController {
 								'cart_id'=>$cartID
 						)
 				);
-				
+	
 				$this->Cart_detail->create();
 				if($this->Cart_detail->save($data,array('validate'=>false, 'callbacks'=>false)))
 				{
 					$results []= "ID:".$this->Cart_detail->id;
-				}	
-		  	}	
+				}
+			}
 		}
 		else{
 			if($user_id == null){
@@ -240,10 +249,8 @@ class QuoteManagementAPIController extends AppNoAuthController {
 				$results = "NOLOCATIONDATA";
 			}
 		}
-			
-		$this->response->type('json');
-		$json = json_encode($cartID);
-		$this->response->body($json);
+	
+		return ($cartID);
 	}
 	
 	public function  checkCookie(){
@@ -263,29 +270,37 @@ class QuoteManagementAPIController extends AppNoAuthController {
 		
 	}
 	
-	public function getPreferredProvider() {
+
+	
+	public function submitQuoteBasedOnCookieJSON($cartID){
+		$this->autoRender = false; // no view to render
 		
+		$result = submitQuoteBasedOnCookie($cartID);
+		
+		$this->response->type('json');
+		$json = json_encode($results);
+		$this->response->body($json);
 	}
 	
 	public function submitQuoteBasedOnCookie($cartID){
 		$this->autoRender = false; // no view to render
 	
 		$userID  = Authsome::get('id');
-		
+	
 		$locationData =$this->Cookie->read('location-data');
-		
+	
 		$locationID= $locationData['locationID'];
-
+	
 		// First get Location Details based on locationID
 		$moptions = array('fields' => array('locations.locationid','locations.tags','locations.city','locations.bounds_southwest_lat','locations.bounds_southwest_lng','locations.bounds_northeast_lat','locations.bounds_northeast_lng','locations.location_lat','locations.location_lng'),'conditions' => array('locations.locationid ='=>$locationID));
 		$locationResult = $this->locations->find('all',$moptions);
-		
+	
 		$locationLat = ($locationResult[0]['locations']['location_lat']);
 		$locationLng = ($locationResult[0]['locations']['location_lng']);
 		$locationCity= ($locationResult[0]['locations']['city']);
-		
+	
 		// get Provider based on location.
-
+	
 		$providerIDJSON  =  $this->requestAction(array('controller' => 'LocationAPI', 'action' => 'getNearestProviders'),array($locationLat,$locationLng,2,$locationCity));
 		$providerIDArray = json_decode($providerIDJSON);
 		$count=  count($providerIDArray);
@@ -297,29 +312,45 @@ class QuoteManagementAPIController extends AppNoAuthController {
 			$providerID = ($providerIDArray[$i][0]);
 			$date = date('Y-m-d H:i:s');
 			$results;
-		
-		if($userID != null){
-			$results= array ("user_ID"=>$userID ,"cart_ID"=>$cartID,"provider_ID"=>$providerID);
-			$data = array(
-					'Quotes' => array(
-							'cart_id' => $cartID,
-							'provider_id' => $providerID,
-							'user_id'=>$userID,
-							'submitted'=>$date
-					)
-			);
+	
+			if($userID != null){
+				$results= array ("user_ID"=>$userID ,"cart_ID"=>$cartID,"provider_ID"=>$providerID);
+				$data = array(
+						'Quotes' => array(
+								'cart_id' => $cartID,
+								'provider_id' => $providerID,
+								'user_id'=>$userID,
+								'submitted'=>$date
+						)
+				);
 				$this->Quotes->create();
 				if($this->Quotes->save($data))
 				{
-					$results = array ("userID"=>$userID ,"cartID"=>$cartID,"providerID"=>$providerID);
+					$results = "SUCCESS";
 				}
 			}
 			else{
 				$results = "NOTAUTHENTICATED";
 			}
-		} 
+		}
+		return ($results);
+	}
+	
+	public function callCartAndQuoteSubmit(){
+		$response='';
+		$cartID_return = $this->submitCartFromCookie();
+		 if($cartID_return!=null){
+			$response = $this->submitQuoteBasedOnCookie($cartID_return);
+		}else{
+			$response = "NOSUCCESS"; 
+		}
 		$this->response->type('json');
-		$json = json_encode($results);
+		$json = json_encode($response);
 		$this->response->body($json);
 	}
+	
+	public function getPreferredProvider() {
+	
+	}
+	
 }

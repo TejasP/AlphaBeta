@@ -6,7 +6,7 @@ class BookingController extends AppNoAuthController {
 	
 	public $uses = array('Search','medicines_header','Providers', 'product_headers');
 	
-	public function addToBucket($ItemId,$category){
+	public function addToBucket($ItemId,$category,$qty){
 		// first check if cookie exists
 		// IF yes add to existing else create cookie and add
 		$cookieData = $this->Cookie->read('basket-data');
@@ -18,7 +18,7 @@ class BookingController extends AppNoAuthController {
 
 		$basketData = array();
 		$basketData =$cookieData;
-		$basketData []= array('category'=>$category,'item'=>$ItemId,);
+		$basketData []= array('category'=>$category,'item'=>$ItemId,'qty'=>$qty);
 		
 		
 		$this->Cookie->write('basket-data',json_encode($basketData));
@@ -47,6 +47,14 @@ class BookingController extends AppNoAuthController {
 		$this->autoRender=false;
 		$this->response->type('json');
 		$json = json_encode(array('message'=>json_encode($new_cookieData)));
+		$this->response->body($json);
+	}
+	
+	public function removeBucketCookie(){
+		$this->autoRender=false;
+		$this->Cookie->delete('basket-data');
+		$this->response->type('json');
+		$json = json_encode("SUCCESS");
 		$this->response->body($json);
 	}
 	
