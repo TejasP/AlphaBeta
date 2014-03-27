@@ -12,6 +12,105 @@ class RegistrationController extends AppNoAuthController {
 		$this->layout = "foundation_without_topbar";
 	}
 	
+	public function validateAndRegister($email=null,$password=null,$confirmPassword=null,$phone=null){
+		$this->autoRender=false;
+
+		$response;
+		
+		if($email != null){
+			$response = $this->validateEmail($email);
+			if($response['status']==="FAIL"){
+				return json_encode($response);
+			}
+		}
+		else{
+			return json_encode(array("status"=>"FAIL","message"=>"NULLEMAIL"));
+		}
+		
+		if($password != null){
+			$response = $this->validatePassword($password);
+			if($response['status']==="FAIL"){
+				return json_encode($response);
+				}
+		}
+		else{
+			return json_encode(array("status"=>"FAIL","message"=> "NULLPASSWORD"));
+		}
+		
+		if($confirmPassword != null){
+			$response = $this->validateConfirmPassword($confirmPassword);
+			if($response['status']==="FAIL"){
+				return json_encode($response);
+				}
+		}
+		else{
+			  return json_encode(array("status"=>"FAIL","message"=>"NULLCPASSWORD"));
+		}
+		// Phone number checking 
+		if($phone != null){
+			$response = $this->validatePhone($phone);
+			if($response['status']==="FAIL"){
+				return json_encode($response);
+			}
+		}
+		else{
+			 return json_encode(array("status"=>"FAIL","message"=>"NULLPHONE"));
+		}
+		
+		$response =  $this->RegisterUser($email,$password,$phone);
+		
+		return json_encode($response);
+	}
+	
+	private function validateEmail($email){
+		return array("status"=>"PASS","message"=>"VALIDEMAIL");
+	}
+	
+	private function validatePassword($pass){
+		return array("status"=>"PASS","message"=>"VALIDPASS");
+	}
+	
+	private function validateConfirmPassword($cPass){
+		return array("status"=>"PASS","message"=>"VALIDCPASS");
+	}
+	
+	private function validatePhone($phone){
+		return array("status"=>"PASS","message"=>"VALIDPHONE");
+	}
+	
+	private function RegisterUser($email,$password,$phone){
+		$return= array("status"=>"FAIL","message"=>"USERADDFAIL");
+		// Submit user if successful 
+
+	  //   if ($this->request->is('post')) {
+            $this->User->create();
+            $date = date('Y-m-d H:i:s');
+            $data = array(
+            		'User' => array(
+            				"username" => $email,
+            				"password" => $password,
+            				"email"=> $email,
+            				"role"=>'user',
+            				"created"=>	$date,
+            				"modified"=> $date	
+            		)
+            );
+            $this->User->set($data);
+            
+            if($this->User->validates()){
+            	if ($this->User->save($data)) {
+            		return 	$return = array("status"=>"PASS","message"=>"USERADDED");
+            	}
+            }
+            else{
+            	//var_dump($this->User->validationErrors);
+            	return json_encode(array("status"=>"FAIL","message"=>$this->User->validationErrors));
+            }
+    //    } 
+		
+		return $return;
+	}
+	
 	public function register() {
 		$this->layout = "foundation_with_topbar";
 		
