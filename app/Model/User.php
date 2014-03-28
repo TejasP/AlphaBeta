@@ -16,10 +16,19 @@ class User extends AppModel {
 	 						'message' => 'A email is required'
 	 				)
 	 		),
+	 		'email' => array(
+	 				'rule' => array('email'),
+	 				'message' => 'Enter valid mail address'
+	 		),
+	 		
 			'password' => array(
 					'required' => array(
 							'rule' => array('notEmpty'),
 							'message' => 'A password is required'
+					),
+					'valid' => array(
+							'rule'    => array('minLength', 8),
+							'message' => 'Minimum length of 8 characters'
 					)
 			),
 			'role' => array(
@@ -28,7 +37,18 @@ class User extends AppModel {
 							'message' => 'Please enter a valid role',
 							'allowEmpty' => false
 					)
-			)
+			),
+	 		'phone' => array(
+	 				'valid-1' => array(
+		 				'rule'    => 'numeric',
+		 				'message' => 'Only numbers allowed'
+	 					),
+	 				'valid-2' => array(
+	 						'rule'    => array('minLength', 10),
+	 						'message' => 'Please enter valid Phone number'
+	 				)
+	 				
+	 		)				
 	);
 	
 	public function beforeSave($options = array()) {

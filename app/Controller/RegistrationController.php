@@ -58,7 +58,7 @@ class RegistrationController extends AppNoAuthController {
 		}
 		
 		$response =  $this->RegisterUser($email,$password,$phone);
-		
+	
 		return json_encode($response);
 	}
 	
@@ -82,7 +82,7 @@ class RegistrationController extends AppNoAuthController {
 		$return= array("status"=>"FAIL","message"=>"USERADDFAIL");
 		// Submit user if successful 
 
-	  //   if ($this->request->is('post')) {
+	    if ($this->request->is('post')) {
             $this->User->create();
             $date = date('Y-m-d H:i:s');
             $data = array(
@@ -92,21 +92,22 @@ class RegistrationController extends AppNoAuthController {
             				"email"=> $email,
             				"role"=>'user',
             				"created"=>	$date,
-            				"modified"=> $date	
+            				"modified"=> $date,
+            				"phone"=>$phone,
+            				"status"=>'Requested'
             		)
             );
+
             $this->User->set($data);
-            
             if($this->User->validates()){
             	if ($this->User->save($data)) {
             		return 	$return = array("status"=>"PASS","message"=>"USERADDED");
             	}
             }
             else{
-            	//var_dump($this->User->validationErrors);
-            	return json_encode(array("status"=>"FAIL","message"=>$this->User->validationErrors));
+            	return array("status"=>"FAIL","message"=>$this->User->validationErrors);
             }
-    //    } 
+       } 
 		
 		return $return;
 	}
