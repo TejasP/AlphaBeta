@@ -1,1 +1,1 @@
-hi
+ <?php if(!empty($response)){ echo $response;} ?>

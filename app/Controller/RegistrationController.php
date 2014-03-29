@@ -101,6 +101,7 @@ class RegistrationController extends AppNoAuthController {
             $this->User->set($data);
             if($this->User->validates()){
             	if ($this->User->save($data)) {
+            		$this->addTokenAndSendEmail($email);
             		return 	$return = array("status"=>"PASS","message"=>"USERADDED");
             	}
             }
@@ -110,6 +111,33 @@ class RegistrationController extends AppNoAuthController {
        } 
 		
 		return $return;
+	}
+	
+	public function addTokenAndSendEmail($email){
+		$response = false;
+		$this->autoRender = false; // no view to render
+		
+		//First Generate token
+		$token = $this->generateToken();
+		$date = date('Y-m-d H:i:s', strtotime('+1 hours'));
+		$duration = '+1 hours';
+		//generate Data array
+		$token_data = array(
+				'login_token' => array(
+						'user_name' => $email,
+						'token' => $token,
+						'duration' => $duration,
+						'expires' => $date
+				)
+		);
+		
+		//Add it to DB
+		if($this->login_token->save($token_data)){
+			// send mail
+			$response = $this->sendWelcomEmail($email,$token);
+		}
+		
+		return $response;
 	}
 	
 	public function register() {
@@ -140,15 +168,17 @@ class RegistrationController extends AppNoAuthController {
 		$this->layout = 'foundation_with_topbar';
 		$this->render('reset');
 	}
-	
+	private function generateToken(){
+		$token = md5(uniqid(mt_rand(), true));
+		return $token;
+	}
 	public function  resetPassword($userName){
 		$this->autoRender = false; // no view to render
 	
 		//First generate token add to DB and send link
+		$token = $this->generateToken();
 		$date = date('Y-m-d H:i:s', strtotime('+1 hours'));
 		$duration = '+1 hours';
-		$token = md5(uniqid(mt_rand(), true));
-		 
 		$token_data = array(
 				'login_token' => array(
 						'user_name' => $userName,
@@ -177,7 +207,8 @@ class RegistrationController extends AppNoAuthController {
 	}
 	
 	private function sendResetRequestEmail($sendTo,$token){
-
+		$this->autoRender = false; // no view to render
+		
 		$this->Email->smtpOptions = array(
 				'port'=>'587',
 				'timeout'=>'30',
@@ -202,6 +233,64 @@ class RegistrationController extends AppNoAuthController {
 	
 	}
 	
+	
+	private function sendWelcomEmail($sendTo,$token){
+		$this->autoRender = false; // no view to render
+		
+		$this->Email->smtpOptions = array(
+				'port'=>'587',
+				'timeout'=>'30',
+				'host' => 'mail.emediplus.com',
+				'username'=>'support@emediplus.com',
+				'password'=>'eMedi123',
+		);
+		$this->Email->delivery = 'smtp';
+	
+		$this->Email->from    = 'eMediplus Support<support@emediplus.com>';
+		$this->Email->to      = $sendTo;
+		$this->Email->subject = 'Welcom  to eMediplus.';
+		// TODO put ww setting from configuration.
+		if ($this->Email->send('Welcom to eMediplus , Please click on the link below to confirm your e-mail.'.Router::url(array('controller'=>'Registration', 'action'=>'confirmEmail')).'/'.$token)) {
+			$response = "done";
+		} else {
+			$response =  $this->Email->smtpError;
+		}
+	
+		$error =  $this->Email->smtpError;
+		return $response;
+	}
+	
+	
+	public function confirmEmail($token){
+		$this->layout = "foundation_with_topbar";
+		//first get the token and check if it is being used.
+		
+		$options = array('conditions' => array('login_token.token = ' => $token));
+		
+		$token_result = $this->login_token->find('all',$options);
+		
+		// if not used validate for time
+		
+		$date = date('Y-m-d H:i:s');
+		
+		$expires = $token_result[0]['login_token']['expires'];
+		$used = $token_result[0]['login_token']['used'];
+		echo 'date'.$date;
+		echo 'expires'.$expires;
+		if($used == 0){
+			if(strtotime($date) < strtotime($expires)){
+			// update the token table as token used and user table with active flag
+				
+			}else{
+			// if time expired render view to send token again.
+				echo 'token expired';
+			}
+		}else{
+			// if used send response invalid
+			$this->set('response',"Invalid token");
+		}	
+		$this->render('index');		
+	}
 
 	public function validateToken($tokenID){
 		// get Token and check against the DB and ask user to update password.
