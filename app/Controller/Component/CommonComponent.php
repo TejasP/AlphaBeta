@@ -20,8 +20,71 @@ class CommonComponent extends Component {
 			{
 				$retVal = $userdata[$j]["User"][$name];
 			}
+		} else if ($type == "medicine_headers")	 
+		{
+			$doptions = array('conditions' => array(
+					'medicine_id' => $value)
+			);
+			
+			$model = ClassRegistry::init('MedicinesHeader');
+				
+			$medicinedata = $model->find('all',$doptions);
+			$mlength = count($medicinedata);
+			for($j=0; $j<$mlength; $j++)
+			{
+				$retVal = $medicinedata[$j]["MedicinesHeader"][$name];
+			}
+		} else if ($type == "product_headers")	 
+		{
+			$doptions = array('conditions' => array(
+					'prod_id' => $value)
+			);
+			
+			$model = ClassRegistry::init('ProductHeader');
+				
+			$nonmedidata = $model->find('all',$doptions);
+			$ulength = count($nonmedidata);
+			for($j=0; $j<$ulength; $j++)
+			{
+				$retVal = $nonmedidata[$j]["ProductHeader"][$name];
+			}
 		}
+		return $retVal;
+	}
 	
+	public function getProductDetails($type, $value)
+	{
+		if ($type == "medicine")
+		{
+			$doptions = array('conditions' => array(
+					'medicine_id' => $value)
+			);
+				
+			$model = ClassRegistry::init('MedicinesHeader');
+	
+			$medicinedata = $model->find('all',$doptions);
+			$mlength = count($medicinedata);
+			for($j=0; $j<$mlength; $j++)
+			{
+				$retVal['desc'] = $medicinedata[$j]["MedicinesHeader"]['medicine_name'];
+				$retVal['price'] = $medicinedata[$j]["MedicinesHeader"]['price'];
+			}
+		} else if ($type == "nonmedicine")
+		{
+			$doptions = array('conditions' => array(
+				'prod_id' => $value)
+			);
+							
+			$model = ClassRegistry::init('ProductHeader');
+	
+			$nonmedidata = $model->find('all',$doptions);
+			$ulength = count($nonmedidata);
+			for($j=0; $j<$ulength; $j++)
+			{
+				$retVal['desc'] = $nonmedidata[$j]["ProductHeader"]['prod_desc'];
+				$retVal['price'] = $nonmedidata[$j]["ProductHeader"]['prod_price'];
+			}
+		}
 		return $retVal;
 	}
 	

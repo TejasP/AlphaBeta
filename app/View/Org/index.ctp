@@ -50,16 +50,32 @@ function getQuoteDetail($quoteid) {
 		$("#quotedetail").html("<div class='section-detail padder'><div class='order-prodheader'>Products</div><div class='order-proddetail'>" + $proddetails + "</div></div>");
 		
 		$notesdetails = "";
-		$.each(data[0].notifications, function(index, notification) {
-			if($notesdetails == "")
-				$notesdetails = notification.initiated_by + " " + notification.time + " " + notification.comments;
-			else
-				$notesdetails = $notesdetails + "<br>" + notification.initiated_by + " " + notification.time + " " + notification.comments;
-		});
-		$("#quotenotification").html("<div class='section-notification padder'><div class='section-title-text'>Notifications for " + data[0].quote_id + " here</div>notifications:<br>" + $notesdetails + "<br><textarea name='newcomment' value=''/><div style='width:150px'><a class='postfix button expand' href='#' onClick='javascript:saveNotification("+ data[0].quote_id + ", 2);'>Save Comment</a></div></div>");
+		if(data[0].notifications != null)
+		{
+			$.each(data[0].notifications, function(index, notification) {
+				if($notesdetails == "")
+					$notesdetails = notification.initiated_by + " " + notification.initiated_time + " " + notification.comments;
+				else
+					$notesdetails = $notesdetails + "<br>" + notification.initiated_by + " " + notification.initiated_time + " " + notification.comments;
+			});
+		}
+		$("#quotenotification").html("<div class='section-notification padder'><div class='order-notiheader'>Notifications for " + data[0].quote_id + " here</div><div class='order-notidetail'>" + $notesdetails + "</div><div><textarea id='newcomment' name='newcomment' value=''/><div style='width:150px'><a class='postfix button expand' href='#' onClick='javascript:saveNotification("+ data[0].quote_id + ", " + data[0].cart_id + ", " + data[0].user_id + ");'>Save Comment</a></div></div></div>");
 	
 		console.log("done.");
 	});
+}
+
+function saveNotification(quoteid,cartid,userid){	
+	var comment = $("#newcomment").val();
+   	var sendInfo = { Comment: comment};
+	
+	var $url = '<?php echo $this->Html->url(array('controller'=>'Org', 'action'=>'saveNotification'))?>'+'/'+quoteid+'/'+cartid+'/'+userid;
+	$.getJSON($url, sendInfo, function(data){
+  			console.log("done.");
+	
+			getQuoteDetail(quoteid);
+		}); 
+		
 }
 			
 </script>
@@ -178,6 +194,19 @@ function getQuoteDetail($quoteid) {
 	font-size: 12px;
 }
 
+.order-notification {
+	margin-left: 30px;
+	font-size: 13px;
+}
+
+.order-notiheader {
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.order-notidetail {
+	font-size: 12px;
+}
 
 .section-listing-text {
     font-family: proxima-nova-condensed,"Helvetica Neue",Arial,sans-serif;

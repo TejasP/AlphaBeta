@@ -3,7 +3,7 @@
 App::uses('AppNoAuthController', 'Controller');
 
 class OrgController extends AppNoAuthController {
-	public $uses = array('quotes','quotes_details','carts', 'quotes_notification', 'users');
+	public $uses = array('quotes','quotes_details','carts', 'cart_detail', 'notifications', 'users');
 
 	public function index (){
 		$user = Authsome::get('username');
@@ -46,7 +46,7 @@ class OrgController extends AppNoAuthController {
 			// calling component for getting user name..
 			$user_name = $this->Common->getDescription("users", "username", $user_id);
 
-			$myQuotes[$j] = array("quote_id"=> $quote_id, "provider_id"=> 1, "cart_id"=> $cart_id, "user_id"=> $user_id, "user_name"=> $user_name, "submitted"=>$submitted);
+			$myQuotes[$j] = array("quote_id"=> $quote_id, "provider_id"=> $provider_id, "cart_id"=> $cart_id, "user_id"=> $user_id, "user_name"=> $user_name, "submitted"=>$submitted);
 		}
 
 		$this->autoRender = false;
@@ -72,54 +72,91 @@ class OrgController extends AppNoAuthController {
 			$quote_id = $quotes_data[$j]['quotes']['id'];
 			$user_id = $quotes_data[$j]['quotes']['user_id'];
 			$submitted = $quotes_data[$j]['quotes']['submitted'];
+			$provider_id = $quotes_data[$j]['quotes']['provider_id'];
 	
 			// calling component for getting user name..
 			$user_name = $this->Common->getDescription("users", "username", $user_id);
 				
 			// quote detail
 			$coptions = array('conditions' => array(
-				'carts.id' => $cart_id)
+				'cart_id' => $cart_id)
 				);
 	
-			$cart_detail = $this->carts->find('all',$coptions);
+			$cart_detail = $this->cart_detail->find('all',$coptions);
 			$clength = count($cart_detail);
 			for($y=0; $y<$clength; $y++)
 			{
-				$product_id = $cart_detail[$y]['carts']['productid'];
-				$product_type = $cart_detail[$y]['carts']['producttype'];
-				$qty = $cart_detail[$y]['carts']['qty'];
-				$price = "10.00";
+				$product_id = $cart_detail[$y]['cart_detail']['productid'];
+				$product_type = $cart_detail[$y]['cart_detail']['producttype'];
+				$qty = $cart_detail[$y]['cart_detail']['qty'];
 				
 				if($product_type == "1")
-					$product_name = "medicine product name here";
+					$productdetails = $this->Common->getProductDetails("medicine", $product_id);
 				else
-					$product_name = "non-medicine product name here";
+					$productdetails = $this->Common->getProductDetails("nonmedicine", $product_id);
 			
-				$products[$y] = array("prod_id"=> $product_id, "prod_name"=> $product_name, "qty"=> $qty, "price"=> $price);
+				$products[$y] = array("prod_id"=> $product_id, "prod_name"=> $productdetails['desc'], "qty"=> $qty, "price"=> $productdetails['price']);
 			}
 	
-			$notification = array();
-/*			// quote notifications
+			// notifications
 			$coptions = array('conditions' => array(
-				'quote_id' => $cart_id)
+				'quote_id' => $quote_id)
 				);
 			
-			$notifications = $this->quotes_notification->find('all',$coptions);
+			$notifications = $this->notifications->find('all',$coptions);
 			$nlength = count($notifications);
 			for($z=0; $z<$nlength; $z++)
 			{
-				$notification_id = $notifications[$z]['quotes_notifications']['id'];
-				$initiated_by = $notifications[$z]['quotes_notifications']['initiated_by'];
-				$initiated_time = $notifications[$z]['quotes_notifications']['initiated_time'];
-				$initiated_for = $notifications[$z]['quotes_notifications']['initiated_for'];
-				$comments = $notifications[$z]['quotes_notifications']['comments'];
+				$notification_id = $notifications[$z]['notifications']['id'];
+				$initiated_by = $notifications[$z]['notifications']['initiated_by'];
+				$initiated_time = $notifications[$z]['notifications']['initiated_time'];
+				$notification_for = $notifications[$z]['notifications']['notification_for'];
+				$comments = $notifications[$z]['notifications']['comments'];
 				
-				$notification[$z] = array("id"=> $notification_id, "initiated_by"=> $initiated_by, "initiated_time"=>$initiated_time, "initiated_for"=>$initiated_for, "comments"=>$comments);
+				$notification[$z] = array("id"=> $notification_id, "initiated_by"=> $initiated_by, "initiated_time"=>$initiated_time, "notification_for"=>$notification_for, "comments"=>$comments);
 			}
-*/	
-			$quote[0] = array("quote_id"=> $quote_id, "provider_id"=> 1, "cart_id"=> $cart_id, "user_id"=> $user_id, "user_name"=> $user_name, "submitted"=>$submitted, "products"=>$products, "notifications"=>$notification);
+	
+			$quote[0] = array("quote_id"=> $quote_id, "provider_id"=> $provider_id, "cart_id"=> $cart_id, "user_id"=> $user_id, "user_name"=> $user_name, "submitted"=>$submitted, "products"=>$products, "notifications"=>$notification);
 		}
 	
 		return json_encode($quote);
+	}
+	
+	public function saveNotification($quoteId, $cartId, $notificationfor){
+		
+		$this->autoRender = false; // no view to render
+		
+		$userID  = Authsome::get('id');
+		
+		$comment = $this->request->query['Comment'];
+
+		$this->log('$comment.....' . $comment);
+		
+		$date = date('Y-m-d H:i:s');
+		$results;
+		
+		if($userID != null){
+			$data = array(
+					'notifications' => array(
+							'quote_id' => $quoteId,
+							'initiated_by' => $userID,
+							'initiated_time'=>$date,
+							'notification_for'=>$notificationfor,
+							'comments'=>$comment
+					)
+			);
+			$this->notifications->create();
+			if($this->notifications->save($data))
+			{
+				$results = "SUCCESS";
+			}
+		}
+		else{
+			$results = "NOTAUTHENTICATED";
+		}
+		
+		$this->response->type('json');
+		$json = json_encode($results);
+		$this->response->body($json);
 	}
 }
