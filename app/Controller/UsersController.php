@@ -34,7 +34,7 @@ class UsersController extends AppController {
 			$this->set('isBucketFilled',"true");
 		}
 		
-    //	parent::polulateLeftNav($user,$role);
+    	parent::polulateLeftNav($username,$role);
     	$this->layout = 'foundation_with_topbar';
         $this->User->recursive = 0;
         $this->set('users', $this->paginate());
@@ -56,8 +56,9 @@ class UsersController extends AppController {
     	$username = Authsome::get('username');
     	$role = Authsome::get('role');
     	
-    //	parent::polulateLeftNav($username,$role);
+    
     	$this->layout = 'foundation_with_topbar';
+    	parent::polulateLeftNav($username,$role);
     	
         if ($this->request->is('post')) {
             $this->User->create();

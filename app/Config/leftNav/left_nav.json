@@ -1,5 +1,5 @@
 {
-    "admin": {
+    "users": {
     	"Reivew":"Heading",
         "Review Bookings": "/alphabeta/review/index",
     	"Quote Management":"Heading",
@@ -13,7 +13,9 @@
         "Need Some help ?":"Heading",
         "Help":"Help"
     },
-    "Users": {
-        "Raise a Claim": "/claims/add"
+    "admin": {
+     	"User Management":"Heading",  
+        "Add User": "/alphabeta/users/add",
+        "List Users": "/alphabeta/users/index"
     }
 }
