@@ -18,14 +18,14 @@ function getRecentQuotes() {
 			else
 				$arrow = "";
 
-			$("#recentquotes").append("<div class='section-listing'><a id='" + value.quote_id + "' class='listing-item'><span class='section-listing-text'>Quote " + value.quote_id  + " </span></a><span>recevied from <a id='" + value.user_id + "' class='listing-item'>" + value.user_name + "</a></span><div class='quote-received'>Received at " + value.submitted + "</div></div>");
+			$("#recentquotes").append("<div class='section-listing'><a id='" + value.quote_id + "' class='listing-item'><span class='section-listing-text'>Quote " + value.quote_id  + " </span></a><span>recevied from " + value.user_name + "</span><div class='quote-received'>Received at " + value.submitted + "</div></div>");
 		});
 	
 		console.log("done.");
 	});
 }
 
-$(document).on('click', 'div.section-listing a' , function() {
+$(document).on('click', 'div.section-listing a.listing-item' , function() {
 	$quoteid = $(this).attr("id")
 
 	getQuoteDetail($quoteid);
