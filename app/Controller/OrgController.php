@@ -26,7 +26,10 @@ class OrgController extends AppNoAuthController {
 	public function recentQuotes (){
 		$this->layout = "foundation_org_home";
 
-		$provider_id = 1;
+		$provider_id = Authsome::get('provider_id');
+		
+		$this->log('provider_id.....' . $provider_id);
+		
 		$this->Common = $this->Components->load('Common');
 		
 		$qoptions = array('conditions' => array(
