@@ -62,6 +62,57 @@ class RegistrationController extends AppNoAuthController {
 		return json_encode($response);
 	}
 	
+	
+	public function validateAndRegisterPharmacy($email=null,$password=null,$confirmPassword=null,$phone=null,$providerid=null){
+		$this->autoRender=false;
+	
+		$response;
+	
+		if($email != null){
+			$response = $this->validateEmail($email);
+			if($response['status']==="FAIL"){
+				return json_encode($response);
+			}
+		}
+		else{
+			return json_encode(array("status"=>"FAIL","message"=>"NULLEMAIL"));
+		}
+	
+		if($password != null){
+			$response = $this->validatePassword($password);
+			if($response['status']==="FAIL"){
+				return json_encode($response);
+			}
+		}
+		else{
+			return json_encode(array("status"=>"FAIL","message"=> "NULLPASSWORD"));
+		}
+	
+		if($confirmPassword != null){
+			$response = $this->validateConfirmPassword($confirmPassword);
+			if($response['status']==="FAIL"){
+				return json_encode($response);
+			}
+		}
+		else{
+			return json_encode(array("status"=>"FAIL","message"=>"NULLCPASSWORD"));
+		}
+		// Phone number checking
+		if($phone != null){
+			$response = $this->validatePhone($phone);
+			if($response['status']==="FAIL"){
+				return json_encode($response);
+			}
+		}
+		else{
+			return json_encode(array("status"=>"FAIL","message"=>"NULLPHONE"));
+		}
+	
+		$response =  $this->RegisterPharmacy($email,$password,$phone,$providerid);
+	
+		return json_encode($response);
+	}
+	
 	private function validateEmail($email){
 		return array("status"=>"PASS","message"=>"VALIDEMAIL");
 	}
@@ -110,6 +161,43 @@ class RegistrationController extends AppNoAuthController {
             }
        } 
 		
+		return $return;
+	}
+	
+	
+	private function RegisterPharmacy($email,$password,$phone,$providerid){
+		$return= array("status"=>"FAIL","message"=>"USERADDFAIL");
+		// Submit user if successful
+	
+		if ($this->request->is('post')) {
+			$this->User->create();
+			$date = date('Y-m-d H:i:s');
+			$data = array(
+					'User' => array(
+							"username" => $email,
+							"password" => $password,
+							"email"=> $email,
+							"role"=>'org',
+							"created"=>	$date,
+							"modified"=> $date,
+							"phone"=>$phone,
+							"status"=>'Requested',
+							"provider_id"=>$providerid
+					)
+			);
+	
+			$this->User->set($data);
+			if($this->User->validates()){
+				if ($this->User->save($data)) {
+					$this->addTokenAndSendEmail($email);
+					return 	$return = array("status"=>"PASS","message"=>"USERADDED");
+				}
+			}
+			else{
+				return array("status"=>"FAIL","message"=>$this->User->validationErrors);
+			}
+		}
+	
 		return $return;
 	}
 	
