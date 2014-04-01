@@ -17,21 +17,21 @@
 	</tr>
 	<?php foreach ($providers as $provider): ?>
 	<tr>
-		<td><?php echo h($provider['Provider']['id']); ?>&nbsp;</td>
-		<td><?php echo h($provider['Provider']['provider_type']); ?>&nbsp;</td>
-		<td><?php echo h($provider['Provider']['provider_id']); ?>&nbsp;</td>
-		<td><?php echo h($provider['Provider']['provider_name']); ?>&nbsp;</td>
-		<td><?php echo h($provider['Provider']['provider_pan']); ?>&nbsp;</td>
-		<td><?php echo h($provider['Provider']['provider_addr']); ?>&nbsp;</td>
-		<td><?php echo h($provider['Provider']['provider_pin']); ?>&nbsp;</td>
-		<td><?php echo h($provider['Provider']['created_by']); ?>&nbsp;</td>
-		<td><?php echo h($provider['Provider']['created_when']); ?>&nbsp;</td>
-		<td><?php echo h($provider['Provider']['updated_by']); ?>&nbsp;</td>
-		<td><?php echo h($provider['Provider']['updated_when']); ?>&nbsp;</td>
+		<td><?php echo h($provider['Providers']['id']); ?>&nbsp;</td>
+		<td><?php echo h($provider['Providers']['provider_type']); ?>&nbsp;</td>
+		<td><?php echo h($provider['Providers']['provider_id']); ?>&nbsp;</td>
+		<td><?php echo h($provider['Providers']['provider_name']); ?>&nbsp;</td>
+		<td><?php echo h($provider['Providers']['provider_pan']); ?>&nbsp;</td>
+		<td><?php echo h($provider['Providers']['provider_addr']); ?>&nbsp;</td>
+		<td><?php echo h($provider['Providers']['provider_pin']); ?>&nbsp;</td>
+		<td><?php echo h($provider['Providers']['created_by']); ?>&nbsp;</td>
+		<td><?php echo h($provider['Providers']['created_when']); ?>&nbsp;</td>
+		<td><?php echo h($provider['Providers']['updated_by']); ?>&nbsp;</td>
+		<td><?php echo h($provider['Providers']['updated_when']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $provider['Provider']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $provider['Provider']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $provider['Provider']['id']), null, __('Are you sure you want to delete # %s?', $provider['Provider']['id'])); ?>
+			<?php echo $this->Html->link(__('View'), array('action' => 'view', $provider['Providers']['id'])); ?>
+			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $provider['Providers']['id'])); ?>
+			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $provider['Providers']['id']), null, __('Are you sure you want to delete # %s?', $provider['Providers']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

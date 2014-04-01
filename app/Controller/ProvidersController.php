@@ -21,6 +21,12 @@ class ProvidersController extends AppController {
  * @return void
  */
 	public function index() {
+		$username = Authsome::get('username');
+		$role = Authsome::get('role');
+		
+		parent::polulateLeftNav($username,$role);
+		$this->layout = 'foundation_with_topbar';
+		
 		$this->Provider->recursive = 0;
 		$this->set('providers', $this->Paginator->paginate());
 	}
@@ -33,10 +39,16 @@ class ProvidersController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+		$username = Authsome::get('username');
+		$role = Authsome::get('role');
+		
+		parent::polulateLeftNav($username,$role);
+		$this->layout = 'foundation_with_topbar';
+		
 		if (!$this->Provider->exists($id)) {
 			throw new NotFoundException(__('Invalid provider'));
 		}
-		$options = array('conditions' => array('Provider.' . $this->Provider->primaryKey => $id));
+		$options = array('conditions' => array('Providers.' . $this->Provider->primaryKey => $id));
 		$this->set('provider', $this->Provider->find('first', $options));
 	}
 
@@ -46,6 +58,12 @@ class ProvidersController extends AppController {
  * @return void
  */
 	public function add() {
+		$username = Authsome::get('username');
+		$role = Authsome::get('role');
+		
+		parent::polulateLeftNav($username,$role);
+		$this->layout = 'foundation_with_topbar';
+		
 		if ($this->request->is('post')) {
 			$this->Provider->create();
 			if ($this->Provider->save($this->request->data)) {
@@ -65,6 +83,12 @@ class ProvidersController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
+		$username = Authsome::get('username');
+		$role = Authsome::get('role');
+		
+		parent::polulateLeftNav($username,$role);
+		$this->layout = 'foundation_with_topbar';
+		
 		if (!$this->Provider->exists($id)) {
 			throw new NotFoundException(__('Invalid provider'));
 		}
@@ -89,6 +113,12 @@ class ProvidersController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
+		$username = Authsome::get('username');
+		$role = Authsome::get('role');
+		
+		parent::polulateLeftNav($username,$role);
+		$this->layout = 'foundation_with_topbar';
+		
 		$this->Provider->id = $id;
 		if (!$this->Provider->exists()) {
 			throw new NotFoundException(__('Invalid provider'));

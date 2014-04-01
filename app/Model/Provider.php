@@ -13,7 +13,7 @@ class Provider extends AppModel {
  *
  * @var mixed False or table name
  */
-	public $useTable = 'provider';
+	public $useTable = 'providers';
 
 /**
  * Validation rules
@@ -130,24 +130,24 @@ class Provider extends AppModel {
  *
  * @var array
  */
-	public $belongsTo = array(
-		'Provider' => array(
-			'className' => 'Provider',
+	/* public $belongsTo = array(
+		'Providers' => array(
+			'className' => 'Providers',
 			'foreignKey' => 'provider_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		)
-	);
+	); */
 
 /**
  * hasMany associations
  *
  * @var array
  */
-	public $hasMany = array(
-		'Provider' => array(
-			'className' => 'Provider',
+	/* public $hasMany = array(
+		'Providers' => array(
+			'className' => 'Providers',
 			'foreignKey' => 'provider_id',
 			'dependent' => false,
 			'conditions' => '',
@@ -159,6 +159,6 @@ class Provider extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		)
-	);
+	); */
 
 }

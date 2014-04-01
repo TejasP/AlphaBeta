@@ -14,6 +14,14 @@
         "Help":"Help"
     },
     "admin": {
+     	"User Management":"Heading",
+        "Add User": "/alphabeta/users/add",
+        "List Users": "/alphabeta/users/index",
+        "Organization Management":"Heading",
+        "Add Organization": "/alphabeta/providers/add",
+        "List Organization": "/alphabeta/providers/index"        
+    },
+    "org" :{
      	"User Management":"Heading",  
         "Add User": "/alphabeta/users/add",
         "List Users": "/alphabeta/users/index"
