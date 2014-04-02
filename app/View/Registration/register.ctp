@@ -39,6 +39,7 @@
 			        	<input type="text" id="pphone" placeholder="Phone Number" />
 			        	<div data-alert class="alert-box alert round" id="palertID4" style="display:none"></div>
 			        	<input type="text" id="pharmacy" placeholder="find your pharmacy" required="required"/>
+						<input type="hidden" id="pharmacyID"/>
 			        	<a class="radius small button" href="javascript:callPharmacyRegister()" id="register">Register</a>
 			        	</form>
 			        	</div>
@@ -136,7 +137,8 @@ function callPharmacyRegister(){
 		$("#palertID3").show();
 	}
 	
-	$url_register = '<?php echo $this->Html->url(array('controller'=>'Registration', 'action'=>'validateAndRegisterPharmacy'))?>'+'/'+email+'/'+password+'/'+cpassword+'/'+phone+'/'+2;
+	$pharmacyID = $('#pharmacyID').val(); 
+	$url_register = '<?php echo $this->Html->url(array('controller'=>'Registration', 'action'=>'validateAndRegisterPharmacy'))?>'+'/'+email+'/'+password+'/'+cpassword+'/'+phone+'/'+$pharmacyID;
 	
 	$.post($url_register, function(data){
 		status = JSON.parse(data)['status'];
@@ -164,5 +166,32 @@ function callPharmacyRegister(){
 
 
 }
+
+    $(document).ready(function () {
+
+    	var $nSearch = $('#pharmacy').val();
+
+        var options, a;
+        var $url = '<?php echo $this->Html->url(array('controller'=>'Registration', 'action'=>'pharmacyAutoComplete'))?>'+$nSearch;
+        jQuery(function() {
+            options = { 
+                source: $url,
+                dataType: "json",
+                minChars: 4,
+                select: function( event, ui ) {
+						$( "#pharmacy").val(ui.item.label);
+						$( "#pharmacyID").val(ui.item.providerID);
+							return false;
+					},
+				 focus: function( event, ui ) {
+					$( "#pharmacy" ).val( ui.item.label );
+						return false;
+					}
+            };
+            
+            a = $('#pharmacy').autocomplete(options);
+        }); 
+        
+  });      
 
 </script>

@@ -4,7 +4,7 @@ App::uses('AppNoAuthController', 'Controller');
 
 class RegistrationController extends AppNoAuthController {
 	
-	public $uses = array('User','login_token');
+	public $uses = array('User','login_token','Provider');
 	
 	public $helpers = array('Html', 'Form', 'Session');
 
@@ -383,5 +383,47 @@ class RegistrationController extends AppNoAuthController {
 	public function validateToken($tokenID){
 		// get Token and check against the DB and ask user to update password.
 	   
+	}
+	
+	
+	public function pharmacyAutoComplete(){
+		$this->autoRender=false;
+		
+			if(empty($searchTerm)){
+			{
+				if(!empty($this->request->query['term'])){
+					$searchTerm = $this->request->query['term'];
+				}
+			}
+			if(empty($searchTerm)|| $searchTerm==null){
+				$searchTerm = 'Something';
+			}
+				
+				
+			$options = array('conditions' => array(
+					'Provider.provider_name LIKE' => '%'.$searchTerm.'%')
+			);
+				
+			$results= $this->Provider->find('all',$options);
+				
+			
+			$data = array ();
+			$lenght = count($results);
+			if ($lenght >5) {
+				$lenght =5;
+			}
+			for($i=0 ; $i<$lenght;$i++)
+			{
+			$data [$i] = array("label"=>$results[$i]['Provider']['provider_name'],"providerID"=>$results[$i]['Provider']['id']);
+			}
+			$return =$data;
+		}
+		
+
+		
+		$this->response->type('json');
+		$json = json_encode($return);
+		$this->response->body($json);
+		
 	}
 }
