@@ -125,41 +125,5 @@ class OrgController extends AppNoAuthController {
 		return json_encode($quote);
 	}
 	
-	public function saveNotification($quoteId, $cartId, $notificationfor){
-		
-		$this->autoRender = false; // no view to render
-		
-		$userID  = Authsome::get('id');
-		
-		$comment = $this->request->query['Comment'];
-
-		$this->log('$comment.....' . $comment);
-		
-		$date = date('Y-m-d H:i:s');
-		$results;
-		
-		if($userID != null){
-			$data = array(
-					'notifications' => array(
-							'quote_id' => $quoteId,
-							'initiated_by' => $userID,
-							'initiated_time'=>$date,
-							'notification_for'=>$notificationfor,
-							'comments'=>$comment
-					)
-			);
-			$this->notifications->create();
-			if($this->notifications->save($data))
-			{
-				$results = "SUCCESS";
-			}
-		}
-		else{
-			$results = "NOTAUTHENTICATED";
-		}
-		
-		$this->response->type('json');
-		$json = json_encode($results);
-		$this->response->body($json);
-	}
+	
 }

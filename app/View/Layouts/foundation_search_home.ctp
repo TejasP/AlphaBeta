@@ -62,6 +62,19 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
             <!-- Right Nav Section -->
 
             <ul class="right">
+            	<?php 
+				if($isUserLoggedIn === 'true'){ ?>
+				
+              <li class="divider"></li>
+            	<li class="has-dropdown">
+                	<a href="#">Notification</a>
+                	<ul class="dropdown">
+                	<li><span class="label">Content First</div></li>
+                	<li><div class="gs">Content Second</div></li>
+                </ul>
+              </li>
+              <?php }  ?>
+              
               <li class="divider"></li>
 
               <li class="gs">
@@ -141,7 +154,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 								<div class="step"><a href="javascript:openLocation();">Locate</a></div>
 						</div>
 						 <div class="large-3 columns">
-								<div class="step"><a href="#">Get Quote</a></div>
+								<div class="step"><a href="javascript:openQuotes();">Get Quote</a></div>
 						</div>
 					</div>
        		</section>
