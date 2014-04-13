@@ -69,7 +69,7 @@ class NotificationController extends AppNoAuthController {
 	
 		if($userID != null){
 			$data = array(
-					'notifications' => array(
+					'Notifications' => array(
 							'quote_id' => $quoteId,
 							'initiated_by' => $userID,
 							'initiated_time'=>$date,
@@ -77,18 +77,21 @@ class NotificationController extends AppNoAuthController {
 							'comments'=>$comment
 					)
 			);
-			$this->notifications->create();
-			if($this->notifications->save($data))
+			$this->Notifications->create();
+			if($this->Notifications->save($data))
 			{
-				$results = "SUCCESS";
+				$results[0] = array("result"=> "SUCCESS");
 			}
 		}
 		else{
-			$results = "NOTAUTHENTICATED";
+			$results[0] = array("result"=> "NOTAUTHENTICATED");
 		}
 	
-		$this->response->type('json');
+		/*$this->response->type('json');
 		$json = json_encode($results);
 		$this->response->body($json);
+		*/
+		return json_encode($results);
+		
 	}
 }

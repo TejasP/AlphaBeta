@@ -88,9 +88,20 @@ class CommonComponent extends Component {
 		return $retVal;
 	}
 	
-	public function generateString()
+	public function getQuoteStatusDesc($type)
 	{
-		return "testing";
+		$retValue = "";
+		if($type == "N")
+			$retValue = "Quote initiated";
+		else if($type == "A")
+			$retValue = "Quote accepted";
+		else if($type == "C")
+			$retValue = "Quote confirmed";
+		else
+			$retValue = "description not found for type(" + $type +")"; 
+		
+		
+		return $retValue;
 	}
 	
 }

@@ -353,4 +353,77 @@ class QuoteManagementAPIController extends AppNoAuthController {
 	
 	}
 	
+	public function acceptOrder($quoteid){
+		$this->autoRender = false;
+	
+		$userID  = Authsome::get('id');
+	
+		$productData = $this->request->query['product'];
+		//$productData =json_decode($productData,true);
+
+/*		echo 'totalproducts...' . count($productData);
+		for($i=0; $i<count($productData); $i++)
+		{
+			echo 'prodprice..' . $productData[$i]["prodprice"] . ' prodid..' . $productData[$i]["prodid"] ;
+		}
+*/
+		if($userID != null)
+		{
+			// Update quotes table with status = "A"
+			$qoptions = array('conditions' => array(
+					'id' => $quoteid)
+			);
+			$quotedata = $this->Quotes->find('all', $qoptions);
+			
+			$data = array(
+					'Quotes' => array(
+							'status' => 'A'
+					)
+			);
+			$this->Quotes->id = $quotedata[0]["Quotes"]["id"];
+			$this->Quotes->save($data);
+	
+			// Insert into quotes_details table
+			// Update quotes table with status = "A"
+			$cartid = $quotedata[0]["Quotes"]["cart_id"];
+			$coptions = array('conditions' => array(
+					'cart_id' => $cartid)
+			);
+			$cart_detail = $this->Cart_detail->find('all',$coptions);
+			$clength = count($cart_detail);
+			for($y=0; $y<$clength; $y++)
+			{
+				$product_id = $cart_detail[$y]['Cart_detail']['productid'];
+				$product_type = $cart_detail[$y]['Cart_detail']['producttype'];
+				$qty = $cart_detail[$y]['Cart_detail']['qty'];
+	
+				$data = array(
+						'Quotes_detail' => array(
+								'quote_id' => $quoteid,
+								'product_type' => $product_type,
+								'product_id' => $product_id,
+								'qty'=>$qty,
+								'price'=>$productData[$y]["prodprice"]  // getting this value from json request.
+						)
+				);
+	
+				$this->Quotes_detail->create();
+				if($this->Quotes_detail->save($data,array('validate'=>false, 'callbacks'=>false)))
+				{
+					$results []= "ID:".$this->Quotes_detail->id;
+				}
+			}
+		}
+		else{
+			if($user_id == null){
+				$results = "NOTAUTHENTICATED";
+			}
+		}
+	
+		$this->response->type('json');
+		$json = json_encode($results);
+		$this->response->body($json);
+	}
+	
+	
 }
