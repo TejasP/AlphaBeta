@@ -62,9 +62,10 @@ class QuoteManagementAPIController extends AppNoAuthController {
 	    $date = date('Y-m-d H:i:s');
 	    $results;
 	    if($userID != null){
-	    		$results= array ("user_ID"=>$userID ,"cart_ID"=>$cartID,"provider_ID"=>$providerID);
+	    		$results= array ("NOTDONE");
 				$data = array(
 		   			 'Quotes' => array(
+   		   			 	 'status'=>'N',
 		       			 'cart_id' => $cartID,
 		       			 'provider_id' => $providerID,
 		   			 	 'user_id'=>$userID,
@@ -317,6 +318,7 @@ class QuoteManagementAPIController extends AppNoAuthController {
 				$results= array ("user_ID"=>$userID ,"cart_ID"=>$cartID,"provider_ID"=>$providerID);
 				$data = array(
 						'Quotes' => array(
+								'status'=>'N',
 								'cart_id' => $cartID,
 								'provider_id' => $providerID,
 								'user_id'=>$userID,

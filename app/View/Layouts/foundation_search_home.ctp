@@ -259,7 +259,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 					<div class="row"><div data-alert class="alert-box alert round" id="quoteAlert" style="display:none" >Please log-in to view or submit quote. <a href="" class="close">&times;</a> </div></div>
 		         	<div class="row"><div data-alert class="alert-box success radius" id="quoteSubmitAlert" style="display:none" >Your cart is submitted and request for quote is under process. <a href="" class="close">&times;</a> </div></div>
 		            <div class="large-4 medium-2 columns">
-							<a href="javascript:openQuotes();" id="bucketID">My Quotes</a>
+							<a href="javascript:openQuotes();" id="quotesID">My Quotes</a>
 					</div>
 					<div class="large-8 medium-10 columns" >
 						<div id="quoteTable" style="display:none">
@@ -304,7 +304,6 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
             </div>
         </div>
       </footer>
-​​​​​​​​​​​​​​​​​​​​​​​​
       <!-- End Footer -->
 
   
@@ -598,13 +597,26 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 							{
 							$.post($url_cart_quote, function(data){
 								if(data === "SUCCESS"){
-									$("#quoteSubmitAlert").show();
+									callRemoveCart();
 								}
 							});
 							
 							}
 						}
 					});					
+    }
+    
+    function callRemoveCart(){
+        	$url = '<?php echo $this->Html->url(array('controller'=>'Booking', 'action'=>'removeBucketCookie'))?>';
+    		$.getJSON($url, function(data){ 
+    			if(data === "SUCCESS"){
+    								  $("#kart_booking").hide();
+									  $("#bucketID").text('My Selection (0)');
+	    	    					  $("#karttwistie").html("<div class=\"amazon_scroller_mask\"><ul><li><div class=\"blankSelection\"></div></li><li><div class=\"blankSelection\"></div></li><li><div class=\"blankSelection\"></div></li><li><div class=\"blankSelection\"></div></li></ul></div><ul class=\"amazon_scroller_nav\"><li class=\"amazon_scroller_left_arrow\"></li><li class=\"amazon_scroller_right_arrow\"></li></ul><div style=\"clear: both\"></div>");
+	    	    					  initialzeKT();
+								 	  $("#quoteSubmitAlert").show();
+									  }
+    		});
     }
    	
    	function initialzeKT(){
