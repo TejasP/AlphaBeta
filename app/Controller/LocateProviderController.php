@@ -208,6 +208,14 @@ class LocateProviderController extends AppNoAuthController {
 
 	}
 	
+	public function removePreferredLocationCookie(){
+		$this->autoRender=false;
+		$this->Cookie->delete('location-data');
+		$this->response->type('json');
+		$json = json_encode("SUCCESS");
+		$this->response->body($json);
+	}
+	
 	public function getPreferredLocationID(){
 	
 		$location_data = $this->Cookie->read('location-data');

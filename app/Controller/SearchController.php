@@ -273,6 +273,7 @@ class SearchController extends AppNoAuthController {
 	public function logoutUser(){
 		$this->layout = "foundation_search_home";
 		$this->Cookie->delete('basket-data');
+		$this->Cookie->delete('location-data');
 		return $this->redirect(
 				array('controller' => 'Search', 'action' => 'index')
 		);
