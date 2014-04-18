@@ -144,27 +144,47 @@ class QuoteManagementAPIController extends AppNoAuthController {
 		if($userID==null){
 			$userID = Authsome::get('id');
 		}
-		$results;
-		if($userID != null){
+		
+		$myQuotes = null;
+		$quotes_data;
+		if($userID != null)
+		{
+			$this->log('$userID.....' . $userID);
 			
-			$moptions = array('fields'=>'quotes.submitted','limit' => 5,'conditions' => array(
-					'quotes.user_id = ' => $userID),'group'=>'quotes.cart_id' , 'order'=>'quotes.submitted DESC'
+			$this->Common = $this->Components->load('Common');
+			
+			$moptions = array('fields'=> array('quotes.id', 'quotes.cart_id', 'quotes.status','quotes.user_id', 'quotes.provider_id', 'quotes.submitted'),'limit' => 5,'conditions' => array(
+					'quotes.user_id = ' => $userID),'order'=>'quotes.submitted DESC'
 			);
 			
-			$results = $this->Quotes->find('all',$moptions);
+			$quotes_data = $this->Quotes->find('all',$moptions);
+			
+			$qlength = count($quotes_data);
+			for($j=0; $j<$qlength; $j++)
+			{
+				$cart_id = $quotes_data[$j]['Quotes']['cart_id'];
+				$quote_id = $quotes_data[$j]['Quotes']['id'];
+				$quote_status = $quotes_data[$j]['Quotes']['status'];
+				$user_id = $quotes_data[$j]['Quotes']['user_id'];
+				$submitted = $quotes_data[$j]['Quotes']['submitted'];
+				$provider_id = $quotes_data[$j]['Quotes']['provider_id'];
+			
+				// calling component for getting quote status description..
+				$quote_statusdesc = $this->Common->getQuoteStatusDesc($quote_status);
+										
+				$myQuotes[$j] = array("quote_id"=> $quote_id, "quote_status"=> $quote_status, "quote_statusdesc"=>$quote_statusdesc, "provider_id"=> $provider_id, "cart_id"=> $cart_id, "user_id"=> $user_id, "submitted"=>$submitted);
+			}
 		}
 		else{
-			$results = "NOUSERID";
+			$myQuotes = "NOUSERID";
 		}
 		
 		/* 	    $log = $this->Quotes->getDataSource()->getLog(false, false);
 		 debug($log); */
 		 
 		$this->response->type('json');
-		$json = json_encode($results);
+		$json = json_encode($myQuotes);
 		$this->response->body($json);
-		
-		
 	}
 	
 	public function  submitCartFromCookieJSON(){
@@ -427,5 +447,37 @@ class QuoteManagementAPIController extends AppNoAuthController {
 		$this->response->body($json);
 	}
 	
+	public function confirmOrder($quoteid){
+		$this->autoRender = false;
 	
+		$userID  = Authsome::get('id');
+	
+		if($userID != null)
+		{
+			// Update quotes table with status = "C"
+			$qoptions = array('conditions' => array(
+					'id' => $quoteid)
+			);
+			$quotedata = $this->Quotes->find('all', $qoptions);
+				
+			$data = array(
+					'Quotes' => array(
+							'status' => 'C'
+					)
+			);
+			$this->Quotes->id = $quotedata[0]["Quotes"]["id"];
+			$this->Quotes->save($data);
+			
+			$results = "success";
+		}
+		else{
+			if($user_id == null){
+				$results = "NOTAUTHENTICATED";
+			}
+		}
+	
+		$this->response->type('json');
+		$json = json_encode($results);
+		$this->response->body($json);
+	}
 }

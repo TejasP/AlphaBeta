@@ -258,10 +258,10 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 					</br>
 					<div class="row"><div data-alert class="alert-box alert round" id="quoteAlert" style="display:none" >Please log-in to view or submit quote. <a href="" class="close">&times;</a> </div></div>
 		         	<div class="row"><div data-alert class="alert-box success radius" id="quoteSubmitAlert" style="display:none" >Your cart is submitted and request for quote is under process. <a href="" class="close">&times;</a> </div></div>
-		            <div class="large-4 medium-2 columns">
+		            <div class="large-2 medium-2 columns">
 							<a href="javascript:openQuotes();" id="quotesID">My Quotes</a>
 					</div>
-					<div class="large-8 medium-10 columns" >
+					<div class="large-10 medium-10 columns" >
 						<div id="quoteTable" style="display:none">
 								
 						</div>
@@ -469,16 +469,48 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 							$("#quoteAlert").show();	
         				}else{
         					$.getJSON($url_quote, function(data){
-        						$htmlStr ="<div>Your Last quotes submitted are :</div>";
-	        					$.each(data, function(index, valueInner) { $htmlStr= $htmlStr+"</br><div>"+$.datepicker.formatDate('MM dd, yy',new Date(valueInner.Quotes.submitted))+"</div>";});
-    	    					 $("#quoteTable").html($htmlStr);
+        						$htmlStr ="";
+        						$.each(data, function(index, valueInner) { 
+	        						// $htmlStr= $htmlStr+"</br><div>"+$.datepicker.formatDate('MM dd, yy',new Date(valueInner.submitted))+"</div>";
+	        						$statusStr = "";
+	        						$actionStr = "";
+	        						if(valueInner.quote_status == 'A')
+									{
+	        							$statusStr = "accepted by " + valueInner.provider_id;
+	        							$actionStr = "<a id='accept_order' tabindex='-1' class='dropdown-menu-link' onClick='javascript:confirmOrder("+ valueInner.quote_id + ");'><div class='new-button new-primary-button'><span class='new-button-text'>Confirm Order</span></div></a>";
+	        						}
+	        						else if(valueInner.quote_status == 'N')
+	        							$statusStr = "initiated by you, waiting for acceptance";
+	        						else if(valueInner.quote_status == 'C')
+	        							$statusStr = "confirmed by you, accepted by " + valueInner.provider_id;
+	        						
+	        						$htmlStr = $htmlStr +"<div class='myquote-detail'>Quote #" + valueInner.quote_id + " submitted on <span class='myquote-submitted'>" + valueInner.submitted + "</span><span class='myquote-statusinfo'> " + $statusStr + "</span><span class='myquote-action'>" + $actionStr + "</span></div>";
+	        					});
+	        					
+	        					if($htmlStr.length > 0)
+	        						$htmlStr = "<div class='myquote-header'>Your Last quotes submitted are :</div>" + $htmlStr;
+	        					else
+	        						$htmlStr = "<div class='myquote-header'>No quotes found</div>";
+
+    	    					$("#quoteTable").html($htmlStr);
+        					 	
         					 });
+        					 	
         					$("#quoteTable").toggle();
 						}
 					});
     }
     
-    
+    function confirmOrder(quoteid){	
+		
+		var $url = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'confirmOrder'))?>'+'/'+quoteid;
+		$.getJSON($url, function(data){ 
+			console.log("done.");
+			openQuotes();
+			$("#quoteTable").toggle();
+		}); 
+	}			
+
     function getProviderResults(){
     		var nSearch = $('#LocateProvider').val();
     		var length = nSearch.length;
