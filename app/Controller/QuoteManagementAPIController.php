@@ -5,7 +5,7 @@ App::uses('AppNoAuthController', 'Controller');
 
 class QuoteManagementAPIController extends AppNoAuthController {
 	
-	public $uses = array('Quotes','Carts','Quotes_detail','Cart_detail','locations');
+	public $uses = array('Quotes','Carts','Quotes_detail','Cart_detail','locations', 'notifications');
 	
 	public function  submitCart(){
 		$this->autoRender = false; // no view to render		
@@ -168,11 +168,16 @@ class QuoteManagementAPIController extends AppNoAuthController {
 				$user_id = $quotes_data[$j]['Quotes']['user_id'];
 				$submitted = $quotes_data[$j]['Quotes']['submitted'];
 				$provider_id = $quotes_data[$j]['Quotes']['provider_id'];
-			
+
+				// calling component for getting provider detail
+				$provider_details = $this->Common->getProviderDetail($provider_id);
+
+				$this->log('$$provider_details-name.....' . $provider_details['name'] . ' ' . $provider_details['address']);
+				
 				// calling component for getting quote status description..
 				$quote_statusdesc = $this->Common->getQuoteStatusDesc($quote_status);
 										
-				$myQuotes[$j] = array("quote_id"=> $quote_id, "quote_status"=> $quote_status, "quote_statusdesc"=>$quote_statusdesc, "provider_id"=> $provider_id, "cart_id"=> $cart_id, "user_id"=> $user_id, "submitted"=>$submitted);
+				$myQuotes[$j] = array("quote_id"=> $quote_id, "quote_status"=> $quote_status, "quote_statusdesc"=>$quote_statusdesc, "provider_id"=> $provider_id, "provider_name"=>$provider_details['name'], "provider_address"=>$provider_details['address'], "cart_id"=> $cart_id, "user_id"=> $user_id, "submitted"=>$submitted);
 			}
 		}
 		else{
@@ -479,5 +484,110 @@ class QuoteManagementAPIController extends AppNoAuthController {
 		$this->response->type('json');
 		$json = json_encode($results);
 		$this->response->body($json);
+	}
+	
+	public function quoteDetail ($quoteid){
+		// $this->layout = "foundation_org_home";
+		$this->autoRender = false;
+	
+		$this->log('$quoteid.....' . $quoteid);
+		
+		$this->Common = $this->Components->load('Common');
+	
+		$products = null;
+	
+		$qoptions = array('conditions' => array('Quotes.id' => $quoteid));
+	
+		$quotes_data = $this->Quotes->find('all',$qoptions);
+		$qlength = count($quotes_data);
+	
+		for($j=0; $j<$qlength; $j++)
+		{
+			$quote_id = $quotes_data[$j]['Quotes']['id'];
+			$quote_status = $quotes_data[$j]['Quotes']['status'];
+			$user_id = $quotes_data[$j]['Quotes']['user_id'];
+			$cart_id = $quotes_data[$j]['Quotes']['cart_id'];
+			$submitted = $quotes_data[$j]['Quotes']['submitted'];
+			$provider_id = $quotes_data[$j]['Quotes']['provider_id'];
+
+			// calling component for getting provider detail
+			$provider_details = $this->Common->getProviderDetail($provider_id);
+			
+			// calling component for getting user name..
+			$user_name = $this->Common->getDescription("users", "username", $user_id);
+
+			// calling component for getting quote status description..
+			$quote_statusdesc = $this->Common->getQuoteStatusDesc($quote_status);
+				
+			// quote detail (if status of quote is new, then read the product details from cart_details else read from quote_detail table.
+			if($quote_status == "N")
+			{
+				$coptions = array('conditions' => array(
+						'cart_id' => $cart_id)
+				);
+
+				$cart_detail = $this->Cart_detail->find('all',$coptions);
+				$clength = count($cart_detail);
+				for($y=0; $y<$clength; $y++)
+				{
+					$product_id = $cart_detail[$y]['Cart_detail']['productid'];
+					$product_type = $cart_detail[$y]['Cart_detail']['producttype'];
+					$qty = $cart_detail[$y]['Cart_detail']['qty'];
+						
+					if($product_type == "1")
+						$productdetails = $this->Common->getProductDetails("medicine", $product_id);
+					else
+						$productdetails = $this->Common->getProductDetails("nonmedicine", $product_id);
+
+					$products[$y] = array("prod_type"=> $product_type, "prod_id"=> $product_id, "prod_name"=> $productdetails['desc'], "qty"=> $qty, "price"=> $productdetails['price']);
+				}
+			}
+			else
+			{
+				$qdoptions = array('conditions' => array(
+					'quote_id' => $quote_id)
+				);
+	
+				$quote_detail = $this->Quotes_detail->find('all',$qdoptions);
+				$qdlength = count($quote_detail);
+				for($i=0; $i<$qdlength; $i++)
+				{
+					$product_id = $quote_detail[$i]['Quotes_detail']['product_id'];
+					$product_type = $quote_detail[$i]['Quotes_detail']['product_type'];
+					$qty = $quote_detail[$i]['Quotes_detail']['qty'];
+					$price = $quote_detail[$i]['Quotes_detail']['price'];
+			
+					if($product_type == "1")
+						$productdetails = $this->Common->getProductDetails("medicine", $product_id);
+					else
+						$productdetails = $this->Common->getProductDetails("nonmedicine", $product_id);
+			
+					$products[$i] = array("prod_type"=> $product_type, "prod_id"=> $product_id, "prod_name"=> $productdetails['desc'], "qty"=> $qty, "price"=> $price);
+				}
+			}
+							
+			// notifications
+			$noptions = array('conditions' => array(
+				'quote_id' => $quote_id)
+			);
+				
+			$notification = null;
+			$notifications = $this->notifications->find('all',$noptions);
+			$nlength = count($notifications);
+			for($z=0; $z<$nlength; $z++)
+			{
+				$notification_id = $notifications[$z]['notifications']['id'];
+				$initiated_by = $notifications[$z]['notifications']['initiated_by'];
+				$initiated_time = $notifications[$z]['notifications']['initiated_time'];
+				$notification_for = $notifications[$z]['notifications']['notification_for'];
+				$comments = $notifications[$z]['notifications']['comments'];
+	
+				$notification[$z] = array("id"=> $notification_id, "initiated_by"=> $initiated_by, "initiated_time"=>$initiated_time, "notification_for"=>$notification_for, "comments"=>$comments);
+			}
+		
+			$quote[0] = array("quote_id"=> $quote_id, "quote_status"=> $quote_status, "quote_statusdesc"=>$quote_statusdesc, "provider_id"=> $provider_id, "provider_name"=>$provider_details['name'], "provider_address"=>$provider_details['address'], "cart_id"=> $cart_id, "user_id"=> $user_id, "user_name"=> $user_name, "submitted"=>$submitted, "products"=>$products, "notifications"=>$notification);
+		}
+		
+		return json_encode($quote);
 	}
 }

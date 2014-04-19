@@ -88,7 +88,7 @@ function getQuoteDetail($quoteid) {
 		
 		$.each(data[0].products, function(index, product) {
 			if(data[0].quote_status == 'N')
-				$proddetails = $proddetails + "<div class='order-proddetail'><div class='order-prodname'>" + product.prod_name + "</div><div class='order-qty'>" + product.qty + "</div><div class='order-price'>" + product.price + "</div><div class='order-newprice'><input class='textfield' id='order-newprice" + index + "' name='" + product.prod_id + "' type='text' value='" + product.price +"'/></div></div>";
+				$proddetails = $proddetails + "<div class='order-proddetail'><div class='order-prodname'>" + product.prod_name + "</div><div class='order-qty'>" + product.qty + "</div><div class='order-price'>" + product.price + "</div><div class='order-newprice'><input class='orderpricefield' id='order-newprice" + index + "' name='" + product.prod_id + "' type='text' value='" + product.price +"'/></div></div>";
 			else
 				$proddetails = $proddetails + "<div class='order-proddetail'><div class='order-prodname'>" + product.prod_name + "</div><div class='order-qty'>" + product.qty + "</div><div class='order-price'>" + product.price + "</div><div class='order-newprice'></div></div>";
 		});
@@ -155,6 +155,16 @@ function acceptOrder(quoteid){
 	getQuoteDetail(quoteid);
 }			
 </script>
+
+<style>
+input.orderpricefield {
+	width:70px;
+	height: 1rem;
+	margin: 0;
+	padding: 0;
+	text-align: right;
+}
+</style>
 
       <!-- Orignization home page-->
  		<section>

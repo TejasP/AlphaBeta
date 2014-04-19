@@ -269,6 +269,29 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 				<hr/></br>
 	    	</section>
 					<!-- Quote Bar End -->
+
+			<!-- Quote Bar -->
+			<section id="sec-quotedetail" style="display:none">
+				<div class="row">
+		            <div class="large-12 medium-12 columns">
+						<div class='qdetail-close'><a class='action'>[X]</a></div>
+						<div id="quoteheader">
+							
+						</div>
+						<div id="quotedetail">
+							
+						</div>
+						<div id="quotenotification">
+							
+						</div>
+						<div id="quoteaction">
+							
+						</div>
+				    </div>
+				</div>
+				<hr/></br>
+	    	</section>
+			<!-- Quote Bar End -->
 	    
         <!-- Top Sections End -->         
        
@@ -476,15 +499,17 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 	        						$actionStr = "";
 	        						if(valueInner.quote_status == 'A')
 									{
-	        							$statusStr = "accepted by " + valueInner.provider_id;
+	        							$statusStr = "accepted by " + valueInner.provider_name + " from " + valueInner.provider_address;
 	        							$actionStr = "<a id='accept_order' tabindex='-1' class='dropdown-menu-link' onClick='javascript:confirmOrder("+ valueInner.quote_id + ");'><div class='new-button new-primary-button'><span class='new-button-text'>Confirm Order</span></div></a>";
 	        						}
 	        						else if(valueInner.quote_status == 'N')
 	        							$statusStr = "initiated by you, waiting for acceptance";
 	        						else if(valueInner.quote_status == 'C')
-	        							$statusStr = "confirmed by you, accepted by " + valueInner.provider_id;
+	        							$statusStr = "confirmed by you, accepted by " + valueInner.provider_name + " from " + valueInner.provider_address;
+
+        							$actionStr = "<a id='view_order' tabindex='-1' class='dropdown-menu-link' onClick='javascript:viewOrder("+ valueInner.quote_id + ");'><div class='new-button new-primary-button'><span class='new-button-text'>View Order</span></div></a>" + $actionStr;
 	        						
-	        						$htmlStr = $htmlStr +"<div class='myquote-detail'>Quote #" + valueInner.quote_id + " submitted on <span class='myquote-submitted'>" + valueInner.submitted + "</span><span class='myquote-statusinfo'> " + $statusStr + "</span><span class='myquote-action'>" + $actionStr + "</span></div>";
+	        						$htmlStr = $htmlStr +"<div class='myquote-detail'>Quote #" + valueInner.quote_id + " submitted on <span class='myquote-submitted'>" + valueInner.submitted + "</span><span class='myquote-statusinfo'> " + $statusStr + "</span><div class='myquote-action'>" + $actionStr + "</div></div>";
 	        					});
 	        					
 	        					if($htmlStr.length > 0)
@@ -497,12 +522,12 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
         					 });
         					 	
         					$("#quoteTable").toggle();
+        					$("#sec-quotedetail").attr("style","display:none");
 						}
 					});
     }
     
     function confirmOrder(quoteid){	
-		
 		var $url = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'confirmOrder'))?>'+'/'+quoteid;
 		$.getJSON($url, function(data){ 
 			console.log("done.");
@@ -511,12 +536,92 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 		}); 
 	}			
 
+    function viewOrder(quoteid){	
+		var $url = '<?php echo $this->Html->url(array('controller'=>'QuoteManagementAPI', 'action'=>'quoteDetail'))?>'+'/'+quoteid;
+		$.getJSON($url, function(data){ 
+			console.log("starting.");
+			
+			$proddetails = "";
+			$actionStr = "";
+			
+			if (data[0].quote_status == 'N')
+				$acceptStr = " intiated to " + data[0].provider_name + " from " + data[0].provider_address;
+			else if (data[0].quote_status == 'A')
+			{
+				$acceptStr = " accepted by " + data[0].provider_name + " from " + data[0].provider_address;
+				$actionStr = "<a id='confirm_order' tabindex='-1' class='dropdown-menu-link' onClick='javascript:confirmOrder("+ data[0].quote_id + ");'><div class='new-button new-primary-button'><span class='new-button-text'>Confirm Order</span></div></a>";
+			}
+			else if (data[0].quote_status == 'C')
+			{
+				$acceptStr = " accepted by " + data[0].provider_name + " from " + data[0].provider_address;
+			}	
+			
+			$quoteaction = "<div class='order-action'><a id='save_comment' tabindex='-1' class='dropdown-menu-link' onClick='javascript:saveNotification("+ data[0].quote_id + ", " + data[0].cart_id + ", " + data[0].user_id + ");'><div class='new-button new-primary-button'><span class='new-button-text'>Save Comment</span></div></a>" + $actionStr + "</div>";
+			
+			$proddetails = "<div class='order-proddetail'><b><div class='order-prodname'>Product Name</div><div class='order-qty'>Qty</div><div class='order-price'>Price</div></b></div>";
+			
+			$quotestatusdetails = "<span class='order-status-desc'>" + data[0].quote_statusdesc + "</span>";
+			
+			$("#quoteheader").html("<div class='section-header padder'><div class='order-header'>Quote #" + data[0].quote_id + $acceptStr + " " + $quotestatusdetails + "</div><div class='order-detail'>order comments here</div></div>");
+
+			if(data[0].products != null)
+			{
+				$.each(data[0].products, function(index, product) {
+					$proddetails = $proddetails + "<div class='order-proddetail'><div class='order-prodname'>" + product.prod_name + "</div><div class='order-qty'>" + product.qty + "</div><div class='order-price'>" + product.price + "</div><div class='order-newprice'></div></div>";
+				});
+			}
+			else
+			{
+				$proddetails = "no products found";
+			}
+			
+			$("#quotedetail").html("<div class='section-detail padder'><div class='order-prodheader'>Products</div>" + $proddetails + "</div>");
+			
+			$notesdetails = "";
+			if(data[0].notifications != null)
+			{
+				$.each(data[0].notifications, function(index, notification) {
+					if($notesdetails == "")
+						$notesdetails = notification.initiated_by + " " + notification.initiated_time + " " + notification.comments;
+					else
+						$notesdetails = $notesdetails + "<br>" + notification.initiated_by + " " + notification.initiated_time + " " + notification.comments;
+				});
+			}
+			else
+			{
+				$notesdetails = "no comments found";
+			}
+			
+			$("#quotenotification").html("<div class='section-notification padder'><div class='order-notiheader'>Notifications for " + data[0].quote_id + " here</div><div class='order-notidetail'>" + $notesdetails + "</div><div><textarea id='newcomment' name='newcomment' value=''/></div></div>");
+	
+			$("#quoteaction").html("<div class='section-action padder'>" + $quoteaction + "</div>");
+			
+			$("#sec-quotedetail").attr("style","display:block");
+			console.log("done.");
+		}); 
+	}			
+
+	// close link for product detail
+	$(document).on('click', 'section#sec-quotedetail div.qdetail-close' , function() {
+		$("#sec-quotedetail").attr("style","display:none");
+	});
+
+	function saveNotification(quoteid, cartid, userid){	
+		var comment = $("#newcomment").val();
+	   	var sendInfo = { Comment: comment};
+		
+		var $url = '<?php echo $this->Html->url(array('controller'=>'Notification', 'action'=>'saveNotification'))?>'+'/'+quoteid+'/'+cartid+'/'+userid;
+		$.getJSON($url, sendInfo, function(data){ 
+	  			viewOrder(quoteid);
+	  			console.log("done.");
+		});
+	}
+
+
     function getProviderResults(){
     		var nSearch = $('#LocateProvider').val();
     		var length = nSearch.length;
 			var $url = '<?php echo $this->Html->url(array('controller'=>'locateProvider', 'action'=>'getProviderNearArea'))?>'+'/'+nSearch;
-    
-				
 				
 			if(nSearch!=null){
 				var size = 0; 		

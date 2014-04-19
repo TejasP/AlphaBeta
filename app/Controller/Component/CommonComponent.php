@@ -103,5 +103,24 @@ class CommonComponent extends Component {
 		
 		return $retValue;
 	}
+
+	public function getProviderDetail($providerid)
+	{
+		$doptions = array('conditions' => array(
+				'id' => $providerid)
+		);
+		
+		$model = ClassRegistry::init('Provider');
+		
+		$providerdata = $model->find('all',$doptions);
+		$mlength = count($providerdata);
+		for($j=0; $j<$mlength; $j++)
+		{
+			$retVal['name'] = $providerdata[$j]["Provider"]['provider_name'];
+			$retVal['address'] = $providerdata[$j]["Provider"]['area'];
+		}
+		
+		return $retVal;
+	}
 	
 }

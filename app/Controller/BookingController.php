@@ -244,5 +244,4 @@ class BookingController extends AppNoAuthController {
 		$this->response->body($json);
 		
 	}
-	
 }
