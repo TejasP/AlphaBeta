@@ -159,7 +159,6 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
             </div>
         </div>
       </footer>
-​​​​​​​​​​​​​​​​​​​​​​​​
       <!-- End Footer -->
 
   
@@ -217,8 +216,15 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare IT Solutions');
         });
         
         
-        
-		
+        var $url1 = '<?php echo $this->Html->url(array('controller'=>'Notification', 'action'=>'getCartsforUser'))?>';
+        jQuery(function() {
+			$.getJSON($url1, function(data){ 
+	  								$.each(data, function(index, value) {
+	  									console.log("data."+data[index].Carts['id']);
+	  									$('#leftNavID').append("<li>Cart #"+data[index].Carts['id']+"</li>");
+	  									});		
+			});	
+		});
     });
     
     var curr = 6;

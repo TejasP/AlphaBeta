@@ -67,7 +67,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 				
               <li class="divider"></li>
             	<li class="has-dropdown">
-                	<a href="#">Notification</a>
+                	<a href="<?php echo $this->Html->url(array('controller'=>'notification', 'action'=>'index'))?>">Notification</a>
                 	<ul class="dropdown">
                 	<li><span class="label">Content First</div></li>
                 	<li><div class="gs">Content Second</div></li>

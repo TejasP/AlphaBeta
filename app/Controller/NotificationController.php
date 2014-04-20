@@ -4,7 +4,32 @@ App::uses('AppNoAuthController', 'Controller');
 
 class NotificationController extends AppNoAuthController {
 	
-	public $uses = array('Quotes','Quotes_details','carts', 'cart_detail', 'Notifications', 'users');
+	public $uses = array('Quotes','Quotes_details','Carts', 'cart_detail', 'Notifications', 'users');
+	
+	public function index(){
+		$this->layout = "foundation_with_topbar";
+		
+		$user = Authsome::get('username');
+		$role = Authsome::get('role');
+		
+		if (($user=== 'NULL') || ($user== '')) {
+			$this->set('isAuthenticated',"false");
+			$this->set('isUserLoggedIn',"false");
+				
+		}else
+		{
+			$this->set('isAuthenticated',"true");
+			$this->set('isUserLoggedIn',"true");
+			$user = Authsome::get('username');
+			$role = Authsome::get('role');
+		}
+		
+		$leftNav= array('first'=>'1','second'=>'2','third'=>'3');
+		$this->set('leftNav',$leftNav);
+		
+		
+
+	}
 		
 	public function getNotificationforUser($userName){
 		
@@ -46,6 +71,34 @@ class NotificationController extends AppNoAuthController {
 	
 	public function getNotificationForQuote($quoteID){
 		
+		$this->autoRender = false; // no view to render
+		// first get user Id,
+			 $userID  = Authsome::get('id');
+			$user = Authsome::get('username');
+			$role = Authsome::get('role'); 
+
+			$return;
+			 
+			if ($user!= null) {
+
+				$moptions = array('conditions' => array('Notifications.quote_id'=>$quoteID));
+				$mresults= $this->Notifications->find('all',$moptions);
+				$notificationCount = count($mresults);
+		
+				if($notificationCount>0){
+					for($j=0;$j<$notificationCount;$j++){
+						$return []= array("Quote_ID"=>$quoteID,"notification"=>$mresults[$j]);
+					}
+		
+				}
+			}else{
+				$return = array("NOTAUTHENTICATED");
+				
+			}
+			
+		$this->response->type('json');
+		$json = json_encode($return);
+		$this->response->body($json);
 	}
 	
 	public function getNotificationbasedOnType($type){
@@ -94,4 +147,22 @@ class NotificationController extends AppNoAuthController {
 		return json_encode($results);
 		
 	}
+	
+	public function getCartsforUser(){
+		
+		$this->autoRender = false; // no view to render
+		
+		$userID  = Authsome::get('id');
+
+		if($userID != null){
+			$options = array('conditions' => array('carts.user_id'=>$userID));
+			$results= $this->Carts->find('all',$options);
+		}
+		else{
+			$results[0] = array("result"=> "NOTAUTHENTICATED");
+		}
+		
+		return json_encode($results);
+	}
+	
 }
