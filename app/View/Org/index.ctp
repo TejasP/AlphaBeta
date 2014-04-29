@@ -164,9 +164,69 @@ input.orderpricefield {
 	padding: 0;
 	text-align: right;
 }
+
+
+#mini-profile {
+    font-size: 12px;
+}
+#mini-profile .section {
+    background-clip: padding-box;
+    border: 0 none;
+    border-radius: 6px 6px 6px 6px;
+    line-height: 16px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+#mini-profile th {
+    color: #8899A6;
+    font-size: 10px;
+    font-weight: normal;
+    padding-top: 7px;
+    text-align: left;
+    text-transform: uppercase;
+}
 </style>
 
       <!-- Orignization home page-->
+ <!--     <section>
+          <div class="large-3 columns">
+        
+			  <div id="mini-profile" class="section">
+				<a data-nav="profile" class="account-summary account-summary-small js-nav" href="/cgkonar">
+					<div class="content">
+						<div data-screen-name="cgkonar" data-user-id="567056157" class="account-group js-mini-current-user">
+							<img src="" height="50px" width="50px">
+							<b class="fullname">Pharmacy Name</b>
+						</div>
+					</div>
+				</a>
+		        <div class="js-mini-profile-stats-container mini-profile-stats-container">
+					<table summary="Profile stats" data-user-id="567056157" class="stats js-mini-profile-stats ">
+					<thead>
+					<tr>
+						<th>New Quotes</th>
+						<th>Accepted Quotes</th>
+						<th>Confirmed Quotes</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+					      <td><a data-is-compact="false" data-nav="profile" data-element-term="tweet_stats" href="/cgkonar" class="js-nav"><strong class="js-mini-profile-stat" title="9">9</strong></a></td>
+					      <td><a data-is-compact="false" data-nav="following" data-element-term="following_stats" href="/following" class="js-nav"><strong class="js-mini-profile-stat" title="1">1</strong></a></td>
+					      <td><a data-is-compact="false" data-nav="followers" data-element-term="follower_stats" href="/followers" class="js-nav">  <strong class="js-mini-profile-stat" title="3">3</strong></a></td>
+					</tr>
+					</tbody>
+					</table>
+			  	</div>
+			</div>
+			<div class="large-9 columns">
+        	</div>
+			
+		  </div>
+	    </section>
+      
+-->      
  		<section>
           <div class="large-12 columns">
             <div class="radius panel" style="height:550px;">

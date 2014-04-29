@@ -560,7 +560,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
 			
 			$proddetails = "<div class='order-proddetail'><b><div class='order-prodname'>Product Name</div><div class='order-qty'>Qty</div><div class='order-price'>Price</div></b></div>";
 			
-			$quotestatusdetails = "<span class='order-status-desc'>" + data[0].quote_statusdesc + "</span>";
+			$quotestatusdetails = "<span class='order-status-desc'>" + data[0].quote_statusdesc + "</span><span class='order-status-desc'>" + data[0].booking_code + "</span>";
 			
 			$("#quoteheader").html("<div class='section-header padder'><div class='order-header'>Quote #" + data[0].quote_id + $acceptStr + " " + $quotestatusdetails + "</div><div class='order-detail'>order comments here</div></div>");
 

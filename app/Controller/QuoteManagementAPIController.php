@@ -5,7 +5,7 @@ App::uses('AppNoAuthController', 'Controller');
 
 class QuoteManagementAPIController extends AppNoAuthController {
 	
-	public $uses = array('Quotes','Carts','Quotes_detail','Cart_detail','locations', 'notifications');
+	public $uses = array('Quotes','Carts','Quotes_detail','Cart_detail','locations', 'notifications', 'Bookings');
 	
 	public function  submitCart(){
 		$this->autoRender = false; // no view to render		
@@ -454,7 +454,7 @@ class QuoteManagementAPIController extends AppNoAuthController {
 	
 	public function confirmOrder($quoteid){
 		$this->autoRender = false;
-	
+
 		$userID  = Authsome::get('id');
 	
 		if($userID != null)
@@ -464,7 +464,25 @@ class QuoteManagementAPIController extends AppNoAuthController {
 					'id' => $quoteid)
 			);
 			$quotedata = $this->Quotes->find('all', $qoptions);
-				
+
+			$provider_id = $quotedata[0]["Quotes"]["provider_id"];
+			$cart_id = $quotedata[0]["Quotes"]["cart_id"];
+			
+			// get location id from carts table
+			$coptions = array('conditions' => array(
+					'id' => $cart_id)
+			);
+			$cartdata = $this->Carts->find('all', $coptions);
+			$location_id = $cartdata[0]["Carts"]["location_id"];
+
+			// get total bookings
+			$boptions = array('conditions' => array(
+					'provider_id' => $provider_id)
+			);
+			$bookingseq = $this->Bookings->find('count', $boptions) + 1;
+			
+			$booking_code = str_pad($location_id, 5, "0", STR_PAD_LEFT) . "-" . str_pad($provider_id, 5, "0", STR_PAD_LEFT) . "-" . str_pad($bookingseq, 8, "0", STR_PAD_LEFT);
+			
 			$data = array(
 					'Quotes' => array(
 							'status' => 'C'
@@ -472,6 +490,23 @@ class QuoteManagementAPIController extends AppNoAuthController {
 			);
 			$this->Quotes->id = $quotedata[0]["Quotes"]["id"];
 			$this->Quotes->save($data);
+
+			$this->log('$QQQQ3333Qquoteid.....' . $quoteid . ']');
+			
+			
+			$date = date('Y-m-d H:i:s');
+			$bookdata = array(
+					'Bookings' => array(
+							'provider_id' => $provider_id,
+							'quote_id' => $quoteid,
+							'user_id' => $userID,
+							'booking_code' => $booking_code,
+							'booking_time'=>$date
+					)
+			);
+			
+			$this->Bookings->create();
+			$this->Bookings->save($bookdata);
 			
 			$results = "success";
 		}
@@ -565,7 +600,17 @@ class QuoteManagementAPIController extends AppNoAuthController {
 					$products[$i] = array("prod_type"=> $product_type, "prod_id"=> $product_id, "prod_name"=> $productdetails['desc'], "qty"=> $qty, "price"=> $price);
 				}
 			}
-							
+
+			// Get Booking code
+			$boptions = array('conditions' => array(
+					'quote_id' => $quoteid)
+			);
+			$bookingdata = $this->Bookings->find('all', $boptions);
+			if(count($bookingdata) > 0)
+				$booking_code = $bookingdata[0]["Bookings"]["booking_code"];
+			else
+				$booking_code = "";
+			
 			// notifications
 			$noptions = array('conditions' => array(
 				'quote_id' => $quote_id)
@@ -585,7 +630,7 @@ class QuoteManagementAPIController extends AppNoAuthController {
 				$notification[$z] = array("id"=> $notification_id, "initiated_by"=> $initiated_by, "initiated_time"=>$initiated_time, "notification_for"=>$notification_for, "comments"=>$comments);
 			}
 		
-			$quote[0] = array("quote_id"=> $quote_id, "quote_status"=> $quote_status, "quote_statusdesc"=>$quote_statusdesc, "provider_id"=> $provider_id, "provider_name"=>$provider_details['name'], "provider_address"=>$provider_details['address'], "cart_id"=> $cart_id, "user_id"=> $user_id, "user_name"=> $user_name, "submitted"=>$submitted, "products"=>$products, "notifications"=>$notification);
+			$quote[0] = array("quote_id"=> $quote_id, "quote_status"=> $quote_status, "quote_statusdesc"=>$quote_statusdesc, "provider_id"=> $provider_id, "provider_name"=>$provider_details['name'], "provider_address"=>$provider_details['address'], "cart_id"=> $cart_id, "user_id"=> $user_id, "user_name"=> $user_name, "submitted"=>$submitted, "booking_code"=>$booking_code, "products"=>$products, "notifications"=>$notification);
 		}
 		
 		return json_encode($quote);
