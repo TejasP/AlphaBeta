@@ -24,8 +24,7 @@ class NotificationController extends AppNoAuthController {
 			$role = Authsome::get('role');
 		}
 		
-		$leftNav= array('first'=>'1','second'=>'2','third'=>'3');
-		$this->set('leftNav',$leftNav);
+		$this->set('leftNav',$this->getCartsforUserArray());
 		
 		
 
@@ -151,9 +150,15 @@ class NotificationController extends AppNoAuthController {
 	public function getCartsforUser(){
 		
 		$this->autoRender = false; // no view to render
-		
-		$userID  = Authsome::get('id');
 
+		return json_encode($this->getCartsforUserArray());
+	}
+	
+	public function getCartsforUserArray(){
+	
+	
+		$userID  = Authsome::get('id');
+	
 		if($userID != null){
 			$options = array('conditions' => array('carts.user_id'=>$userID));
 			$results= $this->Carts->find('all',$options);
@@ -162,7 +167,7 @@ class NotificationController extends AppNoAuthController {
 			$results[0] = array("result"=> "NOTAUTHENTICATED");
 		}
 		
-		return json_encode($results);
+		return $results;
 	}
 	
 }

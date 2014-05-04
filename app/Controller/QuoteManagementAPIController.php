@@ -56,7 +56,7 @@ class QuoteManagementAPIController extends AppNoAuthController {
 	public function submitQuote(){
 		$this->autoRender = false; // no view to render
 		
-		$userID  = Authsome::get('id');;
+		$userID  = Authsome::get('id');
 	    $cartID = $this->request->query['cartID'];
 	    $providerID = $this->request->query['providerID'];
 	    $date = date('Y-m-d H:i:s');
