@@ -40,7 +40,9 @@ class PreferenceController extends AppNoAuthController {
 		$userID  = Authsome::get('id');
 		$results;
 		if($userID != null){
-			echo "ID:".$userIDInput.":".$providerID;
+			if($userIDInput ="null"){
+				$userIDInput = $userID;
+			}
 			$data = array(
 					'preference' => array(
 							'user_id'=>$userIDInput,

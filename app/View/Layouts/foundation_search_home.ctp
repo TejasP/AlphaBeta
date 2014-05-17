@@ -630,7 +630,7 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
       				console.log("Starting.");
 
 					$.each(data, function(index, value) {
-						$("#ProviderContainer").append("<tr><td id='ProviderName'>"+value.Providers.provider_name+"</td><td id='ProviderAddress'>"+value.Providers.address+"</td><td><a href='#' id='select' class='button tiny radius' onClick='javascript:callSelectProvider('');'>Set Preferred</a></td></tr>");
+						$("#ProviderContainer").append("<tr><td id='ProviderName'>"+value.Providers.provider_name+"</td><td id='ProviderAddress'>"+value.Providers.address+"</td><td><a href='javascript:return false;' id='select-"+value.Providers.id+"' class='button tiny radius' onClick='javascript:callSelectProvider("+value.Providers.id+");'>Set Preferred</a></td></tr>");
 						size = size +1;
 					});
 				
@@ -659,6 +659,18 @@ $cakeDescription = __d('cake_dev', 'eMediplus- Healthcare Marketplace and IT Sol
     			}
     		}	
     	}
+    	
+    function callSelectProvider(providerID){
+    	var $url = '<?php echo $this->Html->url(array('controller'=>'Preference', 'action'=>'setPreferedProvider'))?>'+'/null/'+providerID;
+    	$.getJSON($url, function(data){
+			console.log("SET VALUES");
+			var selectName = "#select-"+providerID;
+			if(data === "SUCCESSFUL"){
+				$(selectName).text("Preferred");
+			}
+		});
+    	return false;
+    }
     
     function submitYes(){
     	var locationText = $('#LocateProvider').val();

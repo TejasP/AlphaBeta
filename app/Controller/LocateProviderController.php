@@ -125,7 +125,7 @@ class LocateProviderController extends AppNoAuthController {
 			}
 	
 	
-			$options = array('fields'=>'Providers.provider_name,Providers.address','conditions' => array(
+			$options = array('fields'=>'Providers.provider_name,Providers.address,Providers.id','conditions' => array(
 					'Providers.area LIKE' => '%'.$AreaCode.'%')
 			);
 	
